@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#fff"
+              android:orientation="vertical">
+    <!--android:background="#cd4827"-->
+    <!--ndroid:background="@color/white"-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/orange"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="照片浏览"
+            android:textColor="#fff"
+            android:textSize="17sp"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/notify_change"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right|center_vertical"-->
+            <!--android:text="重新浏览"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="17sp"/>-->
+        <!--<Button-->
+        <!--android:id="@+id/notify_change"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right|center_vertical"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:background="@drawable/btn_bottom_confirm"-->
+        <!--android:text="重新浏览"-->
+        <!--android:textColor="@color/white"/>-->
+        <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left|center_vertical"
+        android:padding="16dp"
+        android:src="@mipmap/picture_back" />
+
+    </FrameLayout>
+
+    <com.stone.app.library.CardSlidePanel
+        android:id="@+id/image_slide_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card:bottomMarginTop="38dp"
+        card:itemMarginTop="10dp"
+        card:yOffsetStep="13dp"/>
+
+
+
+
+</LinearLayout>

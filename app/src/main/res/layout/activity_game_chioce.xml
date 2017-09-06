@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray"
+              android:orientation="vertical">
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/card_top_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/top">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/card_image_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scaleType="centerCrop"/>-->
+
+        <!--<View-->
+            <!--android:id="@+id/maskView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="?android:attr/selectableItemBackground"-->
+            <!--android:clickable="true"/>-->
+
+
+    <!--</RelativeLayout>-->
+    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/card_pic_num"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_margin="5dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:background="#5f000000"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:drawableLeft="@drawable/card_photot"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:drawablePadding="4dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:paddingLeft="6dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:paddingRight="4dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="6"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textColor="#fff" />&ndash;&gt;-->
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/card_bottom_layout"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/bottom"-->
+        <!--android:paddingTop="10dp">-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginTop="3dp"-->
+            <!--android:orientation="horizontal">-->
+
+
+        <!--</LinearLayout>-->
+    <!--</RelativeLayout>-->
+
+
+    <!--&lt;!&ndash;<choiceGame.widget.RadioButton&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/rb_tes"&ndash;&gt;-->
+    <!--&lt;!&ndash;style="@style/carbon_RadioButton"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="是"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textSize="20dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;/>&ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_question"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:text=" "-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="18sp"/>-->
+
+        <!--<RadioGroup-->
+            <!--android:id="@+id/radioGroup"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--&gt;-->
+            <!--&lt;!&ndash;android:textColor="@color/black"&ndash;&gt;-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/rb_yes"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="是"-->
+                <!--android:textSize="20dp"-->
+                <!--android:visibility="visible"-->
+                <!--/>-->
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/rb_no"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="否"-->
+
+                <!--android:textSize="20dp"/>-->
+
+        <!--</RadioGroup>-->
+
+
+    <!--</LinearLayout>-->
+</LinearLayout>

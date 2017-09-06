@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="green">#22C687</color>
+
+    <!--<color name="spring_green">#dd00EE76</color>-->
+
+    <color name="spring_green">#00EE76</color>
+
+    <color name="backgray">#574E5e</color>
+    <color name="pale_green">#7CCD7C</color>
+    <color name="pink">#FFB6C1</color>
+    <color name="light_gray">#D3D3D3</color>
+    <color name="theme_red">#CD2626</color>
+    <color name="white">#FFFFF0</color>
+    <color name="MistyRose2">#8B7D7B</color>
+    <color name="backRose">#54515c</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="blue">#00BFFF</color>
+
+
+    <color name="selection_ripple">#a5c5ccf5</color>
+    <color name="selection_mask">#8f000000</color>
+    <color name="gray">#393a3e</color>
+
+    <color name="orange">#cd4827</color>
+    <color name="lightgreen">#43c117</color>
+    <color name="black">#111</color>
+
+
+    <color name="bar_grey">#393a3e</color>
+    <color name="color_f6">#f6f6f6</color>
+
+
+    <color name="color_fa">#fafafa</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="color_c51">#f94c51</color>
+    <color name="color_green">#43c117</color>
+</resources>

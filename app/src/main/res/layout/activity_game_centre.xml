@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/backgray"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray"
+        >
+        <ImageView
+            android:id="@+id/img_gamecenter_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left|center_vertical"
+            android:padding="16dp"
+            android:src="@mipmap/picture_back" />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_game_puzzle"
+            android:layout_width="169dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_nor_down"
+            android:text="拼图"
+
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/btn_game_judge"
+            android:layout_width="169dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_nor_down"
+            android:text="判断题"
+            android:textSize="30dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

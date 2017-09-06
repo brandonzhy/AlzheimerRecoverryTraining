@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              android:background="@color/backRose"
+
+              android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50.0dip"
+        android:layout_marginTop="55dp"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+        <!-- <ImageView
+            android:layout_width="23.0dip"
+            android:layout_height="23.0dip"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher_round"/>
+
+            -->
+
+        <EditText
+            android:id="@+id/et_register_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="请输入手机号码"
+            android:inputType="phone"
+            android:paddingLeft="10dip"
+            android:paddingTop="8dp"
+            android:textColorHint="@color/white"
+            android:textSize="25sp"
+            android:theme="@style/MyEditText"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="35dp"
+        android:minHeight="50.0dip"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+
+        <EditText
+            android:id="@+id/et_register_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:cursorVisible="true"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:paddingLeft="10dip"
+            android:paddingTop="10dp"
+            android:textColorHint="@color/white"
+            android:textSize="25sp"
+
+            android:theme="@style/MyEditText"/>
+        <!--android:layout_marginLeft="200dp"-->
+        <Button
+            android:id="@+id/bnt_register_getcode"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/btn_nor_down"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:text="获取验证码"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/now"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/check_border"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:minHeight="50.0dip"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+
+        <EditText
+            android:id="@+id/et_register_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:cursorVisible="true"
+            android:hint="请输入密码"
+            android:inputType="numberPassword"
+            android:paddingLeft="10dip"
+            android:paddingTop="8dp"
+            android:textColorHint="@color/white"
+            android:textSize="25sp"
+
+            android:theme="@style/MyEditText"
+            />
+
+
+        <ImageView
+            android:id="@+id/img_password_eye"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:onClick="passwordShow"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_password_eye_off"
+            />
+
+
+    </RelativeLayout>
+
+
+    <!-- 小对勾的布局-->
+
+    <Button
+        android:id="@+id/bt_register_id"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/btn_nor_down"
+        android:gravity="center"
+        android:text="注册"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+
+        >
+
+        <!--<CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="-10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="我同意"
+            android:textSize="20sp"/>-->
+
+        <TextView
+            android:id="@+id/tv_register_user_protocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/user_protocol"
+            android:textColor="#FE8B4A"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

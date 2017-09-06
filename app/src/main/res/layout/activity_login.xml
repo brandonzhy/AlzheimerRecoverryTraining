@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:lino="http://schemas.android.com/apk/res-auto"
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    android:background="@color/MistyRose2">
+
+ <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:minHeight="50.0dip"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+        <ImageView
+            android:layout_width="23.0dip"
+            android:layout_height="23.0dip"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher_round"/>
+
+        <EditText
+            android:id="@+id/et_register_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:hint="请输入手机号码"
+            android:paddingLeft="15dip"
+            android:paddingTop="8dp"
+            android:textColorHint="#BEBEBE"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:minHeight="50.0dip"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+        <ImageView
+            android:layout_width="23.0dip"
+            android:layout_height="23.0dip"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher_round"/>
+
+        <EditText
+            android:id="@+id/et_register_password_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:hint="请输入密码"
+            android:paddingLeft="15dip"
+            android:paddingTop="8dp"
+            android:textColorHint="#BEBEBE"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+
+ <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="-10dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="我同意"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/user_protocol"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:text="用户协议及隐私条款"
+        android:textColor="#FE8B4A"
+        android:textSize="18sp"/>
+</LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="登录"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="28sp"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/bt_login_ger"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginBottom="14dp"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/btn_bg_green"-->
+        <!--android:gravity="center"-->
+        <!--android:text="免费注册"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="@color/light_gray"-->
+        <!--android:textSize="28sp"/>-->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:shrinkColumns="1"
+        android:stretchColumns="0"
+        >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:stretchColumns="0，1">
+            android:layout_marginRight="10dp" >
+
+            <TextView
+                android:id="@+id/tv_phone_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="@string/login_phone"
+                android:textColor="@color/light_gray"
+                android:textSize="18sp"/>
+            />
+
+            <TextView
+                android:id="@+id/tv_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="@string/login_forget"
+                android:textColor="@color/light_gray"
+                android:textSize="18sp"/>
+
+
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="其他方式登录"
+            android:textColor="@color/light_gray"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_weibo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@mipmap/weobologo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微博登录"
+                android:textColor="#BEBEBE"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:id="@+id/btn_wechat"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@mipmap/wechatlogo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信登录"
+                android:textColor="#BEBEBE"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn__qq"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@mipmap/qqlogo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ登录"
+                android:textColor="#BEBEBE"
+                android:textSize="20sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

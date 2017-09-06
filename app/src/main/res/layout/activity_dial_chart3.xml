@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".game_judge.showaResultiwthDialog" >
+
+    
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+
+        android:orientation="vertical" >
+        
+
+
+
+ 	
+ 		<com.stone.app.game_judge.DiaCharView
+	         android:id="@+id/circle_view2"
+	         android:layout_width="match_parent"
+	         android:layout_height="280dp"
+	         android:layout_gravity="center_vertical"
+			 android:layout_centerInParent="true"
+			 android:layout_marginLeft="30dp"
+			 android:layout_marginRight="30dp"
+	       /> 
+        <Button
+			android:id="@+id/btn_back"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="80dp"
+			android:layout_marginRight="80dp"
+			android:text="返回"
+			android:layout_below="@+id/circle_view2"
+			android:layout_marginTop="25dp"
+			android:textSize="28dp"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/MistyRose2"
+
+              android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:minHeight="50.0dp"
+        android:paddingLeft="14.0dp"
+        android:paddingRight="12.0dp">
+
+
+        <EditText
+            android:id="@+id/et_info_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="请输入昵称"
+            android:inputType="text"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:textColorHint="@color/white"
+            android:textSize="25sp"
+            android:theme="@style/MyEditText"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="35dp"
+        android:minHeight="50.0dp"
+        android:paddingLeft="14.0dp"
+        android:paddingRight="12.0dp">
+
+
+        <EditText
+            android:id="@+id/et_info_familyname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:cursorVisible="true"
+            android:hint="请输入你的家庭名称"
+            android:inputType="text"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:textColorHint="@color/white"
+            android:textSize="25sp"
+            android:theme="@style/MyEditText"/>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:minHeight="50.0dip"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+
+        <EditText
+            android:id="@+id/et_info_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:cursorVisible="true"
+            android:hint="请输入你的姓名"
+            android:inputType="text"
+            android:paddingLeft="10dip"
+            android:paddingTop="8dp"
+            android:textColorHint="@color/white"
+            android:textSize="25sp"
+            android:theme="@style/MyEditText"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:minHeight="50.0dip"
+        android:paddingLeft="14.0dip"
+        android:paddingRight="12.0dip">
+
+        <TextView
+
+            android:id="@+id/tv_info_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@color/MistyRose2"
+            android:gravity="center"
+            android:paddingLeft="10dip"
+            android:text="性别"
+            android:textColor="@color/white"
+            android:textSize="25sp"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/tv_info_gender"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_info_male"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="男"
+                />
+
+            <RadioButton
+                android:id="@+id/rb_info_female"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="女"
+                />
+        </RadioGroup>
+
+        <!--<EditText-->
+        <!--android:id="@+id/et_info_gender"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:cursorVisible="true"-->
+        <!--android:hint="请输入性别"-->
+        <!--android:inputType="numberPassword"-->
+        <!--android:paddingLeft="10dip"-->
+        <!--android:paddingTop="8dp"-->
+        <!--android:textColorHint="@color/white"-->
+        <!--android:textSize="25sp"-->
+        <!--android:theme="@style/MyEditText"-->
+        <!--/>-->
+
+
+    </RelativeLayout>
+
+
+    <!-- 小对勾的布局-->
+
+
+    <Button
+        android:id="@+id/bt_info_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/btn_nor_down"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+
+</LinearLayout>
+
+
