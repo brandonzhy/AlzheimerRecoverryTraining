@@ -10,14 +10,20 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 
 import com.stone.app.R;
+import com.stone.app.Util.DateUtil;
+import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.game_puzzle.game_centre;
+
+import static com.stone.app.Util.staticConstUtil.GAME_JUDGAE;
 
 public class showaResultiwthDialog extends Activity  implements View.OnClickListener{
     private int duration = 2500;
     private  float pf=0.9f;
     private Button btn_back;
     DiaCharView chart6 = null;
-
+    String memberID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +35,7 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
         btn_back.setOnClickListener(this);
         Intent intent =getIntent();
         pf=intent.getFloatExtra("result",0);
+        memberID=intent.getStringExtra("ID");
 
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "pf", 0,pf );
         objectAnimator.setDuration(duration);
@@ -48,8 +55,17 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        //返回游戏界面
-        //gotoGamePage();
+//        返回游戏界面
+//        gotoGamePage();
+        try {
+            long date = DateUtil.getDate();
+            new DataBaseManager().AddGameRecord(memberID, (double) pf,date , GAME_JUDGAE);
+        } catch (DataBaseSignal dataBaseSignal) {
+            dataBaseSignal.printStackTrace();
+        } catch (DataBaseError dataBaseError) {
+            dataBaseError.printStackTrace();
+        }
         startActivity(new Intent(showaResultiwthDialog.this,game_centre.class));
+
     }
 }

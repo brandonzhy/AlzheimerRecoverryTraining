@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
@@ -21,6 +22,9 @@ import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.DebugUtil;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.stone.app.R;
+import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.photoUpload.adapter.GridImageAdapter;
 
 import java.util.ArrayList;
@@ -30,7 +34,6 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 
-
 public class photoUploadActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = photoUploadActivity.class.getSimpleName();
@@ -38,7 +41,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView recyclerView;
     private GridImageAdapter adapter;
     private static int maxSelectNum = 1;
-    private EditText et_photoinfo_name, et_photoinfo_tiem, et_photoinfo_place;
+    private EditText et_photoinfo_name, et_photoinfo_date_year, et_photoinfo_date_month,et_photoinfo_date_day,et_photoinfo_place;
     private int x = 0, y = 0;
     private int aspect_ratio_x, aspect_ratio_y;
     private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
@@ -46,7 +49,8 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
     private int chooseMode = PictureMimeType.ofAll();
     private Button btn_right_upload;
     private ImageView left_back;
-
+    private DataBaseManager dataBaseManager;
+    private LinearLayout ly_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,13 +115,15 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
 
     private void init() {
         themeId = R.style.picture_default_style;
-        left_back=(ImageView) findViewById(R.id.left_back);
+        left_back = (ImageView) findViewById(R.id.left_back);
         et_photoinfo_name = (EditText) findViewById(R.id.et_photoinfo_name);
-        et_photoinfo_tiem = (EditText) findViewById(R.id.et_photoinfo_tiem);
         et_photoinfo_place = (EditText) findViewById(R.id.et_photoinfo_place);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        et_photoinfo_date_year = (EditText) findViewById(R.id.et_photoinfo_data_year);
+        et_photoinfo_date_month = (EditText) findViewById(R.id.et_photoinfo_data_month);
+        et_photoinfo_date_day = (EditText) findViewById(R.id.et_photoinfo_data_day);
         left_back.setOnClickListener(photoUploadActivity.this);
-
+        dataBaseManager = new DataBaseManager();
         FullyGridLayoutManager manager = new FullyGridLayoutManager(photoUploadActivity.this, 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         adapter = new GridImageAdapter(photoUploadActivity.this, onAddPicClickListener);
@@ -142,7 +148,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     //                        .isCamera()// 是否显示拍照按钮  true/false  默认为true
                     //                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
                     //                        //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
-                                            .enableCrop(true)// 是否裁剪
+                    .enableCrop(true)// 是否裁剪
                     //                        .compress()// 是否压缩
                     .compressMode(compressMode)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
                     //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
@@ -150,7 +156,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     .withAspectRatio(aspect_ratio_x, aspect_ratio_y)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                     //                        .hideBottomControls()// 是否显示uCrop工具栏，默认不显示
                     //                        .isGif()// 是否显示gif图片
-                                            .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
+                    .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
                     ////                        .circleDimmedLayer()// 是否圆形裁剪
                     .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                     //                        .showCropGrid()// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
@@ -194,7 +200,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     btn_right_upload.setVisibility(View.VISIBLE);
                     et_photoinfo_place.setVisibility(View.VISIBLE);
                     et_photoinfo_name.setVisibility(View.VISIBLE);
-                    et_photoinfo_tiem.setVisibility(View.VISIBLE);
+                    ly_date.setVisibility(View.VISIBLE);
                     DebugUtil.i(TAG, "onActivityResult:" + selectList.size());
                     Log.i("TAG", "图片选择完成");
                     break;
@@ -206,27 +212,32 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.left_back:
-                Log.i("TAG","back 图标被选中"  );
+                Log.i("TAG", "back 图标被选中");
                 finish();
                 break;
             case R.id.btn_right_upload:
                 //上传按钮点击后触发事件
-                Log.i("TAG","上传 图标被选中"  );
-                //                try {
-                //                    dbManager.AddImage("", et_photoinfo_name.getText().toString()
-                //                            ,  adapter.getImagePath(),date, "","");
-                //                } catch (DataBaseSignal dataBaseSignal) {
-                ////                    dataBaseSignal.printStackTrace();
-                //                    if(dataBaseSignal.getSignalType()== DataBaseSignal.SignalType.ImageAddedAlready){
-                //                        Toast.makeText(MainActivity.this,"照片已存在",Toast.LENGTH_SHORT).show();
-                //                    }else {
-                //                        Toast.makeText(MainActivity.this,"上传成功",Toast.LENGTH_SHORT).show();
-                //
-                //                    }
-                //                } catch (DataBaseError dataBaseError) {
-                //                    dataBaseError.printStackTrace();
-                //                }
-                finish();
+                Log.i("TAG", "上传 图标被选中");
+                Intent intent = getIntent();
+                String memberID = intent.getStringExtra("memberID");
+                try {
+                    //                    dataBaseManager.AddImage("memberID", et_photoinfo_name.getText().toString()
+                    //                            , adapter.getImagePath(), date, "", "");
+                    String date=et_photoinfo_date_year.getText().toString().trim()+et_photoinfo_date_month.getText().toString().trim()+et_photoinfo_date_day.getText().toString().trim();
+                    dataBaseManager.AddImage("memberID", et_photoinfo_name.getText().toString()
+                            , et_photoinfo_place.getText().toString(), adapter.getImagePath(),
+                            Long.parseLong(date), "", "");
+                } catch (DataBaseSignal dataBaseSignal) {
+                    dataBaseSignal.printStackTrace();
+                    if (dataBaseSignal.getSignalType() == DataBaseSignal.SignalType.ImageAddedAlready) {
+                        Toast.makeText(photoUploadActivity.this, "照片已存在", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(photoUploadActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } catch (DataBaseError dataBaseError) {
+                    dataBaseError.printStackTrace();
+                }
                 break;
         }
     }

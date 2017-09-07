@@ -26,7 +26,7 @@ public class ChangeMessage extends AppCompatActivity {
                 String name3 = name1.getText().toString();//获取edittext中填写的内容
                 name2.setText(name3);//在textview中显示
                Intent intent=new Intent();
-                intent.putExtra("name",name3);
+                intent.putExtra("memberName",name3);
                 setResult(RESULT_OK,intent);
                 finish();
             }

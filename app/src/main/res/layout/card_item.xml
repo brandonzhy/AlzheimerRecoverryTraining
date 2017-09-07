@@ -87,7 +87,7 @@
         <!--android:text="拍摄地点"-->
         <!--android:textColor="#111"-->
         <!--android:textSize="18sp"/>-->
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ly_name">
@@ -95,17 +95,28 @@
 
 
             <TextView
-                android:id="@+id/tv_imageplace"
+            android:id="@+id/tv_imageplace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="16dp"
+            android:text="上海"
+            android:textColor="#111"
+            android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tv_imagetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_marginLeft="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:paddingBottom="16dp"
-                android:text="上海"
+                android:text="2017年10月日"
                 android:textColor="#111"
                 android:textSize="18sp"/>
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <LinearLayout
@@ -115,29 +126,30 @@
             android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/card_left1"
-                android:drawablePadding="2dp"
-                android:gravity="center_horizontal"
-                android:text="0"
-                android:textColor="#999"
-                android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/card_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:drawableLeft="@drawable/card_left2"
-                android:drawablePadding="2dp"
-                android:gravity="center_horizontal"
-                android:text="2"
-                android:textColor="#999"
-                android:textSize="15sp"/>
         </LinearLayout>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableLeft="@drawable/card_left1"-->
+            <!--android:drawablePadding="2dp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="0"-->
+            <!--android:textColor="#999"-->
+            <!--android:textSize="15sp"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/card_like"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:drawableLeft="@drawable/card_left2"-->
+            <!--android:drawablePadding="2dp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:text="2"-->
+            <!--android:textColor="#999"-->
+            <!--android:textSize="15sp"/>-->
     </RelativeLayout>
 
 

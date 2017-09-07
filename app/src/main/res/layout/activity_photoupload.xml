@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.zhy.pictureselector.MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
+    >
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -40,16 +40,16 @@
             android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/btn_nor_down"
-            android:visibility="visible"
-            android:textStyle="bold"
             android:text="上传"
             android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="visible"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -74,44 +74,117 @@
     </ScrollView>
 
     <EditText
-
         android:id="@+id/et_photoinfo_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入名字"
-
         android:layout_marginTop="45dp"
+        android:textSize="20dp"
+        android:hint="请输入照片中相关人物姓名（不包括本人）"
         android:visibility="gone"/>
-    <EditText
 
-        android:id="@+id/et_photoinfo_tiem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入拍摄照片的时间"
 
-        android:layout_marginTop="30dp"
-        android:visibility="gone"/>
+
     <EditText
 
         android:id="@+id/et_photoinfo_place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入拍摄照片的地点"
         android:layout_marginTop="30dp"
+        android:hint="请输入拍摄照片的地点"
+        android:textSize="20dp"
         android:visibility="gone"/>
 
-
-
-   <!-- <Button
-        android:id="@+id/btn_upload"
+    <LinearLayout
+        android:id="@+id/ly_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/picture_btn_music_shape"
-        android:text="上传"
-        android:textStyle="bold"
-        android:textSize="28dp"
-        android:textColor="@color/white"
-        android:visibility="gone"/>
-        -->
+        android:layout_marginLeft="5dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="拍摄时间: "
+            android:textColor="@color/black"
+            android:textSize="25dp"/>
+
+        <EditText
+
+            android:id="@+id/et_photoinfo_data_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="5dp"
+
+            android:ems="3"
+            android:textSize="20dp"
+            android:visibility="visible"/>
+        <!--android:text="2010"-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="年"
+
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="25dp"/>
+
+        <EditText
+            android:id="@+id/et_photoinfo_data_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+
+            android:ems="2"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="月"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            />
+
+        <EditText
+
+            android:id="@+id/et_photoinfo_data_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:ems="2"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="日"
+            android:textColor="@color/black"
+            android:textSize="25dp"/>
+    </LinearLayout>
+
+
+    <!-- <Button
+         android:id="@+id/btn_upload"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:background="@drawable/picture_btn_music_shape"
+         android:text="上传"
+         android:textStyle="bold"
+         android:textSize="28dp"
+         android:textColor="@color/white"
+         android:visibility="gone"/>
+         -->
 </LinearLayout>

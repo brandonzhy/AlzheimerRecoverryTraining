@@ -12,14 +12,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.stone.app.photoBroswer.CardDataItem;
 import com.stone.app.R;
+import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.PictureData;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
+import com.stone.app.photoBroswer.CardDataItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.stone.app.Util.staticConstUtil.DEFUATNUMBER;
 import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_LEFT;
 import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_RIGHT;
 
@@ -39,8 +43,9 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     //    private String imageplaces[];
     private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
             "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
-    //    private DataBaseManager dataBaseManager;
+    private DataBaseManager dataBaseManager;
     private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
+    private String imagetimes[];
     private int circulatetimes;
     private ImageView img_back;
     private int questionLocation;
@@ -50,7 +55,9 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private int correctnum;
     private int lenth;
     private boolean qflag;
-    //    private List<PictureDat> pictlist;
+    String memberID;
+    String memberName;
+    private List<PictureData> pictlist;
 
 
     @Override
@@ -59,26 +66,39 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         //显示图片的时候不要标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choice_game);
-
+        Intent intent = getIntent();
+        memberID = intent.getStringExtra("memberID");
+        memberName = intent.getStringExtra("memberName");
         //        initdData();
         initView();
         qflag = getQuestion(questionLocation, tv_question);
     }
 
-    //数据库初始化
-    //    private void initdData() {
-    //        Intent intent = getIntent();
-    //        dataBaseManager = new DataBaseManager();
-    //        pictlist = dataBaseManager.getPictureList("", intent.getStringExtra("memberID"),"", "", "");
-    //        int i = 0;
-    //        for (PictureData data : pictlist) {
-    //
-    //            imagePaths[i] = data.getImagePath();
-    //            names[i] = data.getName();
-    //            imageplaces[i] = data.getLocation();
-    //            i++;
-    //        }
-    //    }
+    //    数据库初始化
+    private void initdData() {
+        //            Intent intent = getIntent();
+        dataBaseManager = new DataBaseManager();
+        try {
+            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
+        } catch (DataBaseError dataBaseError) {
+            if (dataBaseError.getErrorType() == DataBaseError.ErrorType.RequiredImageNotEnough) {
+                try {
+                    pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, -1);
+                } catch (DataBaseError dataBaseError1) {
+                    dataBaseError1.printStackTrace();
+                }
+            }
+        }
+        int i = 0;
+        for (PictureData data : pictlist) {
+            imagePaths[i] = data.getImagePath();
+            names[i] = data.getName();
+            imageplaces[i] = data.getLocation();
+            imagetimes[i] = String.valueOf(data.getDate());
+            i++;
+        }
+    }
+
     private void initMainView() {
         img_back = findViewById(R.id.img_back);
         tv_question = findViewById(R.id.tv_question);
@@ -123,9 +143,10 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                 if (questionLocation == lenth) {
                     float result = ((float) correctnum / lenth) * 100;
                     Log.i("TAG", "result=" + result);
-                    Intent intent = new Intent(game_judgeActivity.this, showaResultiwthDialog.class);
-                    intent.putExtra("result", result);
-                    startActivity(intent);
+                    Intent intent_result = new Intent(game_judgeActivity.this, showaResultiwthDialog.class);
+                    intent_result.putExtra("result", result);
+                    intent_result.putExtra("memberID", memberID);
+                    startActivity(intent_result);
                     finish();
                 }
 
@@ -183,7 +204,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     }
 
     private boolean getQuestion(int Location, TextView textView) {
-        int typeNumber = (int) (Math.random() * 2);
+        int typeNumber = (int) (Math.random() * 3);
         int questionLocation = (int) (Math.random() * lenth);
         boolean flag = false;
         //0代表名字，1代表地点
@@ -192,6 +213,23 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         } else if (typeNumber == 1) {
             textView.setText("图片拍摄的地点是在" + imageplaces[questionLocation] + "吗？\n" + "左滑是右滑不是");
 
+        } else if (typeNumber == 2) {
+            String photoDate = imagetimes[questionLocation];
+
+            if (photoDate.charAt(4) == '0') {
+
+                if (photoDate.charAt(6) == '0') {
+                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+                } else {
+                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+                }
+            } else {
+                if (photoDate.charAt(6) == '0') {
+                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+                }
+                textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+            }
+            //            textView.setText("图片拍摄的时间是在" + imagetimes[questionLocation] + "吗？\n" + "左滑是右滑不是");
         }
         if (questionLocation == Location) {
             flag = true;

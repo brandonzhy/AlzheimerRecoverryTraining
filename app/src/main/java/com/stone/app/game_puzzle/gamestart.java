@@ -10,7 +10,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.stone.app.R;
+import com.stone.app.Util.DateUtil;
+import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.mainPage.mainPage;
+
+import static com.stone.app.Util.staticConstUtil.GAME_PUZZLE;
 
 
 //游戏页面
@@ -31,7 +37,7 @@ public class gamestart extends Activity {
        //建立接口
         mgamePintuLayout = (GamePintuLayout) findViewById(R.id.id_gamepintu);
        mgamePintuLayout.setTimeEnabled();
-
+        
       //返回游戏选择界面
         Button back=(Button) findViewById(R.id.button3);
 
@@ -40,6 +46,7 @@ public class gamestart extends Activity {
                                         @Override
                                         public void onClick(View V){
                                             //mgamePintuLayout.backgame();//退出游戏后的初始化
+                                            uploadRecord();
                                             Intent intent = new Intent(gamestart.this, mainPage.class);
                                             startActivity(intent);
                                             mgamePintuLayout.backgame();
@@ -93,13 +100,27 @@ public class gamestart extends Activity {
                         setPositiveButton("退出", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                               finish();
+                                uploadRecord();
+                                finish();
                             }
                         }).show();
 
             }
 
-        });
-    }
+       
 
+        });
+        
+    }
+    private void uploadRecord() {
+        String memberID=getIntent().getStringExtra("memberID");
+        int time_cost= mgamePintuLayout.getmTime()-mgamePintuLayout.gametimechange();
+        try {
+            new DataBaseManager().AddGameRecord(memberID, (double) time_cost, DateUtil.getDate() , GAME_PUZZLE);
+        } catch (DataBaseSignal dataBaseSignal) {
+            dataBaseSignal.printStackTrace();
+        } catch (DataBaseError dataBaseError) {
+            dataBaseError.printStackTrace();
+        }
+    }
 }

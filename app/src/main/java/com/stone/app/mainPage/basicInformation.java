@@ -21,8 +21,12 @@ public class basicInformation extends Activity {
         Button btn_myinfo_back = (Button) findViewById(R.id.btn_myinfo_back);
         Button btn_modify = (Button) findViewById(R.id.btn_modify);
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        tv_name.setText(name);
+        String memberName = intent.getStringExtra("memberName");
+        String memberID = intent.getStringExtra("memberID");
+        String memberNickName = intent.getStringExtra("memberNickName");
+        int memberGender = intent.getIntExtra("memberGender",0);
+
+        tv_name.setText(memberName);
 
         btn_myinfo_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,21 +48,21 @@ public class basicInformation extends Activity {
 
     }
 
-    //    @Override
-    //
-    //    public void onActivityResult(int requestCode,int resultCode,Intent data){
-    //        switch(requestCode){
-    //            case 1:
-    //                if(resultCode==RESULT_OK){
-    //
-    //                    String returnedData=data.getStringExtra("name");
-    //                    TextView name2 = (TextView)findViewById(R.id.textView10);
-    //                    name2.setText(returnedData);
-    //                }
-    //                break;
-    //            default:
-    //        }
-    //
-    //    }
+        @Override
+
+        public void onActivityResult(int requestCode,int resultCode,Intent data){
+            switch(requestCode){
+                case 1:
+                    if(resultCode==RESULT_OK){
+
+                        String returnedData=data.getStringExtra("memberName");
+                        TextView name2 = (TextView)findViewById(R.id.textView10);
+                        name2.setText(returnedData);
+                    }
+                    break;
+                default:
+            }
+
+        }
 
 }

@@ -50,6 +50,7 @@ public class GridImageAdapter extends
      * 点击添加图片跳转
      */
     private onAddPicClickListener mOnAddPicClickListener;
+    private String imagepath;
 
     public interface onAddPicClickListener {
         void onAddPicClick();
@@ -160,6 +161,7 @@ public class GridImageAdapter extends
                 // 原图
                 path = media.getPath();
             }
+            setImagePath(path);
             // 图片
             if (media.isCompressed()) {
                 Log.i("compress image result:", new File(media.getCompressPath()).length() / 1024 + "k");
@@ -208,6 +210,12 @@ public class GridImageAdapter extends
         }
     }
 
+    private void setImagePath(String path) {
+        imagepath=path;
+    }
+    public String getImagePath() {
+        return imagepath;
+    }
     protected OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {

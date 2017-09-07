@@ -29,8 +29,7 @@ import java.util.List;
  */
 
 public class GamePintuLayout extends RelativeLayout implements View.OnClickListener{
-
-
+    private int totaltime;
     private int mColumn = 2;//拼图行数
     private int mPadding;//与窗口边沿的间距
     private int mMargin = 3;//图片
@@ -369,9 +368,14 @@ public  void backgame(){
         }
 
     }
+
+    public int getmTime() {
+        return totaltime;
+    }
+
     private void counttimeLv(){
      mTime=(int)Math.pow(2,level)*30;
-
+        totaltime=mTime;
     }
 
     //接口的调用

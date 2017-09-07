@@ -3,7 +3,7 @@ package com.stone.app.dataBase;
 public class DataBaseError extends Exception {
     private final ErrorType type;
 
-    enum ErrorType {
+    public enum ErrorType {
         PhoneNumberConflict,
         RelationConflict,
         ThirdPartyAccountConflict,

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.app.R;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.PictureData;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
 import com.stone.app.mainPage.MyInformation;
@@ -33,15 +35,16 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             "file:///android_asset/wall12.jpg"}; // 12个图片资源
     //    private String names[];
     //    private String imageplaces[];
+    private String imagetimes[];
     private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
             "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
-    //    private DataBaseManager dataBaseManager;
+    private DataBaseManager dataBaseManager;
     private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
     private int circulatetimes;
     private ImageView img_back;
     private int motionType;
     private List<CardDataItem> dataList = new ArrayList<>();
-    //    private List<PictureData> pictlist;
+    private List<PictureData> pictlist;
 
 
     @Override
@@ -50,24 +53,27 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //显示图片的时候不要标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_photobrowser);
-        //        initdData();
+        initdData();
         initView();
 
     }
-    //数据库初始化
-    //    private void initdData() {
-    //        Intent intent = getIntent();
-    //        dataBaseManager = new DataBaseManager();
-    //        pictlist = dataBaseManager.getPictureList("", "",intent.getStringExtra("memberID"), "", "");
-    //        int i = 0;
-    //        for (PictureData data : pictlist) {
-    //
-    //            imagePaths[i] = data.getImagePath();
-    //            names[i] = data.getName();
-    //            imageplaces[i] = data.getLocation();
-    //            i++;
-    //        }
-    //    }
+
+    //    数据库初始化
+    private void initdData() {
+        Intent intent = getIntent();
+
+        dataBaseManager = new DataBaseManager();
+        pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "");
+        int i = 0;
+        for (PictureData data : pictlist) {
+
+            imagePaths[i] = data.getImagePath();
+            names[i] = data.getName();
+            imageplaces[i] = data.getLocation();
+            imagetimes[i] = String.valueOf(data.getDate());
+            i++;
+        }
+    }
 
     private void initView() {
         final CardSlidePanel slidePanel = (CardSlidePanel) findViewById(R.id.image_slide_panel);
@@ -209,7 +215,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.img_back:
                 //gotomypage()   返回我的界面
-                startActivity(new Intent(photoBroswerActivity.this,MyInformation.class));
+                startActivity(new Intent(photoBroswerActivity.this, MyInformation.class));
                 finish();
                 break;
         }
@@ -219,6 +225,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         ImageView imageView;
         View maskView;
         TextView userNameTv;
+        TextView tv_time;
         //        TextView imageNumTv;
         TextView likeNumTv;
         TextView tv_imageplace;
@@ -228,16 +235,32 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             tv_imageplace = (TextView) view.findViewById(R.id.tv_imageplace);
             imageView = (ImageView) view.findViewById(R.id.card_image_view);
             userNameTv = (TextView) view.findViewById(R.id.card_user_name);
-            //            imageNumTv = (TextView) view.findViewById(R.id.card_pic_num);
-            //            likeNumTv = (TextView) view.findViewById(R.id.card_like);
+            tv_time = (TextView) view.findViewById(R.id.tv_imagetime);
         }
 
         public void bindData(CardDataItem itemData) {
             Glide.with(photoBroswerActivity.this).load(itemData.imagePath).into(imageView);
-            userNameTv.setText("姓名：" + itemData.userName);
-            //            imageNumTv.setText(itemData.imageNum + "");
-            //            likeNumTv.setText(itemData.likeNum + "");
-            tv_imageplace.setText("拍摄地：" + itemData.imagePlace + "");
+            //            userNameTv.setText("姓名：" + itemData.userName);
+            userNameTv.setText(itemData.userName);
+            String photoDate = itemData.phototime;
+
+            if (photoDate.charAt(4) == '0') {
+
+                if (photoDate.charAt(6) == '0') {
+                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日");
+                } else {
+                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日");
+                }
+            } else {
+                if (photoDate.charAt(6) == '0') {
+
+                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日");
+                }
+
+                tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日");
+            }
+            tv_imageplace.setText(itemData.imagePlace );
+            //            tv_imageplace.setText("拍摄地：" + itemData.imagePlace + "");
         }
     }
 
