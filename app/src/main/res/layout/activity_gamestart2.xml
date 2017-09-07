@@ -5,7 +5,7 @@
 
     >
 
-    <com.stone.app.game_puzzle.GamePintuLayout
+    <com.stone.app.Game.game_puzzle.GamePintuLayout
 
     android:id="@+id/id_gamepintu"
     android:layout_width="fill_parent"
@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true">
 
 
-    </com.stone.app.game_puzzle.GamePintuLayout>
+    </com.stone.app.Game.game_puzzle.GamePintuLayout>
 
     <Button
         android:id="@+id/button3"

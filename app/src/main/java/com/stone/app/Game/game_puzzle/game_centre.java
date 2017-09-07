@@ -1,4 +1,4 @@
-package com.stone.app.game_puzzle;
+package com.stone.app.Game.game_puzzle;
 
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.stone.app.R;
-import com.stone.app.game_judge.game_judgeActivity;
+import com.stone.app.Game.game_judge.game_judgeActivity;
 
 import static com.stone.app.R.id.btn_game_puzzle;
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.stone.app.R;
 import com.stone.app.dataBase.DataBaseManager;
-import com.stone.app.game_puzzle.game_centre;
+import com.stone.app.Game.game_puzzle.game_centre;
 import com.stone.app.photoUpload.photoUploadActivity;
 
 

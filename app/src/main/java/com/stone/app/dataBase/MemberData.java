@@ -1,5 +1,8 @@
 package com.stone.app.dataBase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -9,15 +12,22 @@ public class MemberData extends RealmObject {
     private String ID;
 
     @Required
-    private String nickname;
-    @Required
     private String password;
-    @Required
-    private String familyID;
 
+    private String familyID;
     private String name;
+    private String nickname;
     private int gender;
     private boolean activate;
+
+    public static final int DB_GENDER_AMOUNT = 7;
+    public static final int DB_GENDER_UNKNOWN = 0;
+    public static final int DB_GENDER_MALE = 1;
+    public static final int DB_GENDER_FEMALE = 2;
+    public static final int DB_GENDER_TRANS = 3;
+    public static final int DB_GENDER_BISEXUAL = 4;
+    public static final int DB_GENDER_ASEXUAL = 5;
+    public static final int DB_GENDER_SPECIAL = 6;
 
     public String getID(){
         return ID;
@@ -47,31 +57,62 @@ public class MemberData extends RealmObject {
         return activate;
     }
 
-    protected void setID(String ID){
+    void setID(String ID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(ID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.ID = ID;
     }
 
-    public void setNickName(String NickName){
+    void setNickName(String NickName) throws DataBaseError {
+        Pattern p = Pattern.compile("[^0-9a-zA-Z_.]");
+        Matcher m = p.matcher(NickName);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         this.nickname = NickName;
     }
 
-    public void setPassword(String Password){
+    void setPassword(String Password){
         this.password = Password;
     }
 
-    protected void setFamilyID(String FamilyID){
+    void setFamilyID(String FamilyID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(FamilyID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.familyID = FamilyID;
     }
 
-    public void setName(String Name){
+    void setName(String Name) throws DataBaseError {
+        Pattern p = Pattern.compile("\\d");
+        Matcher m = p.matcher(Name);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DigitExistInRealName);
+        p = Pattern.compile("[^a-zA-Z_.\u4E00-\u9FA5]");
+        m = p.matcher(Name);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
+        p = Pattern.compile("[a-zA-Z]");
+        m = p.matcher(Name);
+        if(m.find()){
+            p = Pattern.compile("[^a-zA-Z_.]");
+            m = p.matcher(Name);
+            if(m.find())
+                throw new DataBaseError(DataBaseError.ErrorType.IllegalName_ChineseMingleWithEnglish);
+        }
         this.name = Name;
     }
 
-    public void setGender(int Gender){
-        this.gender = Gender;
+    void setGender(int Gender) throws DataBaseError {
+        if(Gender >= 0 && Gender < DB_GENDER_AMOUNT)
+            this.gender = Gender;
+        else
+            throw new DataBaseError(DataBaseError.ErrorType.UnspecifiedGender);
     }
 
-    protected void setActivate(boolean activate) {
+    void setActivate(boolean activate) {
         this.activate = activate;
     }
 }

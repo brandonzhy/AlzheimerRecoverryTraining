@@ -1,5 +1,9 @@
 package com.stone.app.dataBase;
 
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -18,6 +22,9 @@ public class PictureData extends RealmObject {
     private String note;
     private String parentImage;
     private boolean activate;
+
+    public static final int DB_IMG_NOTE_MAX_LENGTH = 50;
+    public static final long DB_DATE_CHECK_DELTA = 24 * 60 * 60 * 1000;
 
     public String getID(){
         return ID;
@@ -55,39 +62,60 @@ public class PictureData extends RealmObject {
         return activate;
     }
 
-    protected void setID(String ID){
+    void setID(String ID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(ID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.ID = ID;
     }
 
-    public void setImagePath(String ImagePath){
+    void setImagePath(String ImagePath){
         this.imagePath = ImagePath;
     }
 
-    public void setName(String Name){
+    void setName(String Name) throws DataBaseError {
+        Pattern p = Pattern.compile("[^0-9a-zA-Z_.]");
+        Matcher m = p.matcher(Name);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         this.name = Name;
     }
 
-    public void setMemberID(String MemberID){
+    void setMemberID(String MemberID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(MemberID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberID = MemberID;
     }
 
-    public void setLocation(String Location){
+    void setLocation(String Location){
         this.location = Location;
     }
 
-    public void setDate(long Date){
+    void setDate(long Date) throws DataBaseError {
+        Date dateNow = new Date();
+        if(dateNow.getTime() < Date + DB_DATE_CHECK_DELTA)
+            throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = Date;
     }
 
-    public void setNote(String Note){
+    void setNote(String Note) throws DataBaseError {
+        if(Note.length() > DB_IMG_NOTE_MAX_LENGTH)
+            throw new DataBaseError(DataBaseError.ErrorType.NoteTooLong);
         this.note = Note;
     }
 
-    public void setParentImage(String ParentImage){
+    void setParentImage(String ParentImage) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(ParentImage);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.parentImage = ParentImage;
     }
 
-    protected void setActivate(boolean activate) {
+    void setActivate(boolean activate) {
         this.activate = activate;
     }
 }

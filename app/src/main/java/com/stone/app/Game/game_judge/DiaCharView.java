@@ -1,4 +1,4 @@
-package com.stone.app.game_judge;
+package com.stone.app.Game.game_judge;
 
 import android.content.Context;
 import android.graphics.Canvas;

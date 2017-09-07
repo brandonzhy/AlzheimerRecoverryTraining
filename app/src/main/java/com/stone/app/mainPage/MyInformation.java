@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.stone.app.Game.GameRecord.GameRecord;
 import com.stone.app.R;
 import com.stone.app.photoBroswer.photoBroswerActivity;
 

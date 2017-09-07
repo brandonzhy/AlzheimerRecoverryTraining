@@ -1,5 +1,8 @@
 package com.stone.app.dataBase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 
@@ -22,15 +25,21 @@ public class ThirdPartyAccountData extends RealmObject {
         return thirdPartyType;
     }
 
-    protected void setMemberID(String MemberID) {
+    void setMemberID(String MemberID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(MemberID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberID = MemberID;
     }
 
-    protected void setAccount(String Account) {
+    void setAccount(String Account) {
         this.account = Account;
     }
 
-    protected void setThirdPartyType(int ThirdPartyType) {
+    void setThirdPartyType(int ThirdPartyType) throws DataBaseError {
+        if(ThirdPartyType < 0)
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardType);
         this.thirdPartyType = ThirdPartyType;
     }
 }

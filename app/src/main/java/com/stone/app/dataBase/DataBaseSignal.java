@@ -1,32 +1,34 @@
 package com.stone.app.dataBase;
 
 public class DataBaseSignal extends Exception {
-    public final SignalType type;
-
+    private final SignalType type;
     public enum SignalType{
         PhoneAddedAlready,
         GameRecordAddedAlready,
         MemberRelationAddedAlready,
         ImageAddedAlready,
+        ThirdPartyAccountAddedAlready,
 
         MemberHibernationSucceed,
         GameRecordHibernateSucceed,
         PictureHibernateSucceed,
         PhoneDeleted,
-        ThirdPartyAccountDeleted,
+        MemberRelationDeleted,
+        OneThirdPartyAccountDeleted,
+        AllThirdPartyAccountDeleted,
 
         FamilyUpdated,
         MemberUpdated,
-        RelationUpdated,
         PictureUpdated,
 
         LoginSucceed,
         AddSingleMemberToFamilySucceed,
         MergeTwoFamiliesSucceed,
+        AutoTransplantationSucceed,
         UnknownSignal
     }
 
-    public DataBaseSignal(SignalType type){
+    DataBaseSignal(SignalType type){
         this.type = type;
     }
 

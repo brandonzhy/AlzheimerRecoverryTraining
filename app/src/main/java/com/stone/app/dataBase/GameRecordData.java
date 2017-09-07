@@ -1,5 +1,9 @@
 package com.stone.app.dataBase;
 
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -11,7 +15,9 @@ public class GameRecordData extends RealmObject {
     @Required
     private String memberID;
 
-    private double correctness;
+    public static final long DB_DATE_CHECK_DELTA = 24 * 60 * 60 * 1000;
+
+    private double factor; // 指通关时间/答题准确率
     private long date;
     private int gameType;
     private boolean activate;
@@ -24,8 +30,8 @@ public class GameRecordData extends RealmObject {
         return memberID;
     }
 
-    public double getCorrectness(){
-        return correctness;
+    public double getFactor(){
+        return factor;
     }
 
     public long getDate(){
@@ -40,27 +46,42 @@ public class GameRecordData extends RealmObject {
         return activate;
     }
 
-    protected void setRecordID(String RecordID){
+    void setRecordID(String RecordID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(RecordID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         recordID = RecordID;
     }
 
-    protected void setMemberID(String MemberID){
+    void setMemberID(String MemberID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(MemberID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         memberID = MemberID;
     }
 
-    public void setCorrectness(double Correctness){
-        correctness = Correctness;
+    void setFactor(double Factor) throws DataBaseError {
+        if(Factor < 0)
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardFactor);
+        factor = Factor;
     }
 
-    public void setDate(long date){
+    void setDate(long date) throws DataBaseError {
+        Date dateNow = new Date();
+        if(dateNow.getTime() < date + DB_DATE_CHECK_DELTA)
+            throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = date;
     }
 
-    public void setGameType(int GameType){
+    void setGameType(int GameType) throws DataBaseError {
+        if(GameType < 0)
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardType);
         gameType = GameType;
     }
 
-    protected void setActivate(boolean activate) {
+    void setActivate(boolean activate) {
         this.activate = activate;
     }
 }

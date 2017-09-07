@@ -226,7 +226,8 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     String date=et_photoinfo_date_year.getText().toString().trim()+et_photoinfo_date_month.getText().toString().trim()+et_photoinfo_date_day.getText().toString().trim();
                     dataBaseManager.AddImage("memberID", et_photoinfo_name.getText().toString()
                             , et_photoinfo_place.getText().toString(), adapter.getImagePath(),
-                            Long.parseLong(date), "", "");
+                            Long.parseLong(date)*mypoe(10,4), "", "");
+
                 } catch (DataBaseSignal dataBaseSignal) {
                     dataBaseSignal.printStackTrace();
                     if (dataBaseSignal.getSignalType() == DataBaseSignal.SignalType.ImageAddedAlready) {
@@ -240,6 +241,13 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
         }
+    }
+
+    private long mypoe(int number, int i1) {
+        for(int i=0;i<i1;i++){
+            number=number*number;
+        }
+        return  number;
     }
 
 

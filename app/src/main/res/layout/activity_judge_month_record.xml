@@ -5,6 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Game.game_judge.showaResultiwthDialog">
+    tools:context="com.stone.app.Game.GameRecord.JudgeMonthRecord">
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.stone.app.game_judge;
+package com.stone.app.Game.game_judge;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -14,7 +14,7 @@ import com.stone.app.Util.DateUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
-import com.stone.app.game_puzzle.game_centre;
+import com.stone.app.Game.game_puzzle.game_centre;
 
 import static com.stone.app.Util.staticConstUtil.GAME_JUDGAE;
 

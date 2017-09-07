@@ -1,4 +1,4 @@
-package com.stone.app.game_puzzle;
+package com.stone.app.Game.game_puzzle;
 
 
 import android.content.Context;

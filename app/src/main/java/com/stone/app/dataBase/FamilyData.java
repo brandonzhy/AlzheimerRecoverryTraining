@@ -1,13 +1,15 @@
 package com.stone.app.dataBase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
 public class FamilyData extends RealmObject {
     @PrimaryKey
     private String ID;
-    @Required
+
     private String name;
     private String rootMemberID;
     private boolean activate;
@@ -28,19 +30,31 @@ public class FamilyData extends RealmObject {
         return rootMemberID;
     }
 
-    protected void setID(String ID){
+    void setID(String ID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(ID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.ID = ID;
     }
 
-    public void setName(String name){
+    void setName(String name) throws DataBaseError {
+        Pattern p = Pattern.compile("[^0-9a-zA-Z_.]");
+        Matcher m = p.matcher(name);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         this.name = name;
     }
 
-    protected void setRootMemberID(String RootMemberID){
+    void setRootMemberID(String RootMemberID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(RootMemberID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.rootMemberID = RootMemberID;
     }
 
-    protected void setActivate(boolean activate) {
+    void setActivate(boolean activate) {
         this.activate = activate;
     }
 }

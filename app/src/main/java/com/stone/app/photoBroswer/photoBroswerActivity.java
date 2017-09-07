@@ -63,7 +63,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         Intent intent = getIntent();
 
         dataBaseManager = new DataBaseManager();
-        pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "");
+        pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
         int i = 0;
         for (PictureData data : pictlist) {
 

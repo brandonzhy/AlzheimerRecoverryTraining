@@ -54,7 +54,7 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
         // 数据库模块
 
         try {
-            memberData = dataBaseManager.AddHomelessMember(et_info_nickname.getText().toString(), intent.getStringExtra("password"),
+            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(), intent.getStringExtra("password"),
                     et_info_familyname.getText().toString(), et_info_name.getText().toString(),
                     gendrType, intent.getStringExtra("phone"));
         } catch (DataBaseError dataBaseError) {

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".game_judge.showaResultiwthDialog" >
+    tools:context=".Game.game_judge.showaResultiwthDialog" >
 
     
       <RelativeLayout
@@ -18,7 +18,7 @@
 
 
  	
- 		<com.stone.app.game_judge.DiaCharView
+ 		<com.stone.app.Game.game_judge.DiaCharView
 	         android:id="@+id/circle_view2"
 	         android:layout_width="match_parent"
 	         android:layout_height="280dp"
