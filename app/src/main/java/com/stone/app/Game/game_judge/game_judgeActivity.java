@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.app.R;
+import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.MemberData;
 import com.stone.app.dataBase.PictureData;
+import com.stone.app.dataBase.RealmDB;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
 import com.stone.app.photoBroswer.CardDataItem;
@@ -58,6 +61,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     String memberID;
     String memberName;
     private List<PictureData> pictlist;
+    private String familyID="";
 
 
     @Override
@@ -69,17 +73,28 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         memberName = intent.getStringExtra("memberName");
-        //        initdData();
         initView();
+        initdData();
         qflag = getQuestion(questionLocation, tv_question);
     }
 
     //    数据库初始化
     private void initdData() {
         //            Intent intent = getIntent();
-        dataBaseManager = new DataBaseManager();
+//        dataBaseManager = new DataBaseManager();
+        dataBaseManager = RealmDB.getDataBaseManager();
+        memberID=getDataUtil.getmemberID(game_judgeActivity.this);
         try {
-            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
+           List<MemberData> memberList= dataBaseManager.getMemberList(memberID,"","","");
+            familyID=memberList.get(0).getFamilyID();
+        } catch (DataBaseError dataBaseError) {
+            dataBaseError.printStackTrace();
+        }
+        try {
+
+//            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
+            pictlist = dataBaseManager.getRandomPicturesFromFamily(familyID, memberName, "", 0, 0, DEFUATNUMBER);
+
         } catch (DataBaseError dataBaseError) {
             if (dataBaseError.getErrorType() == DataBaseError.ErrorType.RequiredImageNotEnough) {
                 try {
@@ -104,7 +119,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         tv_question = findViewById(R.id.tv_question);
         questionLocation = 0;
         correctnum = 0;
-        lenth = imagePaths.length;
+        lenth = pictlist.size();
 
     }
 
@@ -204,33 +219,71 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     }
 
     private boolean getQuestion(int Location, TextView textView) {
-        int typeNumber = (int) (Math.random() * 3);
+        int typeNumber = (int) (Math.random() * 4);
         int questionLocation = (int) (Math.random() * lenth);
         boolean flag = false;
         //0代表名字，1代表地点,2代表时间
         if (typeNumber == 0) {
-            textView.setText("图片中的人的名字是叫" + names[questionLocation] + "吗？\n" + "左滑是右滑不是");
+            if(!names[questionLocation].equals("")){
+                textView.setText("图片中的人的名字是叫" + names[questionLocation] + "吗？\n" + "左滑是右滑不是");
+            }else {
+                getQuestion(Location,textView);
+            }
         } else if (typeNumber == 1) {
-            textView.setText("图片拍摄的地点是在" + imageplaces[questionLocation] + "吗？\n" + "左滑是右滑不是");
+            if(!imageplaces[questionLocation].equals("")){
+                textView.setText("图片拍摄的地点是在" + imageplaces[questionLocation] + "吗？\n" + "左滑是右滑不是");
+            }else {
+                getQuestion(Location,textView);
+            }
+
 
         } else if (typeNumber == 2) {
             String photoDate = imagetimes[questionLocation];
 
-            if (photoDate.charAt(4) == '0') {
+//            if (photoDate.charAt(4) == '0') {
+//
+//                if (photoDate.charAt(6) == '0') {
+//                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+//                } else {
+//                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+//                }
+//            } else {
+//                if (photoDate.charAt(6) == '0') {
+//                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+//                }
+//                textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+//            }
+//            //            textView.setText("图片拍摄的时间是在" + imagetimes[questionLocation] + "吗？\n" + "左滑是右滑不是");
+            if (photoDate.length()==8) {
+                if (  photoDate.charAt(4) == '0') {
 
-                if (photoDate.charAt(6) == '0') {
-                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+                    if (photoDate.charAt(6) == '0') {
+                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7,8) + "日");
+                    } else {
+                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6,8) + "日");
+                    }
                 } else {
-                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+                    if (photoDate.charAt(6) == '0') {
+
+                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7,8) + "日");
+                    }
+
+                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6,8) + "日");
                 }
-            } else {
-                if (photoDate.charAt(6) == '0') {
-                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+            }else if(photoDate.length()==6){
+                if (  photoDate.charAt(4) == '0') {
+                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月");
+                }else {
+                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月");
+
                 }
-                textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+            }else  if(photoDate.length()==4){
+                textView.setText(photoDate.substring(0, 4) + "年" );
+            }else if(photoDate.length()<4){
+                getQuestion(Location,textView);
             }
-            //            textView.setText("图片拍摄的时间是在" + imagetimes[questionLocation] + "吗？\n" + "左滑是右滑不是");
         }
+
         if (questionLocation == Location) {
             flag = true;
         }

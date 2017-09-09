@@ -11,7 +11,7 @@ public class DateUtil {
 
 
 
-    public static long getDate() {
+    public static long getTime() {
         SimpleDateFormat formatter   =  new SimpleDateFormat   ("yyyyMMddHHmmss");
         Date curDate =  new Date(System.currentTimeMillis());
         String   str   =   formatter.format(curDate);

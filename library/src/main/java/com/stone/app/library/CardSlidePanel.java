@@ -61,7 +61,7 @@ public class CardSlidePanel extends ViewGroup {
     private Point downPoint = new Point();
     private CardAdapter adapter;
 //    private static final int VIEW_COUNT = 4;
-    private static final int VIEW_COUNT = 4;
+    private static final int VIEW_COUNT = 3;
     private Rect draggableArea;
 
     public CardSlidePanel(Context context) {
@@ -122,6 +122,8 @@ public class CardSlidePanel extends ViewGroup {
         viewList.clear();
         for (int i = 0; i < VIEW_COUNT; i++) {
             viewList.add((CardItemView) getChildAt(VIEW_COUNT - 1 - i));
+
+
         }
 
 
@@ -277,7 +279,7 @@ public class CardSlidePanel extends ViewGroup {
 
         // 3. changedView填充新数据
 //        int newIndex = isShowing + 4;
-        int newIndex = isShowing + 4;
+        int newIndex = isShowing + 3;
         if (newIndex < adapter.getCount()) {
             adapter.bindView(changedView, newIndex);
         } else {

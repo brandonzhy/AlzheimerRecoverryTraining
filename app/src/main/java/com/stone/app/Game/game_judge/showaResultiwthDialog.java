@@ -58,7 +58,7 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
 //        返回游戏界面
 //        gotoGamePage();
         try {
-            long date = DateUtil.getDate();
+            long date = DateUtil. getTime();
             new DataBaseManager().AddGameRecord(memberID, (double) pf,date , GAME_JUDGAE);
         } catch (DataBaseSignal dataBaseSignal) {
             dataBaseSignal.printStackTrace();

@@ -24,6 +24,7 @@ import com.luck.picture.lib.tools.DebugUtil;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.stone.app.R;
 import com.stone.app.Util.DateUtil;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
@@ -238,6 +239,8 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     long mydata = 0;
                     String name = "";
                     String plece = "";
+                    String  month="";
+                    String day="";
                     if ((!TextUtils.isEmpty(et_photoinfo_name.getText().toString()))) {
                         name = et_photoinfo_name.getText().toString();
 
@@ -246,18 +249,23 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                         plece = et_photoinfo_place.getText().toString();
 
                     }
-                    if(et_photoinfo_date_month.getText().toString().trim()){
+                    if(!TextUtils.isEmpty(et_photoinfo_date_month.getText().toString().trim())&&Long.parseLong(et_photoinfo_date_month.getText().toString().trim())<10){
+                        month="0"+et_photoinfo_date_month.getText().toString().trim();
                     }
-                    String date = et_photoinfo_date_year.getText().toString().trim() + et_photoinfo_date_month.getText().toString().trim() + et_photoinfo_date_day.getText().toString().trim();
+                    if(!TextUtils.isEmpty(et_photoinfo_date_day.getText().toString().trim())&&Long.parseLong(et_photoinfo_date_day.getText().toString().trim())<10){
+                        day="0"+et_photoinfo_date_day.getText().toString().trim();
+                    }
+
+                    String date = et_photoinfo_date_year.getText().toString().trim() + month + day;
                     if ((!TextUtils.isEmpty(date))) {
 //                        mydata = Long.parseLong(date) * mypoe(10, 2);
                         mydata = Long.parseLong(date) ;
-                        Log.i("TAG","现在的时间为" + DateUtil.getDate());
+                        Log.i("TAG","现在的时间为" + DateUtil.getTime());
                         Log.i("TAG","上传的时间为" +mydata );
+                        ToastUtil.showToast(photoUploadActivity.this, adapter.getImagePath());
 
                     }
-                    dataBaseManager.AddImage(memberID, name
-                            ,plece , adapter.getImagePath(), mydata, "", "");
+                    dataBaseManager.AddImage(memberID, name,plece , adapter.getImagePath(), mydata, "", "");
                     //                    if(!TextUtils.isEmpty(et_photoinfo_name.getText().toString())){
                     //                      if(!TextUtils.isEmpty(et_photoinfo_place.getText().toString())){
                     //                          if((!TextUtils.isEmpty(date))){

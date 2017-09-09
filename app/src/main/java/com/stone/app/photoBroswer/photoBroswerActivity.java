@@ -27,26 +27,26 @@ import java.util.List;
 public class photoBroswerActivity extends FragmentActivity implements View.OnClickListener {
 
     private CardSlidePanel.CardSwitchListener cardSwitchListener;
-        private String imagePaths[]={};
-//    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
-//            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
-//            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
-//            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
-//            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
-//            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
-//            "file:///android_asset/wall12.jpg"}; // 12个图片资源
-        private String names[]={};
-        private String imageplaces[]={};
-    private String imagetimes[]={};
-//    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
-//            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
+    //    private String imagePaths[] = {};
+    //    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
+    //            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
+    //            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
+    //            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
+    //            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
+    //            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
+    //            "file:///android_asset/wall12.jpg"}; // 12个图片资源
+    //    private String names[] = {};
+    //    private String imageplaces[] = {};
+    //    private String imagetimes[] = {};
+    //    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
+    //            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
     private DataBaseManager dataBaseManager;
-//    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
+    //    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
     private int circulatetimes;
     private ImageView img_back;
     private int motionType;
     private List<CardDataItem> dataList = new ArrayList<>();
-    private List<PictureData> pictlist;
+    private List<PictureData> pictlist = null;
 
 
     @Override
@@ -55,36 +55,45 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //显示图片的时候不要标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_photobrowser);
+
         initdData();
         initView();
-
     }
 
     //    数据库初始化
     private void initdData() {
         Intent intent = getIntent();
-        dataBaseManager= RealmDB.getDataBaseManager();
-//        dataBaseManager = new DataBaseManager();
+        dataBaseManager = RealmDB.getDataBaseManager();
+        Log.i("TAG", " photoBrowser的dataBaseManager ID: " + dataBaseManager);
+        //        dataBaseManager = new DataBaseManager();
         try {
-            String memberID= getDataUtil.getmemberID(photoBroswerActivity.this);
-            pictlist = dataBaseManager.getPictureList("", "", memberID, "", "",0,0);
+            String memberID = getDataUtil.getmemberID(photoBroswerActivity.this);
+            Log.i("TAG", " photoBrowser的memberID: " + memberID);
+            pictlist = dataBaseManager.getPictureList("", "", memberID, "", "", 0, 0);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //        pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
-        if(pictlist==null){
-//            ToastUtil.showToast(photoBroswerActivity.this,"图片列表为空");
-            Log.i("TAG","图片列表为空"  );
+        //                pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
+        if (pictlist.size() == 0) {
+            //            ToastUtil.showToast(photoBroswerActivity.this,"图片列表为空");
+            Log.i("TAG", "图片列表为空");
             finish();
-        }
-        int i = 0;
-        for (PictureData data : pictlist) {
+            //        }else {
+            //            int i = 0;
+            //            for (PictureData data : pictlist) {
+            //
+            //                imagePaths[i] = data.getImagePath();
+            //                names[i] = data.getName();
+            //                imageplaces[i] = data.getLocation();
+            //                imagetimes[i] = String.valueOf(data.getDate());
+            //                Log.i("TAG","path= " +imagePaths[i]  );
+            //                Log.i("TAG","places= " +  imageplaces[i]);
+            //                Log.i("TAG","name= " +names[i] );
+            //                Log.i("TAG"," imagetimes= " + imagetimes[i]  );
+            //                i++;
+            //        }
 
-            imagePaths[i] = data.getImagePath();
-            names[i] = data.getName();
-            imageplaces[i] = data.getLocation();
-            imagetimes[i] = String.valueOf(data.getDate());
-            i++;
         }
     }
 
@@ -99,10 +108,11 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onShow(int index) {
                 Log.d("Card", "正在显示-" + dataList.get(index).userName);
-                if (index == (imagePaths.length - 1) * circulatetimes) {
+
+                if (pictlist.size() > 1 && index == (pictlist.size() - 1) * circulatetimes) {
                     appendDataList();
-                    //4. 数据更新<
                     slidePanel.getAdapter().notifyDataSetChanged();
+                    //4. 数据更新<
                     circulatetimes++;
                 }
             }
@@ -156,16 +166,21 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public Rect obtainDraggableArea(View view) {
+                if (pictlist.size() > 1) {
+                    View contentView = view.findViewById(R.id.card_item_content);
+                    View topLayout = view.findViewById(R.id.card_top_layout);
+                    View bottomLayout = view.findViewById(R.id.card_bottom_layout);
+                    int left = view.getLeft() + contentView.getPaddingLeft() + topLayout.getPaddingLeft();
+                    int right = view.getRight() - contentView.getPaddingRight() - topLayout.getPaddingRight();
+                    int top = view.getTop() + contentView.getPaddingTop() + topLayout.getPaddingTop();
+                    int bottom = view.getBottom() - contentView.getPaddingBottom() - bottomLayout.getPaddingBottom();
+                    Log.i("TAG", "bottom = " + bottom + "view of bottom =" + view.getBottom());
+                    return new Rect(left, top, right, bottom);
+                }
                 // 可滑动区域定制，该函数只会调用一次
-                View contentView = view.findViewById(R.id.card_item_content);
-                View topLayout = view.findViewById(R.id.card_top_layout);
-                View bottomLayout = view.findViewById(R.id.card_bottom_layout);
-                int left = view.getLeft() + contentView.getPaddingLeft() + topLayout.getPaddingLeft();
-                int right = view.getRight() - contentView.getPaddingRight() - topLayout.getPaddingRight();
-                int top = view.getTop() + contentView.getPaddingTop() + topLayout.getPaddingTop();
-                int bottom = view.getBottom() - contentView.getPaddingBottom() - bottomLayout.getPaddingBottom();
-                Log.i("TAG", "bottom = " + bottom + "view of bottom =" + view.getBottom());
-                return new Rect(left, top, right, bottom);
+
+
+                return new Rect(0, 0, 0, 0);
             }
         });
 
@@ -184,17 +199,25 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
 
     private void prepareDataList() {
         //        int num = imagePaths.length;
-        int num = imagePaths.length;
-
-        for (int i = 0; i < num; i++) {
+        //        int num = imagePaths.length;
+        for (PictureData pictureData : pictlist) {
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName = names[i];
-            dataItem.imagePath = imagePaths[i];
-            dataItem.imagePlace = imageplaces[i];
-            dataItem.likeNum = (int) (Math.random() * 10);
-            dataItem.imageNum = (int) (Math.random() * 6);
+            dataItem.userName = pictureData.getName();
+            dataItem.imagePath = pictureData.getImagePath();
+            dataItem.imagePlace = pictureData.getLocation();
+            dataItem.phototime = String.valueOf(pictureData.getDate());
             dataList.add(dataItem);
         }
+        //        for (int i = 0; i < num; i++) {
+        //            CardDataItem dataItem = new CardDataItem();
+        //            dataItem.userName = names[i];
+        //            dataItem.imagePath = imagePaths[i];
+        //            dataItem.imagePlace = imageplaces[i];
+        //            dataItem.likeNum = (int) (Math.random() * 10);
+        //            dataItem.imageNum = (int) (Math.random() * 6);
+        //            dataList.add(dataItem);
+        //        }
+
     }
 
     private void appendDataList() {
@@ -206,16 +229,24 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //            dataItem.imageNum = (int) (Math.random() * 6);
         //            dataList.add(dataItem);
         //        }
-        int num = imagePaths.length;
-        for (int i = 0; i < num; i++) {
+        for (PictureData pictureData : pictlist) {
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName = names[i];
-            dataItem.imagePath = imagePaths[i];
-            dataItem.imagePlace = imageplaces[i];
-            dataItem.likeNum = (int) (Math.random() * 10);
-            dataItem.imageNum = (int) (Math.random() * 6);
+            dataItem.userName = pictureData.getName();
+            dataItem.imagePath = pictureData.getImagePath();
+            dataItem.imagePlace = pictureData.getLocation();
+            dataItem.phototime = String.valueOf(pictureData.getDate());
             dataList.add(dataItem);
         }
+        //        int num = imagePaths.length;
+        //        for (int i = 0; i < num; i++) {
+        //            CardDataItem dataItem = new CardDataItem();
+        //            dataItem.userName = names[i];
+        //            dataItem.imagePath = imagePaths[i];
+        //            dataItem.imagePlace = imageplaces[i];
+        //            dataItem.likeNum = (int) (Math.random() * 10);
+        //            dataItem.imageNum = (int) (Math.random() * 6);
+        //            dataList.add(dataItem);
+        //        }
     }
 
     //    @Override
@@ -257,22 +288,35 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             userNameTv.setText(itemData.userName);
             String photoDate = itemData.phototime;
 
-            if (photoDate.charAt(4) == '0') {
+            if (photoDate.length() == 8) {
+                if (photoDate.charAt(4) == '0') {
 
-                if (photoDate.charAt(6) == '0') {
-                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日");
+                    if (photoDate.charAt(6) == '0') {
+                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7, 8) + "日");
+                    } else {
+                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6, 8) + "日");
+                    }
                 } else {
-                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日");
-                }
-            } else {
-                if (photoDate.charAt(6) == '0') {
+                    if (photoDate.charAt(6) == '0') {
 
-                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日");
-                }
+                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7, 8) + "日");
+                    }
 
-                tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日");
+                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6, 8) + "日");
+                }
+            } else if (photoDate.length() == 6) {
+                if (photoDate.charAt(4) == '0') {
+                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月");
+                } else {
+                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月");
+
+                }
+            } else if (photoDate.length() == 4) {
+                tv_time.setText(photoDate.substring(0, 4) + "年");
+            } else if (photoDate.length() < 4) {
+                tv_time.setText("");
             }
-            tv_imageplace.setText(itemData.imagePlace );
+            tv_imageplace.setText(itemData.imagePlace);
             //            tv_imageplace.setText("拍摄地：" + itemData.imagePlace + "");
         }
     }

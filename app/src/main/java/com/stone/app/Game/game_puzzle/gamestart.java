@@ -116,7 +116,7 @@ public class gamestart extends Activity {
         String memberID=getIntent().getStringExtra("memberID");
         int time_cost= mgamePintuLayout.getmTime()-mgamePintuLayout.gametimechange();
         try {
-            new DataBaseManager().AddGameRecord(memberID, (double) time_cost, DateUtil.getDate() , GAME_PUZZLE);
+            new DataBaseManager().AddGameRecord(memberID, (double) time_cost, DateUtil. getTime() , GAME_PUZZLE);
         } catch (DataBaseSignal dataBaseSignal) {
             dataBaseSignal.printStackTrace();
         } catch (DataBaseError dataBaseError) {
