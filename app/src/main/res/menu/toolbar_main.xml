@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:title="@string/back"
-android:id="@+id/back"
-    />
+    <item
+        android:id="@+id/createfamily"
+        android:title="新建家庭"
+        />
+    <item
+        android:id="@+id/addfamily"
+        android:title="加入家庭" />
 </menu>
