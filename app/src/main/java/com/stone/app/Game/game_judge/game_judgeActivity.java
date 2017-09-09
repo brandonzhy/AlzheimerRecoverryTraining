@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.app.R;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.stone.app.Util.staticConstUtil.DEFUATNUMBER;
+import static com.stone.app.dataBase.DataBaseError.ErrorType.RequiredResultsReturnNULL;
 import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_LEFT;
 import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_RIGHT;
 
@@ -34,7 +36,7 @@ import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_RIGHT;
 public class game_judgeActivity extends FragmentActivity implements View.OnClickListener {
 
     private CardSlidePanel.CardSwitchListener cardSwitchListener;
-      private String imagePaths[];
+      private String imagePaths[]={};
 //    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
 //            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
 //            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
@@ -42,13 +44,13 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
 //            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
 //            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
 //            "file:///android_asset/wall12.jpg"}; // 12个图片资源
-        private String names[];
-        private String imageplaces[];
+        private String names[]={};
+        private String imageplaces[]={};
 //    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
 //            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
     private DataBaseManager dataBaseManager;
 //    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
-    private String imagetimes[];
+    private String imagetimes[]={};
     private int circulatetimes;
     private ImageView img_back;
     private int questionLocation;
@@ -56,7 +58,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private TextView tv_question;
     private List<CardDataItem> dataList = new ArrayList<>();
     private int correctnum;
-    private int lenth;
+    private int lenth=0;
     private boolean qflag;
     String memberID;
     String memberName;
@@ -73,9 +75,10 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         memberName = intent.getStringExtra("memberName");
-        initView();
         initdData();
-        qflag = getQuestion(questionLocation, tv_question);
+        initView();
+        initMainView();
+//        qflag = getQuestion(questionLocation, tv_question);
     }
 
     //    数据库初始化
@@ -86,32 +89,80 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         memberID=getDataUtil.getmemberID(game_judgeActivity.this);
         try {
            List<MemberData> memberList= dataBaseManager.getMemberList(memberID,"","","");
-            familyID=memberList.get(0).getFamilyID();
+          if(memberList.size()>0){
+              familyID=memberList.get(0).getFamilyID();
+                if(familyID.equals("")){
+                  Log.i("TAG","你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧" );
+                  ToastUtil.showToast(game_judgeActivity.this,"你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+                  finish();
+              }
+              memberName=memberList.get(0).getName();
+              Log.i("TAG","game_judgeActivity获得的familyID为：" + familyID);
+              Log.i("TAG","game_judgeActivity获得的name为：" + memberName);
+          }else {
+              Log.i("TAG","memberIDb不存在" );
+              ToastUtil.showToast(game_judgeActivity.this,"memberIDb不存在" );
+              finish();
+          }
         } catch (DataBaseError dataBaseError) {
+            Log.i("TAG","dataBaseError 的类型为： " +dataBaseError );
+            ToastUtil.showToast(game_judgeActivity.this," judgegame的dataBaseError 的类型为： " +dataBaseError  );
             dataBaseError.printStackTrace();
         }
         try {
 
 //            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
+
+
             pictlist = dataBaseManager.getRandomPicturesFromFamily(familyID, memberName, "", 0, 0, DEFUATNUMBER);
 
+            if(pictlist!=null){
+                lenth = pictlist.size();
+            }else {
+                Log.i("TAG","获取列表不存在" );
+                finish();
+            }
         } catch (DataBaseError dataBaseError) {
             if (dataBaseError.getErrorType() == DataBaseError.ErrorType.RequiredImageNotEnough) {
                 try {
-                    pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, -1);
+                    if(!familyID.equals("")){
+                        pictlist = dataBaseManager.getRandomPicturesFromMember(familyID, memberName, "", 0, 0, -1);
+                    }else{
+                        Log.i("TAG","你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧" );
+                        ToastUtil.showToast(game_judgeActivity.this,"你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+                        finish();
+                    }
+
+                    if(pictlist!=null){
+                        lenth = pictlist.size();
+
+                    }else {
+                        Log.i("TAG","获取列表不存在" );
+                        finish();
+                    }
+
                 } catch (DataBaseError dataBaseError1) {
+                    if(dataBaseError1.getErrorType()==RequiredResultsReturnNULL){
+                        Log.i("TAG","错误类型为" +dataBaseError1.getErrorType() );
+                        finish();
+                    }
+                    Log.i("TAG","dataBaseError 的类型为： " +dataBaseError );
                     dataBaseError1.printStackTrace();
                 }
             }
         }
-        int i = 0;
-        for (PictureData data : pictlist) {
-            imagePaths[i] = data.getImagePath();
-            names[i] = data.getName();
-            imageplaces[i] = data.getLocation();
-            imagetimes[i] = String.valueOf(data.getDate());
-            i++;
+
+        if(pictlist!=null){
+            int i = 0;
+            for (PictureData data : pictlist) {
+                imagePaths[i] = data.getImagePath();
+                names[i] = data.getName();
+                imageplaces[i] = data.getLocation();
+                imagetimes[i] = String.valueOf(data.getDate());
+                i++;
+            }
         }
+
     }
 
     private void initMainView() {
@@ -119,13 +170,13 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         tv_question = findViewById(R.id.tv_question);
         questionLocation = 0;
         correctnum = 0;
-        lenth = pictlist.size();
+
 
     }
 
     private void initView() {
         final CardSlidePanel slidePanel = (CardSlidePanel) findViewById(R.id.image_slide_panel);
-        initMainView();
+
         circulatetimes = 1;
         // 1. 左右滑动监听
 
@@ -238,7 +289,14 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
 
 
         } else if (typeNumber == 2) {
-            String photoDate = imagetimes[questionLocation];
+            String photoDate="";
+
+            if(!imagetimes[questionLocation].equals("")){
+                photoDate = imagetimes[questionLocation];
+            }else {
+                Log.i("TAG","imagetimes不存在"    );
+                getQuestion(Location,textView);
+            }
 
 //            if (photoDate.charAt(4) == '0') {
 //
