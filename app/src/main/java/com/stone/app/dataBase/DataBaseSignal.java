@@ -25,7 +25,7 @@ public class DataBaseSignal extends Exception {
         AddSingleMemberToFamilySucceed,
         MergeTwoFamiliesSucceed,
         AutoTransplantationSucceed,
-        UnknownSignal
+        UnknownSignal_DataBaseManager
     }
 
     DataBaseSignal(SignalType type){

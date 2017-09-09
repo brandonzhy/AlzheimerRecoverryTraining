@@ -31,20 +31,20 @@ import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_RIGHT;
 public class game_judgeActivity extends FragmentActivity implements View.OnClickListener {
 
     private CardSlidePanel.CardSwitchListener cardSwitchListener;
-    //    private String imagePaths[];
-    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
-            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
-            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
-            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
-            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
-            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
-            "file:///android_asset/wall12.jpg"}; // 12个图片资源
-    //    private String names[];
-    //    private String imageplaces[];
-    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
-            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
+      private String imagePaths[];
+//    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
+//            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
+//            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
+//            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
+//            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
+//            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
+//            "file:///android_asset/wall12.jpg"}; // 12个图片资源
+        private String names[];
+        private String imageplaces[];
+//    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
+//            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
     private DataBaseManager dataBaseManager;
-    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
+//    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
     private String imagetimes[];
     private int circulatetimes;
     private ImageView img_back;
@@ -207,7 +207,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         int typeNumber = (int) (Math.random() * 3);
         int questionLocation = (int) (Math.random() * lenth);
         boolean flag = false;
-        //0代表名字，1代表地点
+        //0代表名字，1代表地点,2代表时间
         if (typeNumber == 0) {
             textView.setText("图片中的人的名字是叫" + names[questionLocation] + "吗？\n" + "左滑是右滑不是");
         } else if (typeNumber == 1) {

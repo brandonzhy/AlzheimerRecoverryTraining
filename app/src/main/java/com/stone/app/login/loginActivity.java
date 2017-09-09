@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.stone.app.R;
+import com.stone.app.dataBase.RealmDB;
 
 
 public class loginActivity extends Activity implements View.OnClickListener {
@@ -24,7 +25,7 @@ public class loginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        RealmDB.getDataBaseManager();
         setContentView(R.layout.my_login);
         init();
         tv_register.setText(getClickableSpan());

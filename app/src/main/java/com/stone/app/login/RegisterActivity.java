@@ -167,7 +167,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                         //                        }
                         //                        if (getcodeServices.getCodeResult()) {
                         if (!TextUtils.isEmpty(et_register_password.getText().toString().trim())) {
-//                            Log.i("TAG", "password is not empty");
+                            //                            Log.i("TAG", "password is not empty");
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -177,7 +177,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                                     if (resultflag) {
                                         //将文件写入本地
                                         //PreferenceManager.getDefaultSharedPreferences利用包名来命名SharedPreferences文件
-                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                                        SharedPreferences.Editor editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
                                         editor.putString("phone", et_register_phone.getText().toString());
                                         editor.putString("password", et_register_password.getText().toString());
                                         editor.apply();

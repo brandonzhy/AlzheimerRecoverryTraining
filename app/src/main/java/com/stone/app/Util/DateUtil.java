@@ -8,10 +8,14 @@ import java.util.Date;
  */
 
 public class DateUtil {
+
+
+
     public static long getDate() {
-        SimpleDateFormat formatter   =   new   SimpleDateFormat   ("yyyyMMddHHmmss");
+        SimpleDateFormat formatter   =  new SimpleDateFormat   ("yyyyMMddHHmmss");
         Date curDate =  new Date(System.currentTimeMillis());
         String   str   =   formatter.format(curDate);
         return Long.parseLong(str);
+
     }
 }

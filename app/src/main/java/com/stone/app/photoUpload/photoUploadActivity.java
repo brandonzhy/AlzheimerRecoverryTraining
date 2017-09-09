@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,9 +23,12 @@ import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.DebugUtil;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.stone.app.R;
+import com.stone.app.Util.DateUtil;
+import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
+import com.stone.app.dataBase.RealmDB;
 import com.stone.app.photoUpload.adapter.GridImageAdapter;
 
 import java.util.ArrayList;
@@ -32,6 +36,9 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import static com.stone.app.dataBase.DataBaseError.ErrorType.MemberNotExist;
+import static com.stone.app.dataBase.DataBaseError.ErrorType.UnknownError_AddImage;
 
 
 public class photoUploadActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,7 +48,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView recyclerView;
     private GridImageAdapter adapter;
     private static int maxSelectNum = 1;
-    private EditText et_photoinfo_name, et_photoinfo_date_year, et_photoinfo_date_month,et_photoinfo_date_day,et_photoinfo_place;
+    private EditText et_photoinfo_name, et_photoinfo_date_year, et_photoinfo_date_month, et_photoinfo_date_day, et_photoinfo_place;
     private int x = 0, y = 0;
     private int aspect_ratio_x, aspect_ratio_y;
     private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
@@ -51,6 +58,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
     private ImageView left_back;
     private DataBaseManager dataBaseManager;
     private LinearLayout ly_date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,8 +130,10 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
         et_photoinfo_date_year = (EditText) findViewById(R.id.et_photoinfo_data_year);
         et_photoinfo_date_month = (EditText) findViewById(R.id.et_photoinfo_data_month);
         et_photoinfo_date_day = (EditText) findViewById(R.id.et_photoinfo_data_day);
+        ly_date = (LinearLayout) findViewById(R.id.ly_data);
         left_back.setOnClickListener(photoUploadActivity.this);
-        dataBaseManager = new DataBaseManager();
+//        dataBaseManager = new DataBaseManager();
+                dataBaseManager= RealmDB.getDataBaseManager();
         FullyGridLayoutManager manager = new FullyGridLayoutManager(photoUploadActivity.this, 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         adapter = new GridImageAdapter(photoUploadActivity.this, onAddPicClickListener);
@@ -219,35 +229,77 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                 //上传按钮点击后触发事件
                 Log.i("TAG", "上传 图标被选中");
                 Intent intent = getIntent();
-                String memberID = intent.getStringExtra("memberID");
+                //                String memberID = intent.getStringExtra("memberID");
+                String memberID = getDataUtil.getmemberID(photoUploadActivity.this);
+                Log.i("TAG", "photoupload的memberID" + memberID);
                 try {
                     //                    dataBaseManager.AddImage("memberID", et_photoinfo_name.getText().toString()
                     //                            , adapter.getImagePath(), date, "", "");
-                    String date=et_photoinfo_date_year.getText().toString().trim()+et_photoinfo_date_month.getText().toString().trim()+et_photoinfo_date_day.getText().toString().trim();
-                    dataBaseManager.AddImage("memberID", et_photoinfo_name.getText().toString()
-                            , et_photoinfo_place.getText().toString(), adapter.getImagePath(),
-                            Long.parseLong(date)*mypoe(10,4), "", "");
+                    long mydata = 0;
+                    String name = "";
+                    String plece = "";
+                    if ((!TextUtils.isEmpty(et_photoinfo_name.getText().toString()))) {
+                        name = et_photoinfo_name.getText().toString();
+
+                    }
+                    if ((!TextUtils.isEmpty(et_photoinfo_place.getText().toString()))) {
+                        plece = et_photoinfo_place.getText().toString();
+
+                    }
+                    if(et_photoinfo_date_month.getText().toString().trim()){
+                    }
+                    String date = et_photoinfo_date_year.getText().toString().trim() + et_photoinfo_date_month.getText().toString().trim() + et_photoinfo_date_day.getText().toString().trim();
+                    if ((!TextUtils.isEmpty(date))) {
+//                        mydata = Long.parseLong(date) * mypoe(10, 2);
+                        mydata = Long.parseLong(date) ;
+                        Log.i("TAG","现在的时间为" + DateUtil.getDate());
+                        Log.i("TAG","上传的时间为" +mydata );
+
+                    }
+                    dataBaseManager.AddImage(memberID, name
+                            ,plece , adapter.getImagePath(), mydata, "", "");
+                    //                    if(!TextUtils.isEmpty(et_photoinfo_name.getText().toString())){
+                    //                      if(!TextUtils.isEmpty(et_photoinfo_place.getText().toString())){
+                    //                          if((!TextUtils.isEmpty(date))){
+                    //                              dataBaseManager.AddImage(memberID, et_photoinfo_name.getText().toString()
+                    //                                      , et_photoinfo_place.getText().toString(), adapter.getImagePath(),
+                    //                                      //                             DateUtil.getDate(), "", "");
+                    //                                      mydata   , "", "");
+                    //
+                    //                          }else {
+                    //                              ToastUtil.showToast(photoUploadActivity.this,"请输入完整日期");
+                    //
+                    //                          }
+                    //                      }
+                    //                    }
+                    //                    dataBaseManager.AddImage("", et_photoinfo_name.getText().toString()
 
                 } catch (DataBaseSignal dataBaseSignal) {
                     dataBaseSignal.printStackTrace();
                     if (dataBaseSignal.getSignalType() == DataBaseSignal.SignalType.ImageAddedAlready) {
-                        Toast.makeText(photoUploadActivity.this, "照片已存在", Toast.LENGTH_SHORT).show();
-                    } else {
+                        //                        Toast.makeText(photoUploadActivity.this, "照片已存在", Toast.LENGTH_SHORT).show();
                         Toast.makeText(photoUploadActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } catch (DataBaseError dataBaseError) {
                     dataBaseError.printStackTrace();
+                    if (dataBaseError.getErrorType() == UnknownError_AddImage) {
+
+                        Toast.makeText(photoUploadActivity.this, "上传失败，重新上传", Toast.LENGTH_SHORT).show();
+                    } else if (dataBaseError.getErrorType() == MemberNotExist) {
+                        Toast.makeText(photoUploadActivity.this, "成员不存在啊", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
                 break;
         }
     }
 
     private long mypoe(int number, int i1) {
-        for(int i=0;i<i1;i++){
-            number=number*number;
+        for (int i = 0; i < i1; i++) {
+            number = number * number;
         }
-        return  number;
+        return number;
     }
 
 

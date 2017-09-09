@@ -31,32 +31,32 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="35dp"
-        android:minHeight="50.0dp"
-        android:paddingLeft="14.0dp"
-        android:paddingRight="12.0dp">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="55dp"-->
+        <!--android:layout_marginTop="35dp"-->
+        <!--android:minHeight="50.0dp"-->
+        <!--android:paddingLeft="14.0dp"-->
+        <!--android:paddingRight="12.0dp">-->
 
 
-        <EditText
-            android:id="@+id/et_info_familyname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:cursorVisible="true"
-            android:hint="请输入你的家庭名称"
-            android:inputType="text"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:textColorHint="@color/white"
-            android:textSize="25sp"
-            android:theme="@style/MyEditText"/>
+       <!---->
 
 
-    </RelativeLayout>
-
+    <!--</RelativeLayout>-->
+    <!--<EditText-->
+        <!--android:id="@+id/et_info_familyname"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:cursorVisible="true"-->
+        <!--android:hint="请输入你的家庭名称"-->
+        <!--android:inputType="text"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="10dp"-->
+        <!--android:textColorHint="@color/white"-->
+        <!--android:textSize="25sp"-->
+        <!--android:theme="@style/MyEditText"/>-->
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -112,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/tv_info_gender"
+            android:layout_alignTop="@+id/tv_info_gender"
             android:orientation="horizontal">
 
             <RadioButton

@@ -17,9 +17,15 @@ import android.widget.TextView;
 
 import com.stone.app.R;
 import com.stone.app.Util.ToastUtil;
+import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.mainPage.mainPage;
 
 import cn.smssdk.SMSSDK;
+
+import static com.stone.app.dataBase.DataBaseError.ErrorType.MemberNotExist;
+import static com.stone.app.dataBase.DataBaseSignal.SignalType.LoginSucceed;
 
 public class phone_loginActivity extends Activity implements View.OnClickListener {
     private TextView tv_phone_login_passwordlogin, tv_phone_login_code, tv_phone_login_passcode, phone_login_now;
@@ -28,8 +34,8 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
     private Button btn_phone_login_getcode, btn_phone_login;
     private String mycode, myphone;
     SharedPreferences.Editor editor;
-    private boolean passwordloginFlag = true,resultflag=false;
-    //    private DataBaseManager dataBaseManager ;
+    private boolean passwordloginFlag = true, resultflag = false;
+    private DataBaseManager dataBaseManager;
     private int img[] = {R.mipmap.ic_password_eye_on, R.mipmap.ic_password_eye_off};
     private int position = 0;
     private getcodeServices getcodeServices;
@@ -59,7 +65,7 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
         tv_phone_login_code.setOnClickListener(phone_loginActivity.this);
         img_phone_login_eye.setOnClickListener(phone_loginActivity.this);
         getcodeServices = new getcodeServices(phone_loginActivity.this);
-        //        dataBaseManager=new DataBaseManager();
+        dataBaseManager = new DataBaseManager();
 
     }
 
@@ -132,35 +138,36 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                             mycode = et_phone_login_code.getText().toString().trim();
                             SMSSDK.submitVerificationCode("86", myphone, mycode);
                             getcodeServices.setFlag(false);
-                            Handler handler =new Handler();
+                            Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    resultflag=getcodeServices.getCodeResult();
+                                    resultflag = getcodeServices.getCodeResult();
                                     if (resultflag) {
-//                                        验证码正确的话登录
-//                                        try {
-//                                            dataBaseManager.LoginCheck_Phone(et_phone_login_phone.getText().toString().trim(), "");
-//                                        } catch (DataBaseError dataBaseError) {
-//
-//                                        } catch (DataBaseSignal dataBaseSignal) {
-//                                            if (dataBaseSignal.getSignalType() == DataBaseSignal.LoginSucceed) {
-//                                                //登录成功
-//                                                ToastUtil.showToast(phone_loginActivity.this, "登录成功");
-//                                                转到主界面
-                                                //gotoMainpage();
-                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
-                                        editor.putString("phone", et_phone_login_phone.getText().toString());
-                                       startActivity(new Intent(phone_loginActivity.this,mainPage.class));
-                                                   //   finish();
-//                                            } else {
-//                                                ToastUtil.showToast(phone_loginActivity.this, "用户名不存在");
-//                                            }
-//                                        }
+                                        //         验证码正确的话登录
+                                        try {
+                                            dataBaseManager.LoginCheck_Phone(et_phone_login_phone.getText().toString().trim(), "");
+                                        } catch (DataBaseError dataBaseError) {
+
+                                        } catch (DataBaseSignal dataBaseSignal) {
+                                            if (dataBaseSignal.getSignalType() == LoginSucceed) {
+                                                //登录成功
+                                                ToastUtil.showToast(phone_loginActivity.this, "登录成功");
+                                                //    转到主界面
+                                                //   gotoMainpage();
+                                                editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                                                editor.putString("phone", et_phone_login_phone.getText().toString());
+                                                editor.apply();
+                                                startActivity(new Intent(phone_loginActivity.this, mainPage.class));
+                                                finish();
+                                            } else {
+                                                ToastUtil.showToast(phone_loginActivity.this, "用户名不存在");
+                                            }
+                                        }
 
                                     }
                                 }
-                            },200);
+                            }, 200);
                         } else {
                             ToastUtil.showToast(phone_loginActivity.this, "请输入完整验证码");
                             et_phone_login_code.requestFocus();
@@ -174,28 +181,34 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                     if (!TextUtils.isEmpty(et_phone_login_phone.getText().toString().trim())) {
                         if (et_phone_login_phone.getText().toString().trim().length() == 11) {
                             if (!TextUtils.isEmpty(et_phone_login_password.getText().toString().trim())) {
-                                //                            try {
-                                //                                DataBaseManager.LoginCheck_Phone(et_phone_login_phone.getText().toString().trim(), et_phone_login_password..getText().toString().trim());
-                                //                            } catch (DataBaseError dataBaseError) {
-                                //
-                                //                            } catch (DataBaseSignal dataBaseSignal) {
-                                //                                if (dataBaseSignal.getSignalType() == DataBaseSignal.LoginSucceed) {
-                                //                                    //登录成功
-                                //                                    ToastUtil.showToast(phone_loginActivity.this, "登录成功");
-                                                                        //gotoMainpage();
-                                                                        //   finish();
-                                //                                } else {
-                                //                                    ToastUtil.showToast(phone_loginActivity.this, "用户名密码错误");
-                                //
-                                //                                }
-                                //                            }
-                                //                            ToastUtil.showToast(phone_loginActivity.this, "密码登录成功");
-//                                startActivity(new Intent(phone_loginActivity.this, mainPage.class));
-                                editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
-                                editor.putString("phone", et_phone_login_phone.getText().toString());
-                                editor.putString("password", et_phone_login_password.getText().toString());
-                                editor.apply();
-                                startActivity(new Intent(phone_loginActivity.this,mainPage.class));
+                                try {
+                                    dataBaseManager.LoginCheck_Phone(et_phone_login_phone.getText().toString().trim(), et_phone_login_password.getText().toString().trim());
+                                } catch (DataBaseError dataBaseError) {
+                                   if(dataBaseError.getErrorType()== MemberNotExist){
+                                       ToastUtil.showToast(phone_loginActivity.this, "用户名不存在");
+                                   }
+                                } catch (DataBaseSignal dataBaseSignal) {
+                                    if (dataBaseSignal.getSignalType() == LoginSucceed) {
+                                        //登录成功
+//                                        ToastUtil.showToast(phone_loginActivity.this, "登录成功");
+//                                        gotoMainpage();
+                                        ToastUtil.showToast(phone_loginActivity.this, "密码登录成功");
+                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                                        editor.putString("phone", et_phone_login_phone.getText().toString());
+//                                        editor.putString("password", et_phone_login_password.getText().toString());
+                                        editor.apply();
+                                        //                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
+                                        //                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                                        //                                        editor.putString("phone", et_phone_login_phone.getText().toString());
+                                        //                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
+                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
+                                        finish();
+                                    } else {
+                                        ToastUtil.showToast(phone_loginActivity.this, "用户名密码错误");
+
+                                    }
+                                }
+
 
 
                             } else {

@@ -49,7 +49,7 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.stone.app.addMember.addFamilyMember"
+    android:divider="@drawable/shape0"
+    android:showDividers="beginning|middle"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="请选择家庭中一个成员的姓名"
+            android:textSize="22sp"/>
+
+        <Spinner
+            android:id="@+id/sp_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+          >
+
+        </Spinner>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="请选择你们的关系"
+            android:textSize="22sp"/>
+
+        <Spinner
+            android:id="@+id/sp_ID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Spinner>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_addmember"
+            android:text="确定"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/btn_nor_down"
+            android:gravity="center"
+
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            />
+    </RelativeLayout>
+</LinearLayout>

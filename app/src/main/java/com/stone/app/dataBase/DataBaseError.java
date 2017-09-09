@@ -3,6 +3,9 @@ package com.stone.app.dataBase;
 public class DataBaseError extends Exception {
     private final ErrorType type;
     public enum ErrorType {
+        RealmDataBaseHibernate,
+        RealmDataBaseParalytic,
+        RealmDataBaseHyperpyrexia,
         RealmResultAutoUpdateFail,
         RealmListExceptionallyUpdated,
 
@@ -35,6 +38,7 @@ public class DataBaseError extends Exception {
         WrongLoginPassWord,
         MemberHasFamilyAlready,
         RequiredImageNotEnough,
+        RequiredResultsReturnNULL,
         SettingStrangerAsFamilyRoot,
 
         RelationError_TryingToCombineTwoLinkedTree,
@@ -61,10 +65,15 @@ public class DataBaseError extends Exception {
         UnknownError_AddGameRecord,
         UnknownError_AddThirdPartyAccount,
 
+        UnknownError_Stadiometry,
+        UnknownError_Transcription,
+        UnknownError_MarrowPuncture,
+        UnknownError_GetLocalFocusedMap,
         UnknownError_AutoTransplanting,
-        UnknownError_MakeParentUnique,
         UnknownError_FindSiblingListHead,
         UnknownError_FindSiblingListTail,
+        UnknownError_ActivateDataBaseManager,
+        UnknownError_HibernateDataBaseManager,
 
         UnknownError_PhoneData,
         UnknownError_MemberData,
@@ -72,7 +81,8 @@ public class DataBaseError extends Exception {
         UnknownError_PictureData,
         UnknownError_GameRecordData,
         UnknownError_MemberRelationData,
-        UnknownError_ThirdPartyAccountData
+        UnknownError_ThirdPartyAccountData,
+        UnknownError_DataBaseManager
     }
 
     DataBaseError(ErrorType type){

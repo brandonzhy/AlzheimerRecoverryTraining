@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.app.R;
+import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.PictureData;
+import com.stone.app.dataBase.RealmDB;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
 import com.stone.app.mainPage.MyInformation;
@@ -25,21 +27,21 @@ import java.util.List;
 public class photoBroswerActivity extends FragmentActivity implements View.OnClickListener {
 
     private CardSlidePanel.CardSwitchListener cardSwitchListener;
-    //    private String imagePaths[];
-    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
-            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
-            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
-            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
-            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
-            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
-            "file:///android_asset/wall12.jpg"}; // 12个图片资源
-    //    private String names[];
-    //    private String imageplaces[];
-    private String imagetimes[];
-    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
-            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
+        private String imagePaths[]={};
+//    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
+//            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
+//            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
+//            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
+//            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
+//            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
+//            "file:///android_asset/wall12.jpg"}; // 12个图片资源
+        private String names[]={};
+        private String imageplaces[]={};
+    private String imagetimes[]={};
+//    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
+//            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
     private DataBaseManager dataBaseManager;
-    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
+//    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
     private int circulatetimes;
     private ImageView img_back;
     private int motionType;
@@ -61,9 +63,20 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
     //    数据库初始化
     private void initdData() {
         Intent intent = getIntent();
-
-        dataBaseManager = new DataBaseManager();
-        pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
+        dataBaseManager= RealmDB.getDataBaseManager();
+//        dataBaseManager = new DataBaseManager();
+        try {
+            String memberID= getDataUtil.getmemberID(photoBroswerActivity.this);
+            pictlist = dataBaseManager.getPictureList("", "", memberID, "", "",0,0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //        pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
+        if(pictlist==null){
+//            ToastUtil.showToast(photoBroswerActivity.this,"图片列表为空");
+            Log.i("TAG","图片列表为空"  );
+            finish();
+        }
         int i = 0;
         for (PictureData data : pictlist) {
 

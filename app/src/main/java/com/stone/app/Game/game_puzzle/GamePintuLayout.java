@@ -17,7 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.stone.app.R;
+import com.stone.app.Util.getDataUtil;
+import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.PictureData;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,7 +31,7 @@ import java.util.List;
  * Created by Administrator on 2017/8/25 0025.
  */
 
-public class GamePintuLayout extends RelativeLayout implements View.OnClickListener{
+public class GamePintuLayout extends RelativeLayout implements View.OnClickListener {
     private int totaltime;
     private int mColumn = 2;//拼图行数
     private int mPadding;//与窗口边沿的间距
@@ -37,23 +40,31 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private int mItemWidth;//实际拼图宽度
     private Bitmap mBitmap;//图片
     private List<image> mItemBitmaps;//图片切割后的存放
-    private boolean once=false;//标记
+    private boolean once = false;//标记
     private int mWidth;//屏幕宽度
     private ImageView mFirst;//交互图片1
     private ImageView mSecond;//交互图片2
 
 
     private boolean isAniming;//动画的条件限制
-    private boolean isTimeEnabled=true;
-    private boolean isGameSuccess=false;
-    private boolean isGameOver=false;
+    private boolean isTimeEnabled = true;
+    private boolean isGameSuccess = false;
+    private boolean isGameOver = false;
     private RelativeLayout mAnimLayout;//拼图界面
     private static final int TIME_CHANGED = 2;
     private static final int NEXT_LEVEL = 4;
     private int level = 1;
+    private String imagepath;
+
+    public Context getMycontext() {
+        return mycontext;
+    }
+
+    private Context mycontext;
 
     public GamePintuLayout(Context context) {
         this(context, null);
+        mycontext = context;
     }
 
 
@@ -70,11 +81,25 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         mPadding = min(getPaddingLeft(), getPaddingTop(), getPaddingRight(),
                 getPaddingBottom());
     }
+
     //碎片随机排列,调用drawable中的 image2
     private void initBitmap() {
         if (mBitmap == null) {
-            mBitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.image);
+            //            mBitmap = BitmapFactory.decodeResource(getResources(),
+            //                    R.drawable.image);
+            //获取图片
+            DataBaseManager dataBaseManager = new DataBaseManager();
+            List<PictureData> listdata = null;
+            try {
+                listdata = dataBaseManager.getRandomPicturesFromMember(getDataUtil.getmemberID(getMycontext()), "", "", 0, 0, 0);
+                imagepath = listdata.get(0).getImagePath();
+                mBitmap = BitmapFactory.decodeFile(imagepath);
+            } catch (DataBaseError dataBaseError) {
+                Log.i("TAG", "错误类型为" + dataBaseError.getMessage());
+                dataBaseError.printStackTrace();
+            }
+
+
         }
         mItemBitmaps = ImageSplitterUtil.split(mBitmap, mColumn);
         Collections.sort(mItemBitmaps, new Comparator<image>() {
@@ -115,6 +140,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
         }
     }
+
     //出始界面，拼图的排列，计时的开启
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -143,7 +169,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     }
 
     @Override
-    public void onClick(final View  v) {
+    public void onClick(final View v) {
 
         if (isAniming)
             return;
@@ -157,8 +183,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
             mFirst.setColorFilter(Color.parseColor("#55FF0000"));
 
 
-        }
-        else {
+        } else {
             mSecond = (ImageView) v;
 
             new Thread(new Runnable() {
@@ -169,8 +194,6 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
                         @Override
                         public void run() {
                             exchangeView();
-
-
 
 
                         }
@@ -199,10 +222,11 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         return Integer.parseInt(split[0]);
 
     }
-   //交互图片动画
+
+    //交互图片动画
     private void exchangeView() {
         mFirst.setColorFilter(null);
-       AnimLayout();
+        AnimLayout();
 
         ImageView first = new ImageView(getContext());
         first.setImageBitmap(mItemBitmaps.get(getImageIndexByTag((String) mFirst.
@@ -247,7 +271,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animation animation) {
                 mFirst.setColorFilter(null);
-              AnimLayout();
+                AnimLayout();
                 String firstTag = (String) mFirst.getTag();
                 String secondTag = (String) mSecond.getTag();
                 String[] firstParams = firstTag.split("_");
@@ -276,7 +300,8 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
             }
         });
     }
-//拼图成功判断
+
+    //拼图成功判断
     private void checkSuccess() {
         boolean isSuccess = true;
         for (int i = 0; i < mGamePintuItems.length; i++) {
@@ -299,7 +324,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
                         Toast.LENGTH_LONG).show();
 
             }
-            mHandler.sendEmptyMessage(NEXT_LEVEL );
+            mHandler.sendEmptyMessage(NEXT_LEVEL);
         }
 
     }
@@ -309,17 +334,18 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         String[] split = tag.split("_");
         return Integer.parseInt(split[1]);
     }
-   //下一关卡
+
+    //下一关卡
     public void nextLevel() {
         this.removeAllViews();
         mAnimLayout = null;
         mColumn++;
-        isGameSuccess=false;
+        isGameSuccess = false;
         checkTimeEnable();
 
         initBitmap();
         initItem();
-        Log.i("tag","next leval of layout is called");
+        Log.i("tag", "next leval of layout is called");
     }
 
     //成功后对下一关的设置
@@ -327,21 +353,24 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         this.removeAllViews();
         mAnimLayout = null;
         mColumn++;
-        isGameSuccess=false;
+        isGameSuccess = false;
         checkTimeEnable();
 
         initBitmap();
         initItem();
 
-        Log.i("tag","next leval of layout is called");
+        Log.i("tag", "next leval of layout is called");
         return level;
     }
 
-    private int mTime= 30;//初始时间=30+30，每一关加30
-    public int gametimechange(){
+    private int mTime = 30;//初始时间=30+30，每一关加30
+
+    public int gametimechange() {
         return mTime;
     }
+
     public GamePintuListener mListener;
+
     public void setOnGamemListener(GamePintuListener MListener) {
 
 
@@ -349,22 +378,22 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     }
 
 
-
-//开启时间记录
-public  void backgame(){
-    isGameOver=true;
-}
-    public void setTimeEnabled(){
-        isTimeEnabled=true;
+    //开启时间记录
+    public void backgame() {
+        isGameOver = true;
     }
 
-    public void checkTimeEnable(){
-        if(isTimeEnabled){
+    public void setTimeEnabled() {
+        isTimeEnabled = true;
+    }
+
+    public void checkTimeEnable() {
+        if (isTimeEnabled) {
             counttimeLv();
-            Message msg=new Message();
-            msg.what=TIME_CHANGED;
+            Message msg = new Message();
+            msg.what = TIME_CHANGED;
             mHandler.sendMessage(msg);
-//            mHandler.sendEmptyMessage(TIME_CHANGED);
+            //            mHandler.sendEmptyMessage(TIME_CHANGED);
         }
 
     }
@@ -373,9 +402,9 @@ public  void backgame(){
         return totaltime;
     }
 
-    private void counttimeLv(){
-     mTime=(int)Math.pow(2,level)*30;
-        totaltime=mTime;
+    private void counttimeLv() {
+        mTime = (int) Math.pow(2, level) * 30;
+        totaltime = mTime;
     }
 
     //接口的调用
@@ -383,50 +412,49 @@ public  void backgame(){
 
     public interface GamePintuListener {
         //关卡
-        void   nextLevel() ;
+        void nextLevel();
 
         //时间
-         void timechanged();
+        void timechanged();
 
         void gameover();
 
 
-
     }
 
-//子线程
+    //子线程
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case TIME_CHANGED:
-                    if(isGameOver||isGameSuccess)
+                    if (isGameOver || isGameSuccess)
                         return;
-                   if(mListener!=null)
-                    //if(mTime%30==0)
-                     mListener.timechanged();
+                    if (mListener != null)
+                        //if(mTime%30==0)
+                        mListener.timechanged();
 
 
-                    if(mTime==0){
-                        isGameOver=true;
+                    if (mTime == 0) {
+                        isGameOver = true;
                         mListener.gameover();
                         return;
-                   }
+                    }
 
-                    Log.i("tag","time--");
+                    Log.i("tag", "time--");
                     mTime--;
 
-                    mHandler.sendEmptyMessageDelayed(TIME_CHANGED,1000);
+                    mHandler.sendEmptyMessageDelayed(TIME_CHANGED, 1000);
 
                     break;
                 case NEXT_LEVEL:
 
                     level = level + 1;
 
-                    if(mListener!=null){
+                    if (mListener != null) {
 
                         mListener.nextLevel();
-                    }else{
+                    } else {
                         nextLevel();
                     }
                     break;

@@ -7,8 +7,37 @@
     android:layout_height="match_parent"
     android:divider="@drawable/shape0"
     android:showDividers="beginning"
-    tools:context="com.stone.app.Game.GameRecord.JudgeDayRecord">
-<ListView
+    tools:context="com.stone.app.Game.GameRecord.DayRecord">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bar_grey">
+
+        <ImageView
+            android:id="@+id/tv_left_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            android:padding="15dp"
+            android:src="@drawable/picture_back"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxEms="11"
+            android:text="游戏记录"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <ListView
     android:id="@+id/lv_dayrecord"
     android:layout_width="match_parent"
     android:layout_height="match_parent">

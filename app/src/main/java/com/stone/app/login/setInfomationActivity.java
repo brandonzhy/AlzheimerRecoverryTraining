@@ -2,6 +2,7 @@ package com.stone.app.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.stone.app.R;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.MemberData;
+import com.stone.app.dataBase.RealmDB;
 import com.stone.app.mainPage.mainPage;
 
 import static com.stone.app.Util.staticConstUtil.FEMALE;
@@ -37,7 +39,6 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
     }
 
     private void init() {
-        et_info_familyname = findViewById(R.id.et_info_familyname);
         //        et_info_gender=findViewById(R.id.et_info_gender);
         et_info_nickname = findViewById(R.id.et_info_nickname);
         et_info_name = findViewById(R.id.et_info_name);
@@ -45,7 +46,8 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
         rb_gender = findViewById(R.id.rb_gender);
         rb_gender.setOnCheckedChangeListener(setInfomationActivity.this);
         bt_info_submit.setOnClickListener(setInfomationActivity.this);
-        dataBaseManager = new DataBaseManager();    //数据库模块
+//        dataBaseManager = new DataBaseManager();    //数据库模块
+        dataBaseManager= RealmDB.getDataBaseManager();
     }
 
     @Override
@@ -54,30 +56,41 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
         // 数据库模块
 
         try {
-            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(), intent.getStringExtra("password"),
-                    et_info_familyname.getText().toString(), et_info_name.getText().toString(),
-                    gendrType, intent.getStringExtra("phone"));
+//            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(), intent.getStringExtra("password"),
+//                    "", et_info_name.getText().toString(),
+//                    gendrType, intent.getStringExtra("phone"));
+            long phone = 111111110 + dataBaseManager.getPhoneList( "","").size();
+
+            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(),"123456" ,
+                    "", et_info_name.getText().toString(),
+                    gendrType, "11"+String.valueOf(phone));
+            Intent intentmainPage = new Intent(setInfomationActivity.this, mainPage.class);
+            if (memberData != null) {
+                String memberID = memberData.getID();
+                String memberName = memberData.getName();
+                String memberNickName = memberData.getNickName();
+                int memberGender = memberData.getGender();
+
+                intentmainPage.putExtra("memberID", memberID);
+                intentmainPage.putExtra("memberName", memberName);
+                intentmainPage.putExtra("memberNickName", memberNickName);
+                intentmainPage.putExtra("memberGender", memberGender);
+                Log.i("TAG","memberID= " +memberID );
+                //PreferenceManager.getDefaultSharedPreferences利用包名来命名SharedPreferences文件
+                SharedPreferences.Editor editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                editor.putBoolean("isFirstLogin",true);
+                editor.putString("memberID",memberID);
+                editor.apply();
+                Log.i("TAG","登陆成功啦啦啦" );
+            }
+            startActivity(intentmainPage);
+            finish();
+
+
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
+            Log.i("TAG","注册失败，错误类型为: " +dataBaseError.getErrorType() );
         }
-        Intent intentmainPage = new Intent(setInfomationActivity.this, mainPage.class);
-        if (memberData != null) {
-            String memberID = memberData.getID();
-            String memberName = memberData.getName();
-            String memberNickName = memberData.getNickName();
-            int memberGender = memberData.getGender();
-            String memberFamilyID = memberData.getFamilyID();
-
-            intentmainPage.putExtra("memberID", memberID);
-            intentmainPage.putExtra("memberName", memberName);
-            intentmainPage.putExtra("memberNickName", memberNickName);
-            intentmainPage.putExtra("memberGender", memberGender);
-            intentmainPage.putExtra("memberFamilyID", memberGender);
-
-        }
-        startActivity(intentmainPage);
-        finish();
-
 
         //转到主界面
         //gotomainpage

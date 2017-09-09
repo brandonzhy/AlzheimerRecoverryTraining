@@ -11,7 +11,6 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 
 import com.stone.app.R;
-import com.stone.app.mainPage.mainPage;
 
 
 public class bootAnimation extends Activity {
@@ -23,6 +22,14 @@ public class bootAnimation extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_bootanimation);
+        Log.i("TAG","数据库初始化" );
+//        Realm.init(this);
+//        RealmConfiguration config = new RealmConfiguration.Builder().build();
+//        Realm.setDefaultConfiguration(config);
+//        RealmDB realmDB=new RealmDB();
+//        realmDB.getDataBaseManager();
+        //获得DataBaseManager();
+//        DataBaseManager dataBaseManager = new DataBaseManager();
         welcomeImg = findViewById(R.id.welcome_img);
         pref = getSharedPreferences("autologin", MODE_PRIVATE);
         AlphaAnimation anima = new AlphaAnimation(0.3f, 1.0f);
@@ -55,18 +62,19 @@ public class bootAnimation extends Activity {
 
     private void skip() {
        // 检验本地是否有登录信息，有的话自动登陆
-        if (pref.getString("phone", "").isEmpty()) {
+//        if (pref.getString("phone", "").isEmpty()) {
 //        if (pref.getString("phone", "").isEmpty() && pref.getString("password", "").isEmpty()) {
             //跳转到 LoginActivity，最后换成gotoLoginActivity
-        startActivity(new Intent(bootAnimation.this, loginActivity.class));
-                 //   gotoLoginActivity();
-            Log.i("TAG", "没有自动登陆");
-        } else {
-            //自动转到主界面
-            //gotoMainpage();
-            startActivity(new Intent(bootAnimation.this,mainPage.class));
-            Log.i("TAG", "自动登陆");
-        }
+
+        startActivity(new Intent(bootAnimation.this, setInfomationActivity.class));
+//                 //   gotoLoginActivity();
+//            Log.i("TAG", "没有自动登陆");
+//        } else {
+//            //自动转到主界面
+//            //gotoMainpage();
+//            startActivity(new Intent(bootAnimation.this,mainPage.class));
+//            Log.i("TAG", "自动登陆");
+//        }
         finish();
     }
 

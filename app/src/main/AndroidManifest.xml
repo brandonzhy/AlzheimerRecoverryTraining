@@ -16,11 +16,15 @@
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+    <!-- <application> -->
+    <!-- android:name="RealmDB" -->
+    <!-- </application> -->
     <!-- android:icon="@mipmap/ic_launcher" -->
     <!-- android:allowBackup="true" -->
     <!-- android:label="@string/app_name"> -->
     <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
     <application
+        android:name=".dataBase.RealmDB"
         android:hardwareAccelerated="true"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -80,13 +84,21 @@
         </activity>
         <activity android:name=".mainPage.MyInformation">
         </activity>
-        <activity android:name=".Game.GameRecord.JudgeDayRecord">
+        <activity android:name=".Game.GameRecord.DayRecord">
         </activity>
         <activity android:name=".Game.GameRecord.PuzzleMonthRecord">
         </activity>
         <activity android:name=".Game.GameRecord.JudgeMonthRecord">
         </activity>
         <activity android:name=".Game.GameRecord.PuzzleDayRecord">
+        </activity>
+        <activity android:name=".addMember.searchMemberActivity">
+        </activity>
+        <activity android:name=".addMember.addFamilyMember">
+        </activity>
+        <activity android:name=".mainPage1">
+        </activity>
+        <activity android:name=".mainPage.familyInformation">
         </activity>
     </application>
 

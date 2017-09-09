@@ -15,6 +15,9 @@ import com.stone.app.dataBase.GameRecordData;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.stone.app.Util.staticConstUtil.GAME_JUDGAE;
+import static com.stone.app.Util.staticConstUtil.GAME_PUZZLE;
+
 
 public class GameRecord extends Activity {
 //    private DataBaseManager dataBaseManager;
@@ -51,14 +54,16 @@ public class GameRecord extends Activity {
                 switch (i) {
                     case 0:
                         Log.i("TAG", "判断每日游戏记录被点击了");
-                        Intent intent_judje_day=new Intent(GameRecord.this,JudgeDayRecord.class);
+                        Intent intent_judje_day=new Intent(GameRecord.this,DayRecord.class);
                         intent_judje_day.putExtra("memberID",memberID);
+                        intent_judje_day.putExtra("gameType",GAME_JUDGAE);
                         startActivity(intent_judje_day);
                         break;
                     case 1:
                         Log.i("TAG", "判断每月游戏记录被点击了");
-                        Intent intent_judje_month=new Intent(GameRecord.this,JudgeMonthRecord.class);
+                        Intent intent_judje_month=new Intent(GameRecord.this,DayRecord.class);
                         intent_judje_month.putExtra("memberID",memberID);
+                        intent_judje_month.putExtra("gameType",GAME_JUDGAE);
                         startActivity(intent_judje_month);
                         break;
                 }
@@ -73,12 +78,14 @@ public class GameRecord extends Activity {
                         Log.i("TAG", "拼图每日游戏记录被点击了");
                         Intent intent_puzzle_day=new Intent(GameRecord.this, PuzzleDayRecord.class);
                         intent_puzzle_day.putExtra("memberID",memberID);
+                        intent_puzzle_day.putExtra("gameType",GAME_PUZZLE);
                         startActivity(intent_puzzle_day);
                         break;
                     case 1:
                         Log.i("TAG", "拼图每月游戏记录被点击了");
                         Intent intent_puzzle_month=new Intent(GameRecord.this,PuzzleMonthRecord.class);
                         intent_puzzle_month.putExtra("memberID",memberID);
+                        intent_puzzle_month.putExtra("gameType",GAME_PUZZLE);
                         startActivity(intent_puzzle_month);
                         break;
                 }
