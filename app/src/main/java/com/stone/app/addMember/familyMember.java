@@ -7,6 +7,15 @@ package com.stone.app.addMember;
 public class familyMember {
     private String Name;
     private String ID;
+    private String imagePath;
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
 
     public void setName(String name) {
         Name = name;

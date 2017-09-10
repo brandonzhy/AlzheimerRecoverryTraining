@@ -38,7 +38,7 @@ public class mainPage1 extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.addfamily:
-                Intent intentCreate=new Intent(mainPage1.this,searchMemberActivity.class)
+                Intent intentCreate=new Intent(mainPage1.this,searchMemberActivity.class);
                 intentCreate.putExtra("memberID",memberID);
                 startActivity(intentCreate);
             break;

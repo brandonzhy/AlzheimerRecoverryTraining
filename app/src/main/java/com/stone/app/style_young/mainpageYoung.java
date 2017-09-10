@@ -1,6 +1,7 @@
 package com.stone.app.style_young;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,9 +11,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
+import com.stone.app.Game.GameRecord.GameRecord;
+import com.stone.app.Game.game_judge.game_judgeActivity;
+import com.stone.app.Game.game_puzzle.gamestart;
 import com.stone.app.R;
+import com.stone.app.Util.ToastUtil;
+import com.stone.app.addMember.searchMemberActivity;
+import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.RealmDB;
+import com.stone.app.login.loginActivity;
+import com.stone.app.mainPage.MyInformation;
+import com.stone.app.photoBroswer.photoBroswerActivity;
 import com.stone.app.photoUpload.photoUploadActivity;
 import com.zzt.inbox.interfaces.OnDragStateChangeListener;
 import com.zzt.inbox.widget.InboxBackgroundScrollView;
@@ -20,6 +31,8 @@ import com.zzt.inbox.widget.InboxLayoutBase;
 import com.zzt.inbox.widget.InboxLayoutListView;
 
 import java.util.ArrayList;
+
+import static com.stone.app.dataBase.DataBaseSignal.SignalType.MemberHibernationSucceed;
 
 
 public class mainpageYoung extends ActionBarActivity{
@@ -36,7 +49,7 @@ public class mainpageYoung extends ActionBarActivity{
     private ArrayList<String> list_image, list_game, list_member, list_family, list_setting;
     private String memberID;
     private DataBaseManager dataBaseManager;
-
+    private  SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +58,7 @@ public class mainpageYoung extends ActionBarActivity{
         initData();
         Intent intent=getIntent();
         memberID=intent.getStringExtra("memberID");
+        Log.i("TAG","mainpageYoung获得的memberID为 ：" + memberID);
         final InboxBackgroundScrollView inboxBackgroundScrollView = (InboxBackgroundScrollView) findViewById(R.id.scroll);
         inboxlayout_image = (InboxLayoutListView) findViewById(R.id.inboxlayout_image);
         inboxlayout_game = (InboxLayoutListView) findViewById(R.id.inboxlayout_game);
@@ -184,10 +198,13 @@ public class mainpageYoung extends ActionBarActivity{
                                 intentphotoUP.putExtra("memberID", memberID);
                                 startActivity(intentphotoUP);
                                 //
-                                Log.i("TAG","第0项被点击了"  );
+                                Log.i("TAG","第0项上传图片被点击了"  );
                                 break;
                             case 1:
-                                Log.i("TAG","第1项被点击了"  );
+                                Log.i("TAG","第1项浏览图片被点击了"  );
+                                Intent intentphotoBrowser = new Intent(mainpageYoung.this, photoBroswerActivity.class);
+                                intentphotoBrowser.putExtra("memberID",memberID);
+                                startActivity(intentphotoBrowser);
                                 break;
                         }
                     }
@@ -212,10 +229,22 @@ public class mainpageYoung extends ActionBarActivity{
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         switch(i){
                             case 0:
-                                Log.i("TAG","第0项被点击了"  );
+                                Log.i("TAG","第0项拼图游戏被点击了"  );
+                                Intent intent_puzzle=new Intent(mainpageYoung.this,gamestart.class);
+                                intent_puzzle.putExtra("memberID",memberID);
+                                startActivity(intent_puzzle);
                                 break;
                             case 1:
-                                Log.i("TAG","第1项被点击了"  );
+                                Log.i("TAG","第1项判断游戏被点击了"  );
+                                Intent intent_judge = new Intent(mainpageYoung.this, game_judgeActivity.class);
+                                intent_judge.putExtra("memberID",memberID);
+                                startActivity(intent_judge);
+                                break;
+                            case 2:
+                                Log.i("TAG","第2项游戏记录被点击了"  );
+                                Intent intent_record = new Intent(mainpageYoung.this, GameRecord.class);
+                                intent_record.putExtra("memberID",memberID);
+                                startActivity(intent_record);
                                 break;
                         }
                     }
@@ -235,7 +264,9 @@ public class mainpageYoung extends ActionBarActivity{
                 inboxlayout_family.setVisibility(View.GONE);
                 inboxlayout_seeting.setVisibility(View.GONE);
                 inboxlayout_member.setCloseDistance(50);
-
+                Intent intentMemberInfo = new Intent(mainpageYoung.this, MyInformation.class);
+                intentMemberInfo.putExtra("memberID", memberID);
+                startActivity(intentMemberInfo);
                 //                inboxlayout_game.openWithAnim(ly_game);
                 //                inboxLayoutListView.openWithAnim(member);
                 //                Intent intent =new Intent(ListViewActivity.this,baseinformation.class);
@@ -261,10 +292,27 @@ public class mainpageYoung extends ActionBarActivity{
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         switch(i){
                             case 0:
-                                Log.i("TAG","第0项被点击了"  );
+                                Log.i("TAG","第0项更改系统风格被点击了"  );
                                 break;
                             case 1:
-                                Log.i("TAG","第1项被点击了"  );
+                                Log.i("TAG","第1项账号与安全被点击了"  );
+                                break;
+                            case 2:
+                                Log.i("TAG","第2项退出登录被点击了"  );
+                                try {
+                                    dataBaseManager.MemberHibernate(memberID);
+                                } catch (DataBaseError dataBaseError) {
+                                    dataBaseError.printStackTrace();
+                                } catch (DataBaseSignal dataBaseSignal) {
+                                    dataBaseSignal.printStackTrace();
+                                    if(dataBaseSignal.getSignalType()==MemberHibernationSucceed){
+                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                                        editor.putString("memberID", "");
+                                        ToastUtil.showToast(mainpageYoung.this,"注销成功");
+                                        startActivity(new Intent(mainpageYoung.this,loginActivity.class));
+                                        finish();
+                                    }
+                                }
                                 break;
                         }
                     }
@@ -286,11 +334,18 @@ public class mainpageYoung extends ActionBarActivity{
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         switch(i){
                             case 0:
-
-                                Log.i("TAG","第0项被点击了"  );
+                                Log.i("TAG","第0项家庭信息被点击了"  );
                                 break;
                             case 1:
-                                Log.i("TAG","第1项被点击了"  );
+                                Log.i("TAG","第1项创建家庭被点击了");
+                                break;
+                            case 2:
+                                Log.i("TAG","第2项加入家庭被点击了"  );
+                                Intent intent_addfamily = new Intent(mainpageYoung.this, searchMemberActivity.class);
+                                intent_addfamily.putExtra("memberID",memberID);
+                                startActivity(intent_addfamily);
+
+
                                 break;
                         }
                     }

@@ -20,6 +20,7 @@ public class addFamilyMember extends Activity {
         setContentView(R.layout.activity_add_family_member);
         Intent intent=getIntent();
         String familyID=intent.getStringExtra("familyID");
+        String memberID=intent.getStringExtra("memberID");
         //获得姓名和ID
 
         sp_name=findViewById(R.id.sp_name);

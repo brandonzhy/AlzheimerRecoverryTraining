@@ -15,6 +15,7 @@ import com.stone.app.R;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.FamilyData;
+import com.stone.app.dataBase.RealmDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,16 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
     List<FamilyData>familylist=null;
     private SearchView searchView;
     private ArrayList<String> list = new ArrayList<String>();
+    private String memberID;
+    private DataBaseManager dataBaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
+        Intent intent=getIntent();
+        memberID=intent.getStringExtra("memberID");
+
         initData();
         initView();
 
@@ -42,9 +48,10 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(searchMemberActivity.this, addFamilyMember.class);
-                intent.putExtra("familyID", ((TextView) view).getText());
-                startActivity(intent);
+                Intent intentadd = new Intent(searchMemberActivity.this, addFamilyMember.class);
+                intentadd.putExtra("familyID", ((TextView) view).getText());
+                intentadd.putExtra("memberID",memberID);
+                startActivity(intentadd);
                 Log.i("TAG", "item的项值为" + ((TextView) view).getText());
             }
         });
@@ -52,7 +59,8 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
     }
 
     private void initData() {
-        DataBaseManager dataBaseManager = new DataBaseManager();
+//        DataBaseManager dataBaseManager = new DataBaseManager();
+        dataBaseManager= RealmDB.getDataBaseManager();
         try {
            familylist= dataBaseManager.getFamilyList("", "", "");
         } catch (DataBaseError dataBaseError) {

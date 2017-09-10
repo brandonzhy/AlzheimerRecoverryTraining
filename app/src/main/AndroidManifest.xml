@@ -111,6 +111,8 @@
         </activity>
         <activity android:name=".style_young.mainpageYoung">
         </activity>
+        <activity android:name=".addMember.familyInformation">
+        </activity>
     </application>
 
 </manifest>
