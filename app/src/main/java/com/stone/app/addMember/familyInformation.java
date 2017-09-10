@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.stone.app.R;
@@ -36,7 +39,14 @@ public class familyInformation extends Activity {
         dataBaseManager = RealmDB.getDataBaseManager();
         lv_familyinfo = findViewById(R.id.lv_familyinfo);
         lv_familymember_info = findViewById(R.id.lv_familymember_info);
-        Intent intent = getIntent();
+        ImageView imageView=findViewById(R.id.iv_familyinfo_leftback);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        final Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         try {
             List<MemberData> list = dataBaseManager.getMemberList(memberID, "", "", "");
@@ -64,6 +74,19 @@ public class familyInformation extends Activity {
                     flist.add(familyItem);
                     familyAdapter familyAdapter = new familyAdapter(familyInformation.this, R.layout.family_item, flist);
                     lv_familyinfo.setAdapter(familyAdapter);
+                    lv_familyinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            switch(i){
+                                case 0:
+                                    Intent intent_update=new Intent(familyInformation.this,updateFamily.class);
+                                    intent_update.putExtra("familyID",familyID);
+                                    startActivity(intent_update);
+
+                                break;
+                            }
+                        }
+                    });
                 } else {
                     Log.i("TAG", "familyDataList为空");
                 }
@@ -87,7 +110,7 @@ public class familyInformation extends Activity {
                   //  familyMemberItem.setImagePath();
                     fmemberlist.add(familyMemberItem);
                 }
-                familyMemberAdapter familyMemberAdapter = new familyMemberAdapter(familyInformation.this, R.layout.activity_add_family_member, fmemberlist);
+                familyMemberAdapter familyMemberAdapter = new familyMemberAdapter(familyInformation.this, R.layout.family_member_item, fmemberlist);
                 lv_familymember_info.setAdapter(familyMemberAdapter);
             } else {
                 Log.i("TAG", " familymemberList为空");

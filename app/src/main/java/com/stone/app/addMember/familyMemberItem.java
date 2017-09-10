@@ -5,9 +5,9 @@ package com.stone.app.addMember;
  */
 
 public class familyMemberItem {
-    private  String memberName;
-    private  String memberID;
-    private  String imagePath;
+    private  String memberName="";
+    private  String memberID="";
+    private  String imagePath="";
 
     public String getMemberName() {
         return memberName;

@@ -7,10 +7,11 @@
               android:orientation="vertical">
     <!--android:background="#cd4827"-->
     <!--ndroid:background="@color/white"-->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/orange"
+        android:background="@color/bar_grey"
         >
 
         <TextView

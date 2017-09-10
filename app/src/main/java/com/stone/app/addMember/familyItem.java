@@ -5,11 +5,11 @@ package com.stone.app.addMember;
  */
 
 public class familyItem {
-    private  String familyName;
-    private  String familyID;
-    private  String familyCreaterName;
-    private  String familyCreaterID;
-    private  String imagePath;
+    private  String familyName="";
+    private  String familyID="";
+    private  String familyCreaterName="";
+    private  String familyCreaterID="";
+    private  String imagePath="";
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;

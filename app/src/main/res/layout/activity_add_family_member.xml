@@ -5,10 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stone.app.addMember.addFamilyMember"
     android:divider="@drawable/shape0"
-    android:showDividers="beginning|middle"
+    android:background="@color/bggray"
+    android:showDividers="end|middle"
+
     android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bar_grey">
+        <ImageView
+            android:id="@+id/iv_addmember_leftback"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            android:padding="15dp"
+            android:src="@drawable/picture_back"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

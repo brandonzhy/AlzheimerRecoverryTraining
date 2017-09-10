@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.stone.app.R;
@@ -31,6 +32,13 @@ public class GameRecord extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_record);
+        ImageView imageView=findViewById(R.id.iv_gamerecord_leftback);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         final Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         list_puzzle = new ArrayList<String>();

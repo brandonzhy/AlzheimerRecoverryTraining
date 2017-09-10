@@ -170,7 +170,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         tv_question = findViewById(R.id.tv_question);
         questionLocation = 0;
         correctnum = 0;
-
+        img_back.setOnClickListener(game_judgeActivity.this);
 
     }
 

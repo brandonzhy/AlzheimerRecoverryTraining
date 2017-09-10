@@ -79,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:textSize="20dp"
+        android:theme="@style/MyEditText"
         android:hint="请输入照片中相关人物姓名（不包括本人）"
         android:visibility="gone"/>
 
@@ -92,6 +93,7 @@
         android:layout_marginTop="30dp"
         android:hint="请输入拍摄照片的地点"
         android:textSize="20dp"
+        android:theme="@style/MyEditText"
         android:visibility="gone"/>
 
     <LinearLayout
@@ -116,6 +118,7 @@
             android:id="@+id/et_photoinfo_data_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:theme="@style/MyEditText"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="5dp"
 
@@ -138,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-
+            android:theme="@style/MyEditText"
             android:ems="2"
             android:layout_marginLeft="5dp"
             android:textSize="20dp"
@@ -161,6 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:ems="2"
+            android:theme="@style/MyEditText"
             android:layout_marginLeft="5dp"
             android:textSize="20dp"
             android:visibility="visible"/>

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.stone.app.R;
 
 import java.util.List;
@@ -22,23 +23,42 @@ import java.util.List;
 public class familyMemberAdapter extends ArrayAdapter<familyMemberItem> {
     private int resID;
     private Context mycontext;
-    public familyMemberAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List <familyMemberItem>objects) {
+
+    public familyMemberAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<familyMemberItem> objects) {
         super(context, resource, objects);
-        resID=resource;
-        mycontext=context;
+        resID = resource;
+        mycontext = context;
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        familyMemberItem familyMemberItem=getItem(position);
-        View view= LayoutInflater.from(getContext()).inflate(resID,null);
-        ImageView img_family_member=view.findViewById(R.id.img_family_member);
-        TextView tv_family_memberName=view.findViewById(R.id.tv_family_memberName);
-        TextView tv_family_memberID=view.findViewById(R.id.tv_family_memberID);
-        tv_family_memberName.setText(familyMemberItem.getMemberName());
-        tv_family_memberID.setText(familyMemberItem.getMemberID());
+        familyMemberItem familyMemberItem = getItem(position);
+        View view = LayoutInflater.from(getContext()).inflate(resID, parent,false);
+        ImageView img_family_member = view.findViewById(R.id.img_family_member);
+        TextView tv_family_memberName = view.findViewById(R.id.tv_family_memberName);
+        TextView tv_family_memberID = view.findViewById(R.id.tv_family_memberID);
+        if(familyMemberItem.getMemberName()!=null){
+
+            tv_family_memberName.setText(familyMemberItem.getMemberName());
+        }else {
+            tv_family_memberName.setText("");
+        }
+        if(familyMemberItem.getMemberID()!=null){
+
+            tv_family_memberID.setText(familyMemberItem.getMemberID());
+        }else {
+            tv_family_memberID.setText("");
+        }
         //  Glide.with(mycontext).load(familyMemberItem.getImagePath()).into(img_family_member);
-        return  view;
+        if (familyMemberItem.getImagePath().equals("")) {
+
+            img_family_member.setImageResource(R.mipmap.smiley);
+        } else {
+            Glide.with(mycontext).load(familyMemberItem.getImagePath()).into(img_family_member);
+
+        }
+        return view;
 
     }
 }

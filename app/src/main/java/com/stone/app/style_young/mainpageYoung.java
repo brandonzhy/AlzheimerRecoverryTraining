@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,10 +16,13 @@ import com.stone.app.Game.game_judge.game_judgeActivity;
 import com.stone.app.Game.game_puzzle.gamestart;
 import com.stone.app.R;
 import com.stone.app.Util.ToastUtil;
+import com.stone.app.Util.getDataUtil;
+import com.stone.app.addMember.familyInformation;
 import com.stone.app.addMember.searchMemberActivity;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
+import com.stone.app.dataBase.FamilyData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.login.loginActivity;
 import com.stone.app.mainPage.MyInformation;
@@ -35,10 +38,10 @@ import java.util.ArrayList;
 import static com.stone.app.dataBase.DataBaseSignal.SignalType.MemberHibernationSucceed;
 
 
-public class mainpageYoung extends ActionBarActivity{
+public class mainpageYoung extends AppCompatActivity {
     private ArrayAdapter<String> imagAdapter;
     private ArrayAdapter<String> gameAdapter;
-   private ArrayAdapter<String> memberAdapter;
+    private ArrayAdapter<String> memberAdapter;
     private ArrayAdapter<String> familyAdapter;
     private ArrayAdapter<String> settingAdapter;
     private InboxLayoutListView inboxlayout_image;
@@ -49,16 +52,17 @@ public class mainpageYoung extends ActionBarActivity{
     private ArrayList<String> list_image, list_game, list_member, list_family, list_setting;
     private String memberID;
     private DataBaseManager dataBaseManager;
-    private  SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage_young);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xdd000000));
         initData();
-        Intent intent=getIntent();
-        memberID=intent.getStringExtra("memberID");
-        Log.i("TAG","mainpageYoung获得的memberID为 ：" + memberID);
+        Intent intent = getIntent();
+        memberID = getDataUtil.getmemberID(mainpageYoung.this);
+        Log.i("TAG", "mainpageYoung获得的memberID为 ：" + memberID);
         final InboxBackgroundScrollView inboxBackgroundScrollView = (InboxBackgroundScrollView) findViewById(R.id.scroll);
         inboxlayout_image = (InboxLayoutListView) findViewById(R.id.inboxlayout_image);
         inboxlayout_game = (InboxLayoutListView) findViewById(R.id.inboxlayout_game);
@@ -154,7 +158,7 @@ public class mainpageYoung extends ActionBarActivity{
     }
 
     private void initData() {
-        dataBaseManager= RealmDB.getDataBaseManager();
+        dataBaseManager = RealmDB.getDataBaseManager();
         list_image = new ArrayList<String>();
         list_game = new ArrayList<String>();
         list_family = new ArrayList<String>();
@@ -170,11 +174,11 @@ public class mainpageYoung extends ActionBarActivity{
         list_setting.add("更改系统风格");
         list_setting.add("账号与安全");
         list_setting.add("退出登录");
-        imagAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, list_image);
-        gameAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, list_game);
+        imagAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_image);
+        gameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_game);
         //        memberAdapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list_member);
-        familyAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, list_family);
-        settingAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, list_setting);
+        familyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_family);
+        settingAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_setting);
     }
 
     private void init() {
@@ -192,18 +196,18 @@ public class mainpageYoung extends ActionBarActivity{
                 inboxlayout_image.getDragableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        switch(i){
+                        switch (i) {
                             case 0:
                                 Intent intentphotoUP = new Intent(mainpageYoung.this, photoUploadActivity.class);
                                 intentphotoUP.putExtra("memberID", memberID);
                                 startActivity(intentphotoUP);
                                 //
-                                Log.i("TAG","第0项上传图片被点击了"  );
+                                Log.i("TAG", "第0项上传图片被点击了");
                                 break;
                             case 1:
-                                Log.i("TAG","第1项浏览图片被点击了"  );
+                                Log.i("TAG", "第1项浏览图片被点击了");
                                 Intent intentphotoBrowser = new Intent(mainpageYoung.this, photoBroswerActivity.class);
-                                intentphotoBrowser.putExtra("memberID",memberID);
+                                intentphotoBrowser.putExtra("memberID", memberID);
                                 startActivity(intentphotoBrowser);
                                 break;
                         }
@@ -227,23 +231,23 @@ public class mainpageYoung extends ActionBarActivity{
                 inboxlayout_game.getDragableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        switch(i){
+                        switch (i) {
                             case 0:
-                                Log.i("TAG","第0项拼图游戏被点击了"  );
-                                Intent intent_puzzle=new Intent(mainpageYoung.this,gamestart.class);
-                                intent_puzzle.putExtra("memberID",memberID);
+                                Log.i("TAG", "第0项拼图游戏被点击了");
+                                Intent intent_puzzle = new Intent(mainpageYoung.this, gamestart.class);
+                                intent_puzzle.putExtra("memberID", memberID);
                                 startActivity(intent_puzzle);
                                 break;
                             case 1:
-                                Log.i("TAG","第1项判断游戏被点击了"  );
+                                Log.i("TAG", "第1项判断游戏被点击了");
                                 Intent intent_judge = new Intent(mainpageYoung.this, game_judgeActivity.class);
-                                intent_judge.putExtra("memberID",memberID);
+                                intent_judge.putExtra("memberID", memberID);
                                 startActivity(intent_judge);
                                 break;
                             case 2:
-                                Log.i("TAG","第2项游戏记录被点击了"  );
+                                Log.i("TAG", "第2项游戏记录被点击了");
                                 Intent intent_record = new Intent(mainpageYoung.this, GameRecord.class);
-                                intent_record.putExtra("memberID",memberID);
+                                intent_record.putExtra("memberID", memberID);
                                 startActivity(intent_record);
                                 break;
                         }
@@ -290,26 +294,26 @@ public class mainpageYoung extends ActionBarActivity{
                 inboxlayout_seeting.getDragableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        switch(i){
+                        switch (i) {
                             case 0:
-                                Log.i("TAG","第0项更改系统风格被点击了"  );
+                                Log.i("TAG", "第0项更改系统风格被点击了");
                                 break;
                             case 1:
-                                Log.i("TAG","第1项账号与安全被点击了"  );
+                                Log.i("TAG", "第1项账号与安全被点击了");
                                 break;
                             case 2:
-                                Log.i("TAG","第2项退出登录被点击了"  );
+                                Log.i("TAG", "第2项退出登录被点击了");
                                 try {
                                     dataBaseManager.MemberHibernate(memberID);
                                 } catch (DataBaseError dataBaseError) {
                                     dataBaseError.printStackTrace();
                                 } catch (DataBaseSignal dataBaseSignal) {
                                     dataBaseSignal.printStackTrace();
-                                    if(dataBaseSignal.getSignalType()==MemberHibernationSucceed){
+                                    if (dataBaseSignal.getSignalType() == MemberHibernationSucceed) {
                                         editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
                                         editor.putString("memberID", "");
-                                        ToastUtil.showToast(mainpageYoung.this,"注销成功");
-                                        startActivity(new Intent(mainpageYoung.this,loginActivity.class));
+                                        ToastUtil.showToast(mainpageYoung.this, "注销成功");
+                                        startActivity(new Intent(mainpageYoung.this, loginActivity.class));
                                         finish();
                                     }
                                 }
@@ -332,17 +336,33 @@ public class mainpageYoung extends ActionBarActivity{
                 inboxlayout_family.getDragableView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        switch(i){
+                        switch (i) {
                             case 0:
-                                Log.i("TAG","第0项家庭信息被点击了"  );
+                                Log.i("TAG", "第0项家庭信息被点击了");
+                                Intent intent_familyinfo = new Intent(mainpageYoung.this, familyInformation.class);
+                                intent_familyinfo.putExtra("memberID", memberID);
+                                startActivity(intent_familyinfo);
                                 break;
                             case 1:
-                                Log.i("TAG","第1项创建家庭被点击了");
+                                Log.i("TAG", "第1项创建家庭被点击了");
+                                try {
+                                    FamilyData familyData = dataBaseManager.AddFamily("", memberID);
+                                    familyData.getID();
+                                    Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
+                                    intent_updatefamily.putExtra("memberID", memberID);
+                                    startActivity(intent_updatefamily);
+
+                                } catch (DataBaseError dataBaseError) {
+                                    if (dataBaseError.getErrorType() == DataBaseError.ErrorType.MemberHasFamilyAlready) {
+                                        ToastUtil.showToast(mainpageYoung.this, "创建失败，你已经创建过一个家庭了");
+                                    }
+                                    dataBaseError.printStackTrace();
+                                }
                                 break;
                             case 2:
-                                Log.i("TAG","第2项加入家庭被点击了"  );
+                                Log.i("TAG", "第2项加入家庭被点击了");
                                 Intent intent_addfamily = new Intent(mainpageYoung.this, searchMemberActivity.class);
-                                intent_addfamily.putExtra("memberID",memberID);
+                                intent_addfamily.putExtra("memberID", memberID);
                                 startActivity(intent_addfamily);
 
 
@@ -354,4 +374,8 @@ public class mainpageYoung extends ActionBarActivity{
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.MemberData;
 import com.stone.app.dataBase.RealmDB;
-import com.stone.app.mainPage.mainPage;
+import com.stone.app.style_young.mainpageYoung;
 
 import static com.stone.app.Util.staticConstUtil.FEMALE;
 import static com.stone.app.Util.staticConstUtil.MALE;
@@ -60,11 +61,18 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
 //                    "", et_info_name.getText().toString(),
 //                    gendrType, intent.getStringExtra("phone"));
             long phone = 111111110 + dataBaseManager.getPhoneList( "","").size();
-
-            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(),"123456" ,
-                    "", et_info_name.getText().toString(),
+            String nickname ="";
+            String name="";
+            if(!TextUtils.isEmpty(et_info_nickname.getText().toString())){
+                nickname=et_info_nickname.getText().toString();
+            }
+            if(!TextUtils.isEmpty(et_info_name.getText().toString())){
+                name=et_info_nickname.getText().toString();
+            }
+            memberData = dataBaseManager.AddMember(nickname,"123456" ,
+                    "", name,
                     gendrType, "11"+String.valueOf(phone));
-            Intent intentmainPage = new Intent(setInfomationActivity.this, mainPage.class);
+            Intent intentmainPage = new Intent(setInfomationActivity.this, mainpageYoung.class);
             if (memberData != null) {
                 String memberID = memberData.getID();
                 String memberName = memberData.getName();

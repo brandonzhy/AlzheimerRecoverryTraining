@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -56,6 +57,13 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
             }
         });
         searchView = findViewById(R.id.searchview);
+        ImageView imageView=findViewById(R.id.iv_search_leftback);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initData() {

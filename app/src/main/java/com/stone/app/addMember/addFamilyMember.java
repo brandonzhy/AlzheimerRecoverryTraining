@@ -3,6 +3,8 @@ package com.stone.app.addMember;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.stone.app.R;
@@ -26,6 +28,12 @@ public class addFamilyMember extends Activity {
         sp_name=findViewById(R.id.sp_name);
         myadapter=new Myadapter(addFamilyMember.this,mlist);
         sp_name.setAdapter(myadapter);
-
+        ImageView imageView=findViewById(R.id.iv_addmember_leftback);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
