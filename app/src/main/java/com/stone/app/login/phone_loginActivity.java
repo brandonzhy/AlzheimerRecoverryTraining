@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,7 +21,11 @@ import com.stone.app.Util.ToastUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
-import com.stone.app.mainPage.mainPage;
+import com.stone.app.dataBase.PhoneData;
+import com.stone.app.dataBase.RealmDB;
+import com.stone.app.style_young.mainpageYoung;
+
+import java.util.List;
 
 import cn.smssdk.SMSSDK;
 
@@ -39,6 +44,7 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
     private int img[] = {R.mipmap.ic_password_eye_on, R.mipmap.ic_password_eye_off};
     private int position = 0;
     private getcodeServices getcodeServices;
+    private String memberID="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +71,9 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
         tv_phone_login_code.setOnClickListener(phone_loginActivity.this);
         img_phone_login_eye.setOnClickListener(phone_loginActivity.this);
         getcodeServices = new getcodeServices(phone_loginActivity.this);
-        dataBaseManager = new DataBaseManager();
-
+//        dataBaseManager = new DataBaseManager();
+//
+        dataBaseManager= RealmDB.getDataBaseManager();
     }
 
     @Override
@@ -148,7 +155,9 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                                         try {
                                             dataBaseManager.LoginCheck_Phone(et_phone_login_phone.getText().toString().trim(), "");
                                         } catch (DataBaseError dataBaseError) {
-
+                                            if(dataBaseError.getErrorType()== MemberNotExist){
+                                                ToastUtil.showToast(phone_loginActivity.this, "用户名不存在");
+                                            }
                                         } catch (DataBaseSignal dataBaseSignal) {
                                             if (dataBaseSignal.getSignalType() == LoginSucceed) {
                                                 //登录成功
@@ -158,8 +167,7 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                                                 editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
                                                 editor.putString("phone", et_phone_login_phone.getText().toString());
                                                 editor.apply();
-                                                startActivity(new Intent(phone_loginActivity.this, mainPage.class));
-                                                finish();
+                                                gotoMainyoung();
                                             } else {
                                                 ToastUtil.showToast(phone_loginActivity.this, "用户名不存在");
                                             }
@@ -192,6 +200,8 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                                         //登录成功
 //                                        ToastUtil.showToast(phone_loginActivity.this, "登录成功");
 //                                        gotoMainpage();
+//                                        Intent intentypung=new Intent(phone_loginActivity.this, mainpageYoung.class);
+//                                        String phone=et_phone_login_phone.getText().toString().trim();
                                         ToastUtil.showToast(phone_loginActivity.this, "密码登录成功");
                                         editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
                                         editor.putString("phone", et_phone_login_phone.getText().toString());
@@ -201,8 +211,9 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                                         //                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
                                         //                                        editor.putString("phone", et_phone_login_phone.getText().toString());
                                         //                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
-                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
-                                        finish();
+//                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
+//                                        finish();
+                                        gotoMainyoung();
                                     } else {
                                         ToastUtil.showToast(phone_loginActivity.this, "用户名密码错误");
 
@@ -229,6 +240,24 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
         }
 
 
+    }
+
+    private void gotoMainyoung() {
+        Intent intentypung=new Intent(phone_loginActivity.this, mainpageYoung.class);
+        String phone=et_phone_login_phone.getText().toString().trim();
+        try {
+           List<PhoneData> listphone= dataBaseManager.getPhoneList(phone,"");
+            if(listphone!=null){
+               memberID= listphone.get(0).getMemberID();
+            }
+
+        } catch (DataBaseError dataBaseError) {
+            Log.i("TAG","login_phone的错误类型："+ dataBaseError.getErrorType() );
+            dataBaseError.printStackTrace();
+        }
+        intentypung.putExtra("memberID",memberID);
+        startActivity(intentypung);
+        finish();
     }
 
     @Override

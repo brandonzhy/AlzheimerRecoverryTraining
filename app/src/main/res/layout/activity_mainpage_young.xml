@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F4F0"
+    tools:context="com.stone.app.style_young.mainpageYoung">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zzt.inbox.widget.InboxBackgroundScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="always"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ly_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_avatar_bar">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/keyline_1"
+                        android:layout_marginLeft="@dimen/keyline_1"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:layout_weight="1"
+                        android:textSize="18dp"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_collections_image_48dp"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:text="图片"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/keyline_1"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:drawableRight="@drawable/ic_global_arrow_right_2px"
+                        android:text="2"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_game"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_avatar_bar">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/keyline_1"
+                        android:layout_marginLeft="@dimen/keyline_1"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:layout_weight="1"
+                        android:textSize="18dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/photogame"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:text="游戏"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/keyline_1"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:drawableRight="@drawable/ic_global_arrow_right_2px"
+                        android:text="3"/>
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/tuijian"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/card_avatar_bar">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginBottom="@dimen/keyline_1"-->
+                <!--android:layout_marginLeft="@dimen/keyline_1"-->
+                <!--android:layout_marginTop="@dimen/keyline_1"-->
+                <!--android:textSize="18dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawableLeft="@drawable/ic_order_account_recommend_enable"-->
+                <!--android:drawablePadding="@dimen/keyline_1"-->
+                <!--android:text="个人信息"/>-->
+
+                <!--<ImageView-->
+                <!--android:id="@+id/subway_new"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:src="@drawable/subway_new_flag"/>-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="@dimen/keyline_1"-->
+                <!--android:baselineAlignBottom="@id/subway_new"-->
+                <!--android:src="@drawable/ic_global_arrow_right_2px"/>-->
+                <!--</LinearLayout>-->
+
+                <LinearLayout
+                    android:id="@+id/member"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_avatar_bar">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/keyline_1"
+                        android:layout_marginLeft="@dimen/keyline_1"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:layout_weight="1"
+                        android:textSize="18dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/user"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:text="个人设置"/>
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginRight="@dimen/keyline_1"-->
+                    <!--android:drawablePadding="@dimen/keyline_1"-->
+                    <!--android:drawableRight="@drawable/ic_global_arrow_right_2px"-->
+                    <!--android:text="0"/>-->
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lv_family"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_avatar_bar">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/keyline_1"
+                        android:layout_marginLeft="@dimen/keyline_1"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:layout_weight="1"
+                        android:textSize="18dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/family"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:text="家庭设置"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/keyline_1"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:drawableRight="@drawable/ic_global_arrow_right_2px"
+                        android:text="3"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_seeting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_avatar_bar">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/keyline_1"
+                        android:layout_marginLeft="@dimen/keyline_1"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:layout_weight="1"
+                        android:textSize="18dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/setting"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:text="系统设置"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/keyline_1"
+                        android:drawablePadding="@dimen/keyline_1"
+                        android:drawableRight="@drawable/ic_global_arrow_right_2px"
+                        android:text="3"/>
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/pic2"
+                    android:scaleType="centerCrop"/>
+            </LinearLayout>
+        </com.zzt.inbox.widget.InboxBackgroundScrollView>
+
+        <com.zzt.inbox.widget.InboxLayoutListView
+            android:id="@+id/inboxlayout_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        </com.zzt.inbox.widget.InboxLayoutListView>
+        <com.zzt.inbox.widget.InboxLayoutListView
+            android:id="@+id/inboxlayout_game"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        </com.zzt.inbox.widget.InboxLayoutListView>
+        <com.zzt.inbox.widget.InboxLayoutListView
+            android:id="@+id/inboxlayout_member"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        </com.zzt.inbox.widget.InboxLayoutListView>
+        <com.zzt.inbox.widget.InboxLayoutListView
+            android:id="@+id/inboxlayout_family"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        </com.zzt.inbox.widget.InboxLayoutListView><com.zzt.inbox.widget.InboxLayoutListView
+        android:id="@+id/inboxlayout_seeting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+    </com.zzt.inbox.widget.InboxLayoutListView>
+    </FrameLayout>
+</LinearLayout>

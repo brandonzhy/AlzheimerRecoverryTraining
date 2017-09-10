@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/graphiclib/graphiclib.iml" filepath="$PROJECT_DIR$/graphiclib/graphiclib.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mainlibrary/mainlibrary.iml" filepath="$PROJECT_DIR$/mainlibrary/mainlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/photoBrowser.iml" filepath="$PROJECT_DIR$/photoBrowser.iml" />
     </modules>
   </component>
