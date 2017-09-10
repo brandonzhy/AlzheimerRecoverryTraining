@@ -13,30 +13,37 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.stone.app.R;
+import com.stone.app.Util.ToastUtil;
+import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.FamilyData;
 import com.stone.app.dataBase.RealmDB;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.stone.app.dataBase.DataBaseSignal.SignalType.AddSingleMemberToFamilySucceed;
+import static com.stone.app.dataBase.DataBaseSignal.SignalType.MergeTwoFamiliesSucceed;
+
 public class searchMemberActivity extends Activity implements SearchView.OnQueryTextListener {
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private String ID[] = {};
-    List<FamilyData>familylist=null;
+    List<FamilyData> familylist = null;
     private SearchView searchView;
     private ArrayList<String> list = new ArrayList<String>();
     private String memberID;
     private DataBaseManager dataBaseManager;
+    private String familyID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
-        Intent intent=getIntent();
-        memberID=intent.getStringExtra("memberID");
+        Intent intent = getIntent();
+        memberID = intent.getStringExtra("memberID");
 
         initData();
         initView();
@@ -49,15 +56,43 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intentadd = new Intent(searchMemberActivity.this, addFamilyMember.class);
-                intentadd.putExtra("familyID", ((TextView) view).getText());
-                intentadd.putExtra("memberID",memberID);
-                startActivity(intentadd);
+                //                Intent intentadd = new Intent(searchMemberActivity.this, addFamilyMember.class);
+                //                intentadd.putExtra("familyID", ((TextView) view).getText());
+                //                intentadd.putExtra("memberID",memberID);
+                //                startActivity(intentadd);
+                familyID = getDataUtil.getfamilyID(memberID,dataBaseManager);
+                Log.i("TAG", "Util 获得的familID: " + familyID);
                 Log.i("TAG", "item的项值为" + ((TextView) view).getText());
+                try {
+                    dataBaseManager.AddExistMemberToExistFamily(familyID,memberID);
+                } catch (DataBaseError dataBaseError) {
+                    dataBaseError.printStackTrace();
+                } catch (DataBaseSignal dataBaseSignal) {
+                    if(dataBaseSignal.getSignalType()==AddSingleMemberToFamilySucceed){
+                        ToastUtil.showToast(searchMemberActivity.this,"加入成功,跳转至家庭信息页面");
+
+                    }else if(dataBaseSignal.getSignalType()==MergeTwoFamiliesSucceed){
+                        ToastUtil.showToast(searchMemberActivity.this,"家庭合并成功,跳转至家庭信息页面");
+
+                    }
+                    Intent intent_sea_familyinfo=new Intent(searchMemberActivity.this,familyInformation.class);
+                    intent_sea_familyinfo.putExtra("memberID",memberID);
+                    startActivity(intent_sea_familyinfo);
+                    finish();
+                    dataBaseSignal.printStackTrace();
+                }
+                //                if (!familyID.equals("")) {
+//                    if (!familyID.equals(((TextView) view).getText())) {
+//
+//                    }
+//                    Intent intent_sea_info = new Intent(searchMemberActivity.this, familyInformation.class);
+//                }else {
+//
+//                }
             }
         });
         searchView = findViewById(R.id.searchview);
-        ImageView imageView=findViewById(R.id.iv_search_leftback);
+        ImageView imageView = findViewById(R.id.iv_search_leftback);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,12 +102,12 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
     }
 
     private void initData() {
-//        DataBaseManager dataBaseManager = new DataBaseManager();
-        dataBaseManager= RealmDB.getDataBaseManager();
+        //        DataBaseManager dataBaseManager = new DataBaseManager();
+        dataBaseManager = RealmDB.getDataBaseManager();
         try {
-           familylist= dataBaseManager.getFamilyList("", "", "");
+            familylist = dataBaseManager.getFamilyList("", "", "");
         } catch (DataBaseError dataBaseError) {
-            Log.i("TAG","错误类型为" +dataBaseError.getMessage() );
+            Log.i("TAG", "错误类型为" + dataBaseError.getMessage());
             dataBaseError.printStackTrace();
         }
     }
@@ -87,7 +122,7 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
         ArrayList<String> showlist = new ArrayList<String>();
         for (int i = 0; i < familylist.size(); i++) {
             if (familylist.get(i).getID().contains(s)) {
-                showlist.add(list.get(i));
+                showlist.add(familylist.get(i).getID());
                 adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, showlist);
                 listView.setAdapter(adapter);
             }

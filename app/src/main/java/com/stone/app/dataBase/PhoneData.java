@@ -1,5 +1,6 @@
 package com.stone.app.dataBase;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,11 +33,12 @@ public class PhoneData extends RealmObject {
         this.memberID = MemberID;
     }
 
-    void setPhone(String Phone) throws DataBaseError {
+    void checkPhone() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
-        Matcher m = p.matcher(Phone);
-        if(m.find() || DB_PHONE_NUMBER_LENGTH != Phone.length())
+        Matcher m = p.matcher(this.phone);
+        if(m.find() || DB_PHONE_NUMBER_LENGTH != this.phone.length())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardPhone);
-        this.phone = Phone;
+        if(this.phone.equals(""))
+            this.phone = "NULL" + String.valueOf(new Date());
     }
 }

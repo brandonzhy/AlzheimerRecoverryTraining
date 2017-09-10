@@ -50,7 +50,7 @@ public class modifyFamilyName extends Activity  implements View.OnClickListener 
                 if(!TextUtils.isEmpty( familyName)){
 
                     try {
-                        dataBaseManager.UpdateFamily(familyID,familyName,"");
+                        dataBaseManager.UpdateFamily(familyID,familyName,"","");
                     } catch (DataBaseError dataBaseError) {
                         dataBaseError.printStackTrace();
                     } catch (DataBaseSignal dataBaseSignal) {

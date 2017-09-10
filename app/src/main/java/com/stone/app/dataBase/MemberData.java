@@ -1,5 +1,6 @@
 package com.stone.app.dataBase;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +19,7 @@ public class MemberData extends RealmObject {
     private String name;
     private String nickname;
     private int gender;
+    private String portraitID;
     private boolean activate;
 
     public static final int DB_GENDER_AMOUNT = 7;
@@ -53,20 +55,25 @@ public class MemberData extends RealmObject {
         return gender;
     }
 
+    public String getPortraitID(){
+        return portraitID;
+    }
+
     public boolean getActivate(){
         return activate;
     }
 
-    void setID(String ID) throws DataBaseError {
+    void checkID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
-        Matcher m = p.matcher(ID);
+        Matcher m = p.matcher(this.ID);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        this.ID = ID;
+        if(this.ID.equals(""))
+            this.ID = "NULL" + String.valueOf(new Date());
     }
 
     void setNickName(String NickName) throws DataBaseError {
-        Pattern p = Pattern.compile("[^0-9a-zA-Z_.]");
+        Pattern p = Pattern.compile("[^0-9a-zA-Z_.\\u4E00-\\u9FA5]");
         Matcher m = p.matcher(NickName);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
@@ -90,7 +97,7 @@ public class MemberData extends RealmObject {
         Matcher m = p.matcher(Name);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DigitExistInRealName);
-        p = Pattern.compile("[^a-zA-Z_.\u4E00-\u9FA5]");
+        p = Pattern.compile("[^a-zA-Z_.\\u4E00-\\u9FA5]");
         m = p.matcher(Name);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
@@ -110,6 +117,14 @@ public class MemberData extends RealmObject {
             this.gender = Gender;
         else
             throw new DataBaseError(DataBaseError.ErrorType.UnspecifiedGender);
+    }
+
+    void setPortraitID(String PortraitID) throws DataBaseError {
+        Pattern p = Pattern.compile("\\D");
+        Matcher m = p.matcher(PortraitID);
+        if(m.find())
+            throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
+        this.portraitID = PortraitID;
     }
 
     void setActivate(boolean activate) {

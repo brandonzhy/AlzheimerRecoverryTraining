@@ -21,7 +21,6 @@ import com.stone.app.addMember.familyInformation;
 import com.stone.app.addMember.searchMemberActivity;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
-import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.FamilyData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.login.loginActivity;
@@ -34,8 +33,6 @@ import com.zzt.inbox.widget.InboxLayoutBase;
 import com.zzt.inbox.widget.InboxLayoutListView;
 
 import java.util.ArrayList;
-
-import static com.stone.app.dataBase.DataBaseSignal.SignalType.MemberHibernationSucceed;
 
 
 public class mainpageYoung extends AppCompatActivity {
@@ -303,20 +300,25 @@ public class mainpageYoung extends AppCompatActivity {
                                 break;
                             case 2:
                                 Log.i("TAG", "第2项退出登录被点击了");
-                                try {
-                                    dataBaseManager.MemberHibernate(memberID);
-                                } catch (DataBaseError dataBaseError) {
-                                    dataBaseError.printStackTrace();
-                                } catch (DataBaseSignal dataBaseSignal) {
-                                    dataBaseSignal.printStackTrace();
-                                    if (dataBaseSignal.getSignalType() == MemberHibernationSucceed) {
-                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
-                                        editor.putString("memberID", "");
-                                        ToastUtil.showToast(mainpageYoung.this, "注销成功");
-                                        startActivity(new Intent(mainpageYoung.this, loginActivity.class));
-                                        finish();
-                                    }
-                                }
+//                                try {
+//                                    dataBaseManager.MemberHibernate(memberID);
+//                                } catch (DataBaseError dataBaseError) {
+//                                    dataBaseError.printStackTrace();
+//                                } catch (DataBaseSignal dataBaseSignal) {
+//                                    dataBaseSignal.printStackTrace();
+//                                    if (dataBaseSignal.getSignalType() == MemberHibernationSucceed) {
+//                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+//                                        editor.putString("memberID", "");
+//                                        ToastUtil.showToast(mainpageYoung.this, "注销成功");
+//                                        startActivity(new Intent(mainpageYoung.this, loginActivity.class));
+//                                        finish();
+//                                    }
+//                                }
+                                    editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+                                    editor.putString("memberID", "");
+                                    ToastUtil.showToast(mainpageYoung.this, "注销成功");
+                                    startActivity(new Intent(mainpageYoung.this, loginActivity.class));
+                                    finish();
                                 break;
                         }
                     }
@@ -346,7 +348,7 @@ public class mainpageYoung extends AppCompatActivity {
                             case 1:
                                 Log.i("TAG", "第1项创建家庭被点击了");
                                 try {
-                                    FamilyData familyData = dataBaseManager.AddFamily("", memberID);
+                                    FamilyData familyData = dataBaseManager.AddFamily("", memberID,"");
                                     familyData.getID();
                                     Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
                                     intent_updatefamily.putExtra("memberID", memberID);

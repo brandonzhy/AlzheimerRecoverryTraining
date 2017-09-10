@@ -17,6 +17,7 @@ public class DataBaseError extends Exception {
         FamilyNotExist,
         MemberNotExist,
         RecordNotExist,
+        PortraitNotExist,
         ParentImageNotExist,
         MemberRelationNotExist,
         ThirdPartyAccountNotExist,
@@ -92,4 +93,5 @@ public class DataBaseError extends Exception {
     public ErrorType getErrorType(){
         return type;
     }
+
 }

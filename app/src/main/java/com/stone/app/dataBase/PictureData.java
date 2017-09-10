@@ -24,7 +24,7 @@ public class PictureData extends RealmObject {
     private boolean activate;
 
     public static final int DB_IMG_NOTE_MAX_LENGTH = 50;
-    public static final long DB_DATE_CHECK_DELTA = 24 * 60 * 60 * 1000;
+    public static final long DB_DATE_CHECK_DELTA = 1;
 
     public String getID(){
         return ID;
@@ -62,12 +62,13 @@ public class PictureData extends RealmObject {
         return activate;
     }
 
-    void setID(String ID) throws DataBaseError {
+    void checkID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
-        Matcher m = p.matcher(ID);
+        Matcher m = p.matcher(this.ID);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        this.ID = ID;
+        if(this.ID.equals(""))
+            this.ID = "NULL" + String.valueOf(new Date());
     }
 
     void setImagePath(String ImagePath){
@@ -75,7 +76,7 @@ public class PictureData extends RealmObject {
     }
 
     void setName(String Name) throws DataBaseError {
-        Pattern p = Pattern.compile("[^0-9a-zA-Z_.]");
+        Pattern p = Pattern.compile("[^0-9a-zA-Z_.\\u4E00-\\u9FA5]");
         Matcher m = p.matcher(Name);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
@@ -94,9 +95,8 @@ public class PictureData extends RealmObject {
         this.location = Location;
     }
 
-    void setDate(long Date) throws DataBaseError {
-        Date dateNow = new Date();
-        if(dateNow.getTime() < Date + DB_DATE_CHECK_DELTA)
+    void setDate(long Date, long Now) throws DataBaseError {
+        if(Now < Date + DB_DATE_CHECK_DELTA)
             throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = Date;
     }

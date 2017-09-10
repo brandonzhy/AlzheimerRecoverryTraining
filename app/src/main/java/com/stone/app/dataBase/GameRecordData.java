@@ -15,7 +15,7 @@ public class GameRecordData extends RealmObject {
     @Required
     private String memberID;
 
-    public static final long DB_DATE_CHECK_DELTA = 24 * 60 * 60 * 1000;
+    public static final long DB_DATE_CHECK_DELTA = 1;
 
     private double factor; // 指通关时间/答题准确率
     private long date;
@@ -46,12 +46,13 @@ public class GameRecordData extends RealmObject {
         return activate;
     }
 
-    void setRecordID(String RecordID) throws DataBaseError {
+    void checkRecordID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
-        Matcher m = p.matcher(RecordID);
+        Matcher m = p.matcher(this.recordID);
         if(m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        recordID = RecordID;
+        if(this.recordID.equals(""))
+            this.recordID = "NULL" + String.valueOf(new Date());
     }
 
     void setMemberID(String MemberID) throws DataBaseError {
@@ -68,9 +69,8 @@ public class GameRecordData extends RealmObject {
         factor = Factor;
     }
 
-    void setDate(long date) throws DataBaseError {
-        Date dateNow = new Date();
-        if(dateNow.getTime() < date + DB_DATE_CHECK_DELTA)
+    void setDate(long date, long now) throws DataBaseError {
+        if(now < date + DB_DATE_CHECK_DELTA)
             throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = date;
     }

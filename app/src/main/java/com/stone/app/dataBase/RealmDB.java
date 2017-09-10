@@ -1,8 +1,6 @@
 package com.stone.app.dataBase;
 
 import android.app.Application;
-import android.util.Log;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -17,8 +15,7 @@ public class RealmDB extends Application {
         dbm = new DataBaseManager();
     }
 
-    public   static DataBaseManager getDataBaseManager() {
-        Log.i("TAG","dbm的ID :" +dbm );
+    public static DataBaseManager getDataBaseManager() {
         return dbm;
     }
 }

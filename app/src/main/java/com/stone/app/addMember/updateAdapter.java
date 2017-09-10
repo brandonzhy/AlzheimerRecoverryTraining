@@ -50,7 +50,7 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
         if (position == 0) {
             imageView.setVisibility(View.VISIBLE);
             tv_updte_right.setVisibility(View.GONE);
-            if(updateFamily.getRightImagepath().equals("")){
+            if(updateFamily.getRightImagepath().equals("")||updateFamily.getRightImagepath()==null){
 
                 imageView.setImageResource(R.mipmap.smiley);
             }else {
