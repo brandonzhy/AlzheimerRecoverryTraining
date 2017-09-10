@@ -164,9 +164,9 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
                                                 ToastUtil.showToast(phone_loginActivity.this, "登录成功");
                                                 //    转到主界面
                                                 //   gotoMainpage();
-                                                editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
-                                                editor.putString("phone", et_phone_login_phone.getText().toString());
-                                                editor.apply();
+//                                                editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+//                                                editor.putString("phone", et_phone_login_phone.getText().toString());
+//                                                editor.apply();
                                                 gotoMainyoung();
                                             } else {
                                                 ToastUtil.showToast(phone_loginActivity.this, "用户名不存在");
@@ -203,10 +203,7 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
 //                                        Intent intentypung=new Intent(phone_loginActivity.this, mainpageYoung.class);
 //                                        String phone=et_phone_login_phone.getText().toString().trim();
                                         ToastUtil.showToast(phone_loginActivity.this, "密码登录成功");
-                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
-                                        editor.putString("phone", et_phone_login_phone.getText().toString());
-//                                        editor.putString("password", et_phone_login_password.getText().toString());
-                                        editor.apply();
+
                                         //                                        startActivity(new Intent(phone_loginActivity.this, mainPage.class));
                                         //                                        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
                                         //                                        editor.putString("phone", et_phone_login_phone.getText().toString());
@@ -243,12 +240,17 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
     }
 
     private void gotoMainyoung() {
+        editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
+        editor.putString("phone", et_phone_login_phone.getText().toString());
+        //                                        editor.putString("password", et_phone_login_password.getText().toString());
+
         Intent intentypung=new Intent(phone_loginActivity.this, mainpageYoung.class);
         String phone=et_phone_login_phone.getText().toString().trim();
         try {
            List<PhoneData> listphone= dataBaseManager.getPhoneList(phone,"");
             if(listphone!=null){
                memberID= listphone.get(0).getMemberID();
+                editor.putString("memberID",memberID);
             }
 
         } catch (DataBaseError dataBaseError) {
@@ -256,6 +258,7 @@ public class phone_loginActivity extends Activity implements View.OnClickListene
             dataBaseError.printStackTrace();
         }
         intentypung.putExtra("memberID",memberID);
+        editor.apply();
         startActivity(intentypung);
         finish();
     }
