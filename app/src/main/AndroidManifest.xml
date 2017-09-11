@@ -114,14 +114,16 @@
         <activity android:name=".addMember.addFamilyMember">
         </activity>
         <activity android:name=".mainPage1">
+
         </activity>
         <activity android:name=".mainPage.familyInformation"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         <activity
             android:name=".style_young.mainpageYoung"
-            android:label=" "
+            android:label=" 忆难忘"
             android:theme="@style/AppTheme">
+
         </activity>
         <activity android:name=".addMember.familyInformation"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen">

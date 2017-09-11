@@ -84,7 +84,7 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
                 String memberNickName = memberData.getNickName();
                 int memberGender = memberData.getGender();
                 try {
-                    dataBaseManager.AddImage(memberID, "", "", "file:///android_asset/person1.jpg", 0, "", "");
+                    dataBaseManager.AddImage(memberID, "", "", "file:///android_asset/person1.png", 0, "", "");
 
                 } catch (DataBaseSignal dataBaseSignal) {
                     Log.i("TAG", "添加头像dataBaseSignal " + dataBaseSignal.getSignalType() + dataBaseSignal.getMessage());

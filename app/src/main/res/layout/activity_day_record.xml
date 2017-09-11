@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:divider="@drawable/shape0"
     android:showDividers="beginning"
+    android:background="@color/light_gray"
+    android:orientation="vertical"
     tools:context="com.stone.app.Game.GameRecord.DayRecord">
     <RelativeLayout
         android:id="@+id/rl_title"

@@ -242,15 +242,17 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                 if (type == VANISH_TYPE_LEFT) {
                     if (qflag == true) {
                         correctnum++;
-                    } else {
-                        correctnum--;
                     }
+                        // else {
+////                        correctnum--;
+//                    }
                 } else if (type == VANISH_TYPE_RIGHT) {
                     if (qflag == false) {
                         correctnum++;
-                    } else {
-                        correctnum--;
                     }
+                        // else {
+////                        correctnum--;
+//                    }
                 }
                 Log.i("TAG", "correctnum= " + correctnum);
                 questionLocation++;

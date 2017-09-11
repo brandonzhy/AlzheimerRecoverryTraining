@@ -449,7 +449,7 @@ public class mainpageYoung extends AppCompatActivity {
                                 try {
                                     FamilyData familyData = dataBaseManager.AddFamily("", memberID, "");
                                     familyData.getID();
-
+                                    familyData.setPortraitID("file:///android_asset/person1.png");
                                     Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
                                     intent_updatefamily.putExtra("memberID", memberID);
                                     startActivity(intent_updatefamily);

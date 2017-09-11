@@ -54,6 +54,11 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private static final int TIME_CHANGED = 2;
     private static final int NEXT_LEVEL = 4;
     private int level = 1;
+
+    public void setMemberID(String memberID) {
+        this.memberID = memberID;
+    }
+
     private String memberID;
 
     private Context mycontext;
@@ -96,12 +101,18 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
             DataBaseManager dataBaseManager = RealmDB.getDataBaseManager();
             List<PictureData> listdata = null;
             try {
+                Log.i("TAG"," gamepuzzle 的 memberID= " +memberID );
                 listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
-                imagepath = listdata.get(0).getImagePath();
-                mBitmap = BitmapFactory.decodeFile(imagepath);
+                if(listdata.size()>1){
+                    imagepath = listdata.get(1).getImagePath().trim();
+                    Log.i("TAG","gamepuzzle 的 imagepath = " + imagepath);
+                    mBitmap = BitmapFactory.decodeFile(imagepath);
+                    Log.i("TAG","gamepuzzle 的 mBitmap = " + mBitmap );
+                }
             } catch (DataBaseError dataBaseError) {
                 Log.i("TAG", "错误类型为" + dataBaseError.getMessage());
                 dataBaseError.printStackTrace();
+
             }
 
 

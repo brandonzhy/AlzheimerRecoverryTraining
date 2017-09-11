@@ -26,6 +26,7 @@ public class gamestart extends Activity {
 
     private GamePintuLayout mgamePintuLayout;
     private int gametiem;
+    private String memberID;
 
 
     @Override
@@ -36,6 +37,7 @@ public class gamestart extends Activity {
         //        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.activity_gamestart2, null);
 
         setContentView(R.layout.activity_gamestart2);
+        memberID=getIntent().getStringExtra("memberID");
         //建立接口
         //        Button back=new Button(this);
         //        mgamePintuLayout=new GamePintuLayout(this);
@@ -43,6 +45,7 @@ public class gamestart extends Activity {
         //        viewGroup.addView(back);
 
         mgamePintuLayout = (GamePintuLayout) findViewById(R.id.id_gamepintu);
+        mgamePintuLayout.setMemberID(memberID);
         mgamePintuLayout.setTimeEnabled();
         //返回游戏选择界面
         Button back = (Button) findViewById(R.id.button3);
