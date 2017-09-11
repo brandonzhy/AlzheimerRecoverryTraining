@@ -1252,43 +1252,79 @@ class DataMediation {
 
             // change direct member data
             Manager.beginTransaction();
-            MemberData updateMember = Manager.createObject(MemberData.class, memberID);
+            MemberData updateMember = Manager.where(MemberData.class).equalTo("ID", memberID).findFirst();
             String oldFamilyID = updateMember.getFamilyID();
             updateMember.setFamilyID(familyID);
-            FamilyData ResultF = Manager.createObject(FamilyData.class, familyID);
+            FamilyData ResultF = Manager.where(FamilyData.class).equalTo("ID", familyID).findFirst();
             if (ResultF.getRootMemberID().equals(""))
                 ResultF.setRootMemberID(memberID);
             Manager.commitTransaction();
 
-            // change original family data
-            Manager.beginTransaction();
-            FamilyData updateFamily = Manager.createObject(FamilyData.class, oldFamilyID);
-            updateFamily.setActivate(false);
-            Manager.commitTransaction();
+            // When the member has original family
+            if (!oldFamilyID.equals("") && getFamilyList(Manager, oldFamilyID, "", "").size() > 0) {
+                // change original family data
+                Manager.beginTransaction();
+                FamilyData updateFamily = Manager.where(FamilyData.class).equalTo("ID", oldFamilyID).findFirst();
+                updateFamily.setActivate(false);
+                Manager.commitTransaction();
 
-            // check and update other original family member
-            boolean single;
-            Manager.beginTransaction();
-            RealmResults<MemberData> ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
-            if (ResultM.size() > 0) {
-                int telomere = ResultM.size();
-                do {
-                    updateMember = ResultM.first();
-                    updateMember.setFamilyID(familyID);
-                }
-                while (ResultM.size() > 0 && --telomere > 0);
+                // check and update other original family member
+                boolean single = false;
+                Manager.beginTransaction();
+                RealmResults<MemberData> ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
+                Log.i("TAG", "Size : " + ResultM.size());
                 if (ResultM.size() > 0) {
-                    Log.i("TAG", "AddExistMemberToExistFamily : RealmResultAutoUpdateFail");
-                    throw new DataBaseError(DataBaseError.ErrorType.RealmResultAutoUpdateFail);
-                }
-                single = false;
+                    int telomere = ResultM.size();
+                    do {
+                        ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
+                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
+                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
+                        Manager.commitTransaction();
+
+                        Manager.beginTransaction();
+
+                        updateMember = ResultM.first();
+                        updateMember.setFamilyID(familyID);
+                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
+
+                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
+
+                        Manager.commitTransaction();
+
+                        ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
+
+                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
+
+                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
+
+                        Manager.beginTransaction();
+
+                        Manager.commitTransaction();
+
+                        ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
+
+                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
+
+                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
+
+                        Manager.beginTransaction();
+
+                    } while (ResultM.size() > 0 && --telomere > 0);
+                    ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
+                    Log.i("TAG", "Size : " + ResultM.size());
+                    if (ResultM.size() > 0) {
+                        Log.i("TAG", "AddExistMemberToExistFamily : RealmResultAutoUpdateFail");
+                        throw new DataBaseError(DataBaseError.ErrorType.RealmResultAutoUpdateFail);
+                    }
+                } else
+                    single = true;
+                Manager.commitTransaction();
+                if (single)
+                    throw new DataBaseSignal(DataBaseSignal.SignalType.AddSingleMemberToFamilySucceed);
+                else
+                    throw new DataBaseSignal(DataBaseSignal.SignalType.MergeTwoFamiliesSucceed);
             } else
-                single = true;
-            Manager.commitTransaction();
-            if (single)
                 throw new DataBaseSignal(DataBaseSignal.SignalType.AddSingleMemberToFamilySucceed);
-            else
-                throw new DataBaseSignal(DataBaseSignal.SignalType.MergeTwoFamiliesSucceed);
         } catch (DataBaseError | DataBaseSignal e) {
             throw e;
         } catch (Exception e) {
@@ -2074,7 +2110,7 @@ class DataMediation {
         try {
             PrimaryMemberIDCheck(Manager, memberID);
             Manager.beginTransaction();
-            MemberData updateMember = Manager.createObject(MemberData.class, memberID);
+            MemberData updateMember = Manager.where(MemberData.class).equalTo("ID", memberID).findFirst();
             updateMember.setActivate(false);
             Manager.commitTransaction();
             throw new DataBaseSignal(DataBaseSignal.SignalType.MemberHibernationSucceed);
@@ -2091,7 +2127,7 @@ class DataMediation {
         try {
             PrimaryRecordIDCheck(Manager, recordID);
             Manager.beginTransaction();
-            GameRecordData updateRecord = Manager.createObject(GameRecordData.class, recordID);
+            GameRecordData updateRecord = Manager.where(GameRecordData.class).equalTo("recordID", recordID).findFirst();
             updateRecord.setActivate(false);
             Manager.commitTransaction();
             throw new DataBaseSignal(DataBaseSignal.SignalType.GameRecordHibernateSucceed);
@@ -2108,7 +2144,7 @@ class DataMediation {
         try {
             PrimaryPictureIDCheck(Manager, imageID);
             Manager.beginTransaction();
-            PictureData updateImage = Manager.createObject(PictureData.class, imageID);
+            PictureData updateImage = Manager.where(PictureData.class).equalTo("ID", imageID).findFirst();
             updateImage.setActivate(false);
             Manager.commitTransaction();
             throw new DataBaseSignal(DataBaseSignal.SignalType.PictureHibernateSucceed);
@@ -2129,7 +2165,7 @@ class DataMediation {
                 throw new DataBaseError(DataBaseError.ErrorType.PhoneNotExist);
             }
             Manager.beginTransaction();
-            PhoneData updateImage = Manager.createObject(PhoneData.class, phone);
+            PhoneData updateImage = Manager.where(PhoneData.class).equalTo("phone", phone).findFirst();
             updateImage.deleteFromRealm();
             Manager.commitTransaction();
             throw new DataBaseSignal(DataBaseSignal.SignalType.PhoneDeleted);

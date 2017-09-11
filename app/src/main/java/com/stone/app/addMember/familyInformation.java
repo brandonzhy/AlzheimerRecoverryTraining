@@ -81,6 +81,7 @@ public class familyInformation extends Activity {
                                 case 0:
                                     Intent intent_update=new Intent(familyInformation.this,updateFamily.class);
                                     intent_update.putExtra("familyID",familyID);
+                                    intent_update.putExtra("Type",0);
                                     startActivity(intent_update);
 
                                 break;
@@ -107,7 +108,7 @@ public class familyInformation extends Activity {
                     familyMemberItem familyMemberItem = new familyMemberItem();
                     familyMemberItem.setMemberID(memberData.getID());
                     familyMemberItem.setMemberName(memberData.getName());
-                  //  familyMemberItem.setImagePath();
+                    familyMemberItem.setImagePath(memberData.getPortraitID());
                     fmemberlist.add(familyMemberItem);
                 }
                 familyMemberAdapter familyMemberAdapter = new familyMemberAdapter(familyInformation.this, R.layout.family_member_item, fmemberlist);

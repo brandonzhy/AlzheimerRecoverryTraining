@@ -62,9 +62,10 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
                 //                startActivity(intentadd);
                 familyID = getDataUtil.getfamilyID(memberID,dataBaseManager);
                 Log.i("TAG", "Util 获得的familID: " + familyID);
-                Log.i("TAG", "item的项值为" + ((TextView) view).getText());
+                Log.i("TAG", "search的item的项值为" + ((TextView) view).getText().toString());
                 try {
-                    dataBaseManager.AddExistMemberToExistFamily(familyID,memberID);
+                    Log.i("TAG","search 的memberID"+memberID  );
+                    dataBaseManager.AddExistMemberToExistFamily(((TextView) view).getText().toString(),memberID);
                 } catch (DataBaseError dataBaseError) {
                     dataBaseError.printStackTrace();
                 } catch (DataBaseSignal dataBaseSignal) {

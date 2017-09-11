@@ -36,8 +36,8 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
         updateFamilyItem updateFamily = getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resID, parent,false);
 //        View view = LayoutInflater.from(getContext()).inflate(resID, null);
-        ImageView imageView = view.findViewById(R.id.img_family);
-        TextView tv_updte_right = view.findViewById(R.id.tv_updte_right);
+
+
         TextView tv_updte_left = view.findViewById(R.id.tv_updte_left);
         if(updateFamily.getLeftText()!=null){
             tv_updte_left.setText(updateFamily.getLeftText());
@@ -48,8 +48,9 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
 
 
         if (position == 0) {
+            ImageView imageView = view.findViewById(R.id.img_family);
             imageView.setVisibility(View.VISIBLE);
-            tv_updte_right.setVisibility(View.GONE);
+//
             if(updateFamily.getRightImagepath().equals("")||updateFamily.getRightImagepath()==null){
 
                 imageView.setImageResource(R.mipmap.smiley);
@@ -58,8 +59,8 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
 
             }
         } else {
+            TextView tv_updte_right = view.findViewById(R.id.tv_updte_right);
             tv_updte_right.setVisibility(View.VISIBLE);
-            imageView.setVisibility(View.GONE);
             if(updateFamily.getRightText()!=null){
                 tv_updte_right.setText(updateFamily.getRightText());
 

@@ -22,61 +22,61 @@ public class GameRecordData extends RealmObject {
     private int gameType;
     private boolean activate;
 
-    public String getRecordID(){
+    public String getRecordID() {
         return recordID;
     }
 
-    public String getMemberID(){
+    public String getMemberID() {
         return memberID;
     }
 
-    public double getFactor(){
+    public double getFactor() {
         return factor;
     }
 
-    public long getDate(){
+    public long getDate() {
         return date;
     }
 
-    public int getGameType(){
+    public int getGameType() {
         return gameType;
     }
 
-    public boolean getActivate(){
+    public boolean getActivate() {
         return activate;
     }
 
     void checkRecordID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(this.recordID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        if(this.recordID.equals(""))
+        if (this.recordID.equals(""))
             this.recordID = "NULL" + String.valueOf(new Date());
     }
 
     void setMemberID(String MemberID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(MemberID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         memberID = MemberID;
     }
 
     void setFactor(double Factor) throws DataBaseError {
-        if(Factor < 0)
+        if (Factor < 0)
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardFactor);
         factor = Factor;
     }
 
     void setDate(long date, long now) throws DataBaseError {
-        if(now < date + DB_DATE_CHECK_DELTA)
+        if (now < date + DB_DATE_CHECK_DELTA)
             throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = date;
     }
 
     void setGameType(int GameType) throws DataBaseError {
-        if(GameType < 0)
+        if (GameType < 0)
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardType);
         gameType = GameType;
     }

@@ -28,7 +28,7 @@ public class PhoneData extends RealmObject {
     void setMemberID(String MemberID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(MemberID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberID = MemberID;
     }
@@ -36,9 +36,9 @@ public class PhoneData extends RealmObject {
     void checkPhone() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(this.phone);
-        if(m.find() || DB_PHONE_NUMBER_LENGTH != this.phone.length())
+        if (m.find() || DB_PHONE_NUMBER_LENGTH != this.phone.length())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardPhone);
-        if(this.phone.equals(""))
+        if (this.phone.equals(""))
             this.phone = "NULL" + String.valueOf(new Date());
     }
 }

@@ -28,7 +28,7 @@ public class ThirdPartyAccountData extends RealmObject {
     void setMemberID(String MemberID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(MemberID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberID = MemberID;
     }
@@ -38,7 +38,7 @@ public class ThirdPartyAccountData extends RealmObject {
     }
 
     void setThirdPartyType(int ThirdPartyType) throws DataBaseError {
-        if(ThirdPartyType < 0)
+        if (ThirdPartyType < 0)
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardType);
         this.thirdPartyType = ThirdPartyType;
     }

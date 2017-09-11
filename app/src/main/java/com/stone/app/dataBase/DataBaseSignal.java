@@ -2,7 +2,8 @@ package com.stone.app.dataBase;
 
 public class DataBaseSignal extends Exception {
     private final SignalType type;
-    public enum SignalType{
+
+    public enum SignalType {
         PhoneAddedAlready,
         GameRecordAddedAlready,
         MemberRelationAddedAlready,
@@ -28,11 +29,11 @@ public class DataBaseSignal extends Exception {
         UnknownSignal_DataBaseManager
     }
 
-    DataBaseSignal(SignalType type){
+    DataBaseSignal(SignalType type) {
         this.type = type;
     }
 
-    public SignalType getSignalType(){
+    public SignalType getSignalType() {
         return type;
     }
 }

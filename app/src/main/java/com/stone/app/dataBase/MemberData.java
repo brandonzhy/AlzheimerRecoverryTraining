@@ -31,63 +31,63 @@ public class MemberData extends RealmObject {
     public static final int DB_GENDER_ASEXUAL = 5;
     public static final int DB_GENDER_SPECIAL = 6;
 
-    public String getID(){
+    public String getID() {
         return ID;
     }
 
-    public String getNickName(){
+    public String getNickName() {
         return nickname;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
-    public String getFamilyID(){
+    public String getFamilyID() {
         return familyID;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public int getGender(){
+    public int getGender() {
         return gender;
     }
 
-    public String getPortraitID(){
+    public String getPortraitID() {
         return portraitID;
     }
 
-    public boolean getActivate(){
+    public boolean getActivate() {
         return activate;
     }
 
     void checkID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(this.ID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        if(this.ID.equals(""))
+        if (this.ID.equals(""))
             this.ID = "NULL" + String.valueOf(new Date());
     }
 
     void setNickName(String NickName) throws DataBaseError {
         Pattern p = Pattern.compile("[^0-9a-zA-Z_.\\u4E00-\\u9FA5]");
         Matcher m = p.matcher(NickName);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         this.nickname = NickName;
     }
 
-    void setPassword(String Password){
+    void setPassword(String Password) {
         this.password = Password;
     }
 
     void setFamilyID(String FamilyID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(FamilyID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.familyID = FamilyID;
     }
@@ -95,25 +95,25 @@ public class MemberData extends RealmObject {
     void setName(String Name) throws DataBaseError {
         Pattern p = Pattern.compile("\\d");
         Matcher m = p.matcher(Name);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DigitExistInRealName);
         p = Pattern.compile("[^a-zA-Z_.\\u4E00-\\u9FA5]");
         m = p.matcher(Name);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         p = Pattern.compile("[a-zA-Z]");
         m = p.matcher(Name);
-        if(m.find()){
+        if (m.find()) {
             p = Pattern.compile("[^a-zA-Z_.]");
             m = p.matcher(Name);
-            if(m.find())
+            if (m.find())
                 throw new DataBaseError(DataBaseError.ErrorType.IllegalName_ChineseMingleWithEnglish);
         }
         this.name = Name;
     }
 
     void setGender(int Gender) throws DataBaseError {
-        if(Gender >= 0 && Gender < DB_GENDER_AMOUNT)
+        if (Gender >= 0 && Gender < DB_GENDER_AMOUNT)
             this.gender = Gender;
         else
             throw new DataBaseError(DataBaseError.ErrorType.UnspecifiedGender);
@@ -122,7 +122,7 @@ public class MemberData extends RealmObject {
     void setPortraitID(String PortraitID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(PortraitID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.portraitID = PortraitID;
     }

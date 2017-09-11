@@ -15,39 +15,39 @@ public class FamilyData extends RealmObject {
     private String portraitID;
     private boolean activate;
 
-    public String getID(){
+    public String getID() {
         return ID;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public boolean getActivate(){
+    public boolean getActivate() {
         return activate;
     }
 
-    public String getRootMemberID(){
+    public String getRootMemberID() {
         return rootMemberID;
     }
 
-    public String getPortraitID(){
+    public String getPortraitID() {
         return portraitID;
     }
 
     void checkID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(this.ID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        if(this.ID.equals(""))
+        if (this.ID.equals(""))
             this.ID = "NULL" + String.valueOf(new Date());
     }
 
     void setName(String name) throws DataBaseError {
         Pattern p = Pattern.compile("[^0-9a-zA-Z_.\\u4E00-\\u9FA5]");
         Matcher m = p.matcher(name);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         this.name = name;
     }
@@ -55,7 +55,7 @@ public class FamilyData extends RealmObject {
     void setRootMemberID(String RootMemberID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(RootMemberID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.rootMemberID = RootMemberID;
     }
@@ -63,7 +63,7 @@ public class FamilyData extends RealmObject {
     void setPortraitID(String PortraitID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(PortraitID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.portraitID = PortraitID;
     }

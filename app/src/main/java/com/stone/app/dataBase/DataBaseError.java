@@ -2,6 +2,7 @@ package com.stone.app.dataBase;
 
 public class DataBaseError extends Exception {
     private final ErrorType type;
+
     public enum ErrorType {
         RealmDataBaseHibernate,
         RealmDataBaseParalytic,
@@ -86,12 +87,11 @@ public class DataBaseError extends Exception {
         UnknownError_DataBaseManager
     }
 
-    DataBaseError(ErrorType type){
+    DataBaseError(ErrorType type) {
         this.type = type;
     }
 
-    public ErrorType getErrorType(){
+    public ErrorType getErrorType() {
         return type;
     }
-
 }

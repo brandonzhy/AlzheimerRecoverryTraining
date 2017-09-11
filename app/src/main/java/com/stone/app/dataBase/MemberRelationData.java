@@ -19,22 +19,22 @@ public class MemberRelationData extends RealmObject {
     public static final int DB_RELATION_ONESELF = 5;
     public static final int DB_RELATION_FRIEND = 6;
 
-    public String getMemberA(){
+    public String getMemberA() {
         return memberA;
     }
 
-    public String getMemberB(){
+    public String getMemberB() {
         return memberB;
     }
 
-    public int getRelation(){
+    public int getRelation() {
         return relation;
     }
 
     void setMemberA(String memberA) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(memberA);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberA = memberA;
     }
@@ -42,13 +42,13 @@ public class MemberRelationData extends RealmObject {
     void setMemberB(String memberB) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(memberB);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberB = memberB;
     }
 
     void setRelation(int relation) throws DataBaseError {
-        if(relation < 0 || relation >= DB_RELATION_AMOUNT)
+        if (relation < 0 || relation >= DB_RELATION_AMOUNT)
             throw new DataBaseError(DataBaseError.ErrorType.UnspecifiedRelation);
         this.relation = relation;
     }

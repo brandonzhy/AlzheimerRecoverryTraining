@@ -24,7 +24,6 @@ import com.luck.picture.lib.tools.DebugUtil;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.stone.app.R;
 import com.stone.app.Util.DateUtil;
-import com.stone.app.Util.ToastUtil;
 import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
@@ -168,9 +167,9 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     //                        .hideBottomControls()// 是否显示uCrop工具栏，默认不显示
                     //                        .isGif()// 是否显示gif图片
                     .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
-                    ////                        .circleDimmedLayer()// 是否圆形裁剪
+//                                          .circleDimmedLayer(true)// 是否圆形裁剪
                     .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
-                    //                        .showCropGrid()// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                                   .showCropGrid(true)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
                     //                        .openClickSound()// 是否开启点击声音
                     .selectionMedia(selectList)// 是否传入已选图片
                     //                        .videoMaxSecond(15)
@@ -199,6 +198,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     selectList = PictureSelector.obtainMultipleResult(data);
+
                     // 例如 LocalMedia 里面返回三种path
                     // 1.media.getPath(); 为原图path
                     // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
@@ -262,10 +262,12 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                         mydata = Long.parseLong(date) ;
                         Log.i("TAG","现在的时间为" + DateUtil.getTime());
                         Log.i("TAG","上传的时间为" +mydata );
-                        ToastUtil.showToast(photoUploadActivity.this, adapter.getImagePath());
+//                        ToastUtil.showToast(photoUploadActivity.this, adapter.getImagePath());
 
                     }
-                    dataBaseManager.AddImage(memberID, name,plece , adapter.getImagePath(), mydata, "", "");
+//                    dataBaseManager.AddImage(memberID, name,plece , adapter.getImagePath(), mydata, "", "");
+                    Log.i("TAG","图片的path为" + selectList.get(0).getPath());
+                    dataBaseManager.AddImage(memberID, name,plece , selectList.get(0).getPath(), mydata, "", "");
                     //                    if(!TextUtils.isEmpty(et_photoinfo_name.getText().toString())){
                     //                      if(!TextUtils.isEmpty(et_photoinfo_place.getText().toString())){
                     //                          if((!TextUtils.isEmpty(date))){

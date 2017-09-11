@@ -72,6 +72,7 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
             memberData = dataBaseManager.AddMember(nickname,"123456" ,
                     "", name,
                     gendrType, "11"+String.valueOf(phone),"");
+//                    gendrType, "15858260179","");
             Intent intentmainPage = new Intent(setInfomationActivity.this, mainpageYoung.class);
             if (memberData != null) {
                 String memberID = memberData.getID();

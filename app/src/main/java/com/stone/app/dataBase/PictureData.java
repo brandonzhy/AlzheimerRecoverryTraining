@@ -26,59 +26,59 @@ public class PictureData extends RealmObject {
     public static final int DB_IMG_NOTE_MAX_LENGTH = 50;
     public static final long DB_DATE_CHECK_DELTA = 1;
 
-    public String getID(){
+    public String getID() {
         return ID;
     }
 
-    public String getImagePath(){
+    public String getImagePath() {
         return imagePath;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getMemberID(){
+    public String getMemberID() {
         return memberID;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return location;
     }
 
-    public long getDate(){
+    public long getDate() {
         return date;
     }
 
-    public String getNote(){
+    public String getNote() {
         return note;
     }
 
-    public String getParentImage(){
+    public String getParentImage() {
         return parentImage;
     }
 
-    public boolean getActivate(){
+    public boolean getActivate() {
         return activate;
     }
 
     void checkID() throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(this.ID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
-        if(this.ID.equals(""))
+        if (this.ID.equals(""))
             this.ID = "NULL" + String.valueOf(new Date());
     }
 
-    void setImagePath(String ImagePath){
+    void setImagePath(String ImagePath) {
         this.imagePath = ImagePath;
     }
 
     void setName(String Name) throws DataBaseError {
         Pattern p = Pattern.compile("[^0-9a-zA-Z_.\\u4E00-\\u9FA5]");
         Matcher m = p.matcher(Name);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.IllegalName_DisapprovedCharacter);
         this.name = Name;
     }
@@ -86,23 +86,23 @@ public class PictureData extends RealmObject {
     void setMemberID(String MemberID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(MemberID);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.memberID = MemberID;
     }
 
-    void setLocation(String Location){
+    void setLocation(String Location) {
         this.location = Location;
     }
 
     void setDate(long Date, long Now) throws DataBaseError {
-        if(Now < Date + DB_DATE_CHECK_DELTA)
+        if (Now < Date + DB_DATE_CHECK_DELTA)
             throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = Date;
     }
 
     void setNote(String Note) throws DataBaseError {
-        if(Note.length() > DB_IMG_NOTE_MAX_LENGTH)
+        if (Note.length() > DB_IMG_NOTE_MAX_LENGTH)
             throw new DataBaseError(DataBaseError.ErrorType.NoteTooLong);
         this.note = Note;
     }
@@ -110,7 +110,7 @@ public class PictureData extends RealmObject {
     void setParentImage(String ParentImage) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(ParentImage);
-        if(m.find())
+        if (m.find())
             throw new DataBaseError(DataBaseError.ErrorType.NotStandardID);
         this.parentImage = ParentImage;
     }

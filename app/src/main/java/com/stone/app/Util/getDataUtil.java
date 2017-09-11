@@ -17,7 +17,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class getDataUtil {
-    private static DataBaseManager dataBaseManager;
+//    private static DataBaseManager dataBaseManager;
 
     //    private static String memberID;
     //
@@ -46,11 +46,16 @@ public class getDataUtil {
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
         }
+//        try {
+//            dbma.CloseDataBase();
+//        } catch (DataBaseError dataBaseError) {
+//            dataBaseError.printStackTrace();
+//        }
         return "";
     }
-    public static DataBaseManager getDataBaseManager() {
-        return dataBaseManager;
-    }
+//    public static DataBaseManager getDataBaseManager() {
+//        return dataBaseManager;
+//    }
 
     //    public static
     public static String getfamilyID(Context context) {
