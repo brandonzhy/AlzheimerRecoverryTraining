@@ -232,13 +232,22 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //            dataItem.imageNum = (int) (Math.random() * 6);
         //            dataList.add(dataItem);
         //        }
-        for (PictureData pictureData : pictlist) {
+//        for (PictureData pictureData : pictlist) {
+//            CardDataItem dataItem = new CardDataItem();
+//            dataItem.userName = pictureData.getName().trim();
+//            dataItem.imagePath = pictureData.getImagePath().trim();
+//            dataItem.imagePlace = pictureData.getLocation().trim();
+//            dataItem.phototime = String.valueOf(pictureData.getDate());
+//            dataList.add(dataItem);
+//        }
+        for(int i=1;i<pictlist.size();i++){
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName = pictureData.getName().trim();
-            dataItem.imagePath = pictureData.getImagePath().trim();
-            dataItem.imagePlace = pictureData.getLocation().trim();
-            dataItem.phototime = String.valueOf(pictureData.getDate());
+            dataItem.userName =  pictlist.get(i).getName().trim();
+            dataItem.imagePath =  pictlist.get(i).getImagePath().trim();
+            dataItem.imagePlace =  pictlist.get(i).getLocation().trim();
+            dataItem.phototime = String.valueOf (pictlist.get(i).getDate());
             dataList.add(dataItem);
+
         }
         //        int num = imagePaths.length;
         //        for (int i = 0; i < num; i++) {

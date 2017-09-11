@@ -36,21 +36,27 @@ import static com.stone.app.library.CardSlidePanel.VANISH_TYPE_RIGHT;
 public class game_judgeActivity extends FragmentActivity implements View.OnClickListener {
 
     private CardSlidePanel.CardSwitchListener cardSwitchListener;
-      private String imagePaths[]={};
-//    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
-//            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
-//            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
-//            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
-//            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
-//            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
-//            "file:///android_asset/wall12.jpg"}; // 12个图片资源
-        private String names[]={};
-        private String imageplaces[]={};
-//    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
-//            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
+    //      private String imagePaths[]={};
+    //    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
+    //            "file:///android_asset/wall02.jpg", "file:///android_asset/wall03.jpg",
+    //            "file:///android_asset/wall04.jpg", "file:///android_asset/wall05.jpg",
+    //            "file:///android_asset/wall06.jpg", "file:///android_asset/wall07.jpg",
+    //            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
+    //            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
+    //            "file:///android_asset/wall12.jpg"}; // 12个图片资源
+    private List<String> names = new ArrayList<>();
+    private List<String> imageplaces = new ArrayList<>();
+    ;
+    private List<String> imagetimes = new ArrayList<>();
+    ;
+    private List<String> imagePaths = new ArrayList<>();
+    ;
+
+    //    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
+    //            "霍建华", "胡歌", "曾志伟", "吴彦祖", "梁朝伟"}; // 12个人名
     private DataBaseManager dataBaseManager;
-//    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
-    private String imagetimes[]={};
+    //    private String imageplaces[] = {"上海", "南京", "北京", "杭州", "温州", "哈尔滨", "广州", "武汉", "云南", "香港", "四川", "新疆"};
+    //    private String imagetimes[]={};
     private int circulatetimes;
     private ImageView img_back;
     private int questionLocation;
@@ -58,110 +64,123 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private TextView tv_question;
     private List<CardDataItem> dataList = new ArrayList<>();
     private int correctnum;
-    private int lenth=0;
+    private int lenth = 0;
     private boolean qflag;
     String memberID;
     String memberName;
-    private List<PictureData> pictlist;
-    private String familyID="";
+    private List<PictureData> pictlist=null;
+    private String familyID = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //显示图片的时候不要标题栏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.choice_game);
         Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         memberName = intent.getStringExtra("memberName");
         initdData();
-        initView();
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.choice_game);
+
         initMainView();
-//        qflag = getQuestion(questionLocation, tv_question);
+        qflag = getQuestion(questionLocation, tv_question);
+        initView();
     }
 
     //    数据库初始化
     private void initdData() {
         //            Intent intent = getIntent();
-//        dataBaseManager = new DataBaseManager();
+        //        dataBaseManager = new DataBaseManager();
         dataBaseManager = RealmDB.getDataBaseManager();
-        memberID=getDataUtil.getmemberID(game_judgeActivity.this);
+        memberID = getDataUtil.getmemberID(game_judgeActivity.this);
+        Log.i("TAG", "photoBrowser获得的memberID：" + memberID);
         try {
-           List<MemberData> memberList= dataBaseManager.getMemberList(memberID,"","","");
-          if(memberList.size()>0){
-              familyID=memberList.get(0).getFamilyID();
-                if(familyID.equals("")){
-                  Log.i("TAG","你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧" );
-                  ToastUtil.showToast(game_judgeActivity.this,"你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
-                  finish();
-              }
-              memberName=memberList.get(0).getName();
-              Log.i("TAG","game_judgeActivity获得的familyID为：" + familyID);
-              Log.i("TAG","game_judgeActivity获得的name为：" + memberName);
-          }else {
-              Log.i("TAG","memberIDb不存在" );
-              ToastUtil.showToast(game_judgeActivity.this,"memberIDb不存在" );
-              finish();
-          }
+            List<MemberData> memberList = dataBaseManager.getMemberList(memberID, "", "", "");
+            if (memberList.size() > 0) {
+                familyID = memberList.get(0).getFamilyID();
+                if (familyID.equals("")) {
+                    Log.i("TAG", "你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+                    ToastUtil.showToast(game_judgeActivity.this, "你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+                    finish();
+                }
+                memberName = memberList.get(0).getName();
+                Log.i("TAG", "game_judgeActivity获得的familyID为：" + familyID);
+                Log.i("TAG", "game_judgeActivity获得的name为：" + memberName);
+            } else {
+                Log.i("TAG", "memberIDb不存在");
+                ToastUtil.showToast(game_judgeActivity.this, "memberIDb不存在");
+                finish();
+            }
         } catch (DataBaseError dataBaseError) {
-            Log.i("TAG","dataBaseError 的类型为： " +dataBaseError );
-            ToastUtil.showToast(game_judgeActivity.this," judgegame的dataBaseError 的类型为： " +dataBaseError  );
+            Log.i("TAG", "dataBaseError 的类型为： " + dataBaseError);
+            ToastUtil.showToast(game_judgeActivity.this, " judgegame的dataBaseError 的类型为： " + dataBaseError);
             dataBaseError.printStackTrace();
         }
         try {
 
-//            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
+            //            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
 
 
             pictlist = dataBaseManager.getRandomPicturesFromFamily(familyID, memberName, "", 0, 0, DEFUATNUMBER);
 
-            if(pictlist!=null){
+            if (pictlist != null) {
+                Log.i("TAG","列表获取成功，长度为 " + pictlist.size());
                 lenth = pictlist.size();
-            }else {
-                Log.i("TAG","获取列表不存在" );
+            } else {
+                Log.i("TAG", "获取列表不存在");
                 finish();
             }
         } catch (DataBaseError dataBaseError) {
             if (dataBaseError.getErrorType() == DataBaseError.ErrorType.RequiredImageNotEnough) {
                 try {
-                    if(!familyID.equals("")){
+                    if (!familyID.equals("")) {
                         pictlist = dataBaseManager.getRandomPicturesFromMember(familyID, memberName, "", 0, 0, -1);
-                    }else{
-                        Log.i("TAG","你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧" );
-                        ToastUtil.showToast(game_judgeActivity.this,"你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+                        if (pictlist != null) {
+                            lenth = pictlist.size();
+                        } else {
+                            Log.i("TAG", "获取列表不存在");
+                            finish();
+                        }
+                    } else {
+                        Log.i("TAG", "你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+                        ToastUtil.showToast(game_judgeActivity.this, "你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
                         finish();
                     }
 
-                    if(pictlist!=null){
+                    if (pictlist != null) {
                         lenth = pictlist.size();
 
-                    }else {
-                        Log.i("TAG","获取列表不存在" );
+                    } else {
+                        Log.i("TAG", "获取列表不存在");
                         finish();
                     }
 
                 } catch (DataBaseError dataBaseError1) {
-                    if(dataBaseError1.getErrorType()==RequiredResultsReturnNULL){
-                        Log.i("TAG","错误类型为" +dataBaseError1.getErrorType() );
+                    if (dataBaseError1.getErrorType() == RequiredResultsReturnNULL) {
+                        Log.i("TAG", "获取全部图片的错误类型为" + dataBaseError1.getErrorType());
                         finish();
                     }
-                    Log.i("TAG","dataBaseError 的类型为： " +dataBaseError );
+                    Log.i("TAG", "dataBaseError 的类型为： " + dataBaseError);
                     dataBaseError1.printStackTrace();
                 }
             }
         }
 
-        if(pictlist!=null){
-            int i = 0;
-            for (PictureData data : pictlist) {
-                imagePaths[i] = data.getImagePath();
-                names[i] = data.getName();
-                imageplaces[i] = data.getLocation();
-                imagetimes[i] = String.valueOf(data.getDate());
-                i++;
-            }
-        }
+//        if (pictlist != null) {
+//            //            int i = 0;
+//            for (int i = 0; i < pictlist.size(); i++) {
+//                imagePaths.add(pictlist.get(i).getImagePath());
+//                names.add(pictlist.get(i).getName());
+//                imageplaces.add(pictlist.get(i).getLocation());
+//                imagetimes.add(String.valueOf(pictlist.get(i).getDate()));
+//            }
+//        }
+//            //            for (PictureData data : pictlist) {
+//            //
+//            //                i++;
+//            //            }
+//        }
 
     }
 
@@ -207,6 +226,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                 Log.i("TAG", "correctnum= " + correctnum);
                 questionLocation++;
                 if (questionLocation == lenth) {
+                    //最后一张图片了，就跳到结果页面
                     float result = ((float) correctnum / lenth) * 100;
                     Log.i("TAG", "result=" + result);
                     Intent intent_result = new Intent(game_judgeActivity.this, showaResultiwthDialog.class);
@@ -272,73 +292,77 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private boolean getQuestion(int Location, TextView textView) {
         int typeNumber = (int) (Math.random() * 4);
         int questionLocation = (int) (Math.random() * lenth);
+        Log.i("TAG","typeNumber = " +typeNumber );
+        Log.i("TAG","questionLocation = " +questionLocation );
+        Log.i("TAG","Location of photo= " + Location);
         boolean flag = false;
         //0代表名字，1代表地点,2代表时间
         if (typeNumber == 0) {
-            if(!names[questionLocation].equals("")){
-                textView.setText("图片中的人的名字是叫" + names[questionLocation] + "吗？\n" + "左滑是右滑不是");
-            }else {
-                getQuestion(Location,textView);
+            if (!names.get(questionLocation).equals("")) {
+                textView.setText("图片中的人的名字是叫" + names.get(questionLocation) + "吗？\n" + "左滑是右滑不是");
+            } else {
+//                getQuestion(Location, textView);
+                return false;
             }
         } else if (typeNumber == 1) {
-            if(!imageplaces[questionLocation].equals("")){
-                textView.setText("图片拍摄的地点是在" + imageplaces[questionLocation] + "吗？\n" + "左滑是右滑不是");
-            }else {
-                getQuestion(Location,textView);
+            if (!imageplaces.get(questionLocation).equals("")) {
+                textView.setText("图片拍摄的地点是在" + imageplaces.get(questionLocation) + "吗？\n" + "左滑是右滑不是");
+            } else {
+                getQuestion(Location, textView);
             }
 
 
         } else if (typeNumber == 2) {
-            String photoDate="";
+            String photoDate = "";
 
-            if(!imagetimes[questionLocation].equals("")){
-                photoDate = imagetimes[questionLocation];
-            }else {
-                Log.i("TAG","imagetimes不存在"    );
-                getQuestion(Location,textView);
+            if (!imagetimes.get(questionLocation).equals("")) {
+                photoDate = imagetimes.get(questionLocation);
+            } else {
+                Log.i("TAG", "imagetimes不存在");
+                getQuestion(Location, textView);
             }
 
-//            if (photoDate.charAt(4) == '0') {
-//
-//                if (photoDate.charAt(6) == '0') {
-//                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
-//                } else {
-//                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
-//                }
-//            } else {
-//                if (photoDate.charAt(6) == '0') {
-//                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
-//                }
-//                textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
-//            }
-//            //            textView.setText("图片拍摄的时间是在" + imagetimes[questionLocation] + "吗？\n" + "左滑是右滑不是");
-            if (photoDate.length()==8) {
-                if (  photoDate.charAt(4) == '0') {
+            //            if (photoDate.charAt(4) == '0') {
+            //
+            //                if (photoDate.charAt(6) == '0') {
+            //                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+            //                } else {
+            //                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+            //                }
+            //            } else {
+            //                if (photoDate.charAt(6) == '0') {
+            //                    textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7) + "日吗？\n" + "左滑是右滑不是");
+            //                }
+            //                textView.setText("图片拍摄的时间是在" + photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6) + "日吗？\n" + "左滑是右滑不是");
+            //            }
+            //            //            textView.setText("图片拍摄的时间是在" + imagetimes[questionLocation] + "吗？\n" + "左滑是右滑不是");
+            if (photoDate.length() == 8) {
+                if (photoDate.charAt(4) == '0') {
 
                     if (photoDate.charAt(6) == '0') {
-                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7,8) + "日");
+                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7, 8) + "日");
                     } else {
-                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6,8) + "日");
+                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6, 8) + "日");
                     }
                 } else {
                     if (photoDate.charAt(6) == '0') {
 
-                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7,8) + "日");
+                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7, 8) + "日");
                     }
 
-                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6,8) + "日");
+                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6, 8) + "日");
                 }
-            }else if(photoDate.length()==6){
-                if (  photoDate.charAt(4) == '0') {
+            } else if (photoDate.length() == 6) {
+                if (photoDate.charAt(4) == '0') {
                     textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月");
-                }else {
+                } else {
                     textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月");
 
                 }
-            }else  if(photoDate.length()==4){
-                textView.setText(photoDate.substring(0, 4) + "年" );
-            }else if(photoDate.length()<4){
-                getQuestion(Location,textView);
+            } else if (photoDate.length() == 4) {
+                textView.setText(photoDate.substring(0, 4) + "年");
+            } else if (photoDate.length() < 4) {
+                getQuestion(Location, textView);
             }
         }
 
@@ -352,16 +376,21 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private void prepareDataList() {
         //        int num = lenth;
         int num = lenth;
-
-        for (int i = 0; i < num; i++) {
-            CardDataItem dataItem = new CardDataItem();
-            dataItem.userName = names[i];
-            dataItem.imagePath = imagePaths[i];
-            dataItem.imagePlace = imageplaces[i];
-            dataItem.likeNum = (int) (Math.random() * 10);
-            dataItem.imageNum = (int) (Math.random() * 6);
-            dataList.add(dataItem);
+        for (int i = 0; i < pictlist.size(); i++) {
+            imagePaths.add(pictlist.get(i).getImagePath());
+            names.add(pictlist.get(i).getName());
+            imageplaces.add(pictlist.get(i).getLocation());
+            imagetimes.add(String.valueOf(pictlist.get(i).getDate()));
         }
+        //        for (int i = 0; i < num; i++) {
+        //            CardDataItem dataItem = new CardDataItem();
+        //            dataItem.userName = names[i];
+        //            dataItem.imagePath = imagePaths[i];
+        //            dataItem.imagePlace = imageplaces[i];
+        //            dataItem.likeNum = (int) (Math.random() * 10);
+        //            dataItem.imageNum = (int) (Math.random() * 6);
+        //            dataList.add(dataItem);
+        //        }
     }
 
     @Override
