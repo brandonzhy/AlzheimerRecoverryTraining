@@ -319,7 +319,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     }
 
     private boolean getQuestion(int Location, TextView textView) {
-        int typeNumber = (int) (Math.random() * 4);
+        int typeNumber = (int) (Math.random() * 3);
         int questionLocation = (int) (Math.random() * lenth);
         Log.i("TAG", "typeNumber = " + typeNumber);
         Log.i("TAG", "questionLocation = " + questionLocation);

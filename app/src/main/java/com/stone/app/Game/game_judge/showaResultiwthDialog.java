@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -14,6 +15,7 @@ import com.stone.app.Util.DateUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
+import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
 
 import static com.stone.app.Util.staticConstUtil.GAME_JUDGAE;
@@ -23,6 +25,7 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
     private  float pf=0.9f;
     private Button btn_back;
     DiaCharView chart6 = null;
+    DataBaseManager dataBaseManager;
     String memberID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +38,8 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
         btn_back.setOnClickListener(this);
         Intent intent =getIntent();
         pf=intent.getFloatExtra("result",0);
-        memberID=intent.getStringExtra("ID");
-
+        memberID=intent.getStringExtra("memberID");
+        dataBaseManager= RealmDB.getDataBaseManager();
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "pf", 0,pf );
         objectAnimator.setDuration(duration);
         //加速器，从慢到快到再到慢
@@ -59,7 +62,8 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
 //        gotoGamePage();
         try {
             long date = DateUtil. getTime();
-            new DataBaseManager().AddGameRecord(memberID, (double) pf,date , GAME_JUDGAE);
+            Log.i("TAG"," 判断游戏上传的date= "  +date );
+            dataBaseManager.AddGameRecord(memberID, (double) pf,date , GAME_JUDGAE);
         } catch (DataBaseSignal dataBaseSignal) {
             dataBaseSignal.printStackTrace();
         } catch (DataBaseError dataBaseError) {

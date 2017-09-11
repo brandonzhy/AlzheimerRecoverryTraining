@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.stone.app.R;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.GameRecordData;
@@ -15,6 +16,8 @@ import com.stone.app.dataBase.RealmDB;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.stone.app.dataBase.DataBaseError.ErrorType.RequiredResultsReturnNULL;
 
 
 public class DayRecord extends Activity implements View.OnClickListener {
@@ -46,6 +49,10 @@ public class DayRecord extends Activity implements View.OnClickListener {
             }
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
+            if(RequiredResultsReturnNULL==dataBaseError.getErrorType()){
+                ToastUtil.showToast(DayRecord.this,"游戏记录不存在哦，先去玩游戏吧");
+                finish();
+            }
             Log.i("TAG", "浏览失败，错误类型为: " + dataBaseError.getErrorType());
         }
     }
