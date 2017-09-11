@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.stone.app.addMember.modifyFamilyName"
+    tools:context="com.stone.app.addMember.modifyName"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxEms="11"
-            android:text="更改家庭名"
+            android:text="更改名字"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 

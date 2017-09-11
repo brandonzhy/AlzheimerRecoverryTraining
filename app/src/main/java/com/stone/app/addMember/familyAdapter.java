@@ -16,6 +16,10 @@ import com.stone.app.R;
 
 import java.util.List;
 
+import static com.stone.app.R.id.tv_createrName;
+import static com.stone.app.R.id.tv_familyID;
+import static com.stone.app.R.id.tv_familyName;
+
 /**
  * Created by Brandon Zhang on 2017/9/10.
  */
@@ -34,48 +38,72 @@ public class familyAdapter extends ArrayAdapter<familyItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         familyItem familyItem = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resID, parent,false);
-//        View view = LayoutInflater.from(getContext()).inflate(resID, null);
-        ImageView imageView = view.findViewById(R.id.img_family);
-        TextView tv_familyName = view.findViewById(R.id.tv_familyName);
-        TextView tv_familyID = view.findViewById(R.id.tv_familyID);
-        TextView tv_createrName = view.findViewById(R.id.tv_createrName);
-        TextView tv_createrID = view.findViewById(R.id.tv_createrID);
-        if(familyItem.getFamilyName()!=null){
-            tv_familyName.setText(familyItem.getFamilyName());
-
-        }else {
-            tv_familyName.setText("");
+        View view;
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            view = LayoutInflater.from(getContext()).inflate(resID, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.imageView=view.findViewById(R.id.img_family);
+            viewHolder.tv_familyName=view.findViewById(tv_familyName);
+            viewHolder.tv_familyID=view.findViewById(tv_familyID);
+            viewHolder.tv_createrName=view.findViewById(tv_createrName);
+            viewHolder.tv_createrID=view.findViewById(R.id.tv_createrID);
+            view.setTag(viewHolder);
+        } else {
+            view = convertView;
+            viewHolder=(ViewHolder)view.getTag();
         }
-        if(familyItem.getFamilyID()!=null){
-            tv_familyID.setText(familyItem.getFamilyID());
+        //        View view = LayoutInflater.from(getContext()).inflate(resID, null);
+//        ImageView imageView = view.findViewById(R.id.img_family);
+//        TextView tv_familyName = view.findViewById(R.id.tv_familyName);
+//        TextView tv_familyID = view.findViewById(R.id.tv_familyID);
+//        TextView tv_createrName = view.findViewById(R.id.tv_createrName);
+//        TextView tv_createrID = view.findViewById(R.id.tv_createrID);
 
-        }else {
-            tv_familyID.setText("");
+        if (familyItem.getFamilyName() != null) {
+            viewHolder.tv_familyName.setText(familyItem.getFamilyName());
+
+        } else {
+            viewHolder.tv_familyName.setText("");
         }
-        if(familyItem.getFamilyCreaterName()!=null){
-            tv_createrName.setText(familyItem.getFamilyCreaterName());
+        if (familyItem.getFamilyID() != null) {
+            viewHolder.tv_familyID.setText(familyItem.getFamilyID());
 
-        }else {
-            tv_createrName.setText("");
+        } else {
+            viewHolder.tv_familyID.setText("");
         }
-        if(familyItem.getFamilyCreaterID()!=null){
-            tv_createrID.setText(familyItem.getFamilyCreaterID());
+        if (familyItem.getFamilyCreaterName() != null) {
+            viewHolder.tv_createrName.setText(familyItem.getFamilyCreaterName());
 
-        }else {
-            tv_createrID.setText("");
+        } else {
+            viewHolder.tv_createrName.setText("");
         }
+        if (familyItem.getFamilyCreaterID() != null) {
+            viewHolder.tv_createrID.setText(familyItem.getFamilyCreaterID());
 
+        } else {
+            viewHolder.tv_createrID.setText("");
+        }
 
 
         if (familyItem.getImagePath().equals("")) {
 
-            imageView.setImageResource(R.mipmap.smiley);
+            Glide.with(mycontext).load("file:///android_asset/person1.jpg").into(viewHolder.imageView);
+            //            imageView.setImageResource(R.mipmap.smiley);
         } else {
-              Glide.with(mycontext).load(familyItem.getImagePath()).into(imageView);
+            Glide.with(mycontext).load(familyItem.getImagePath()).into(viewHolder.imageView);
 
         }
         return view;
 
     }
+
+    class ViewHolder {
+        ImageView imageView;
+        TextView tv_familyName;
+        TextView tv_familyID;
+        TextView tv_createrName;
+        TextView tv_createrID;
+    }
+
 }

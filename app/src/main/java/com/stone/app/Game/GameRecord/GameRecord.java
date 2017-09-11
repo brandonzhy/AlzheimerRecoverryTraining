@@ -21,7 +21,7 @@ import static com.stone.app.Util.staticConstUtil.GAME_PUZZLE;
 
 
 public class GameRecord extends Activity {
-//    private DataBaseManager dataBaseManager;
+    //    private DataBaseManager dataBaseManager;
     List<GameRecordData> glist;
     private ListView lv_puzzle, lv_judge;
     private String recordItems[] = {"拼图每日游戏记录", "拼图每月游戏记录", "图片判断每日游戏记录", "图片判断每月游戏记录"};
@@ -32,7 +32,7 @@ public class GameRecord extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_record);
-        ImageView imageView=findViewById(R.id.iv_gamerecord_leftback);
+        ImageView imageView = findViewById(R.id.iv_gamerecord_leftback);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,8 +51,10 @@ public class GameRecord extends Activity {
                 list_puzzle.add(recordItems[i]);
             }
         }
-        ArrayAdapter<String> adapter_puzzle = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_puzzle);
-        ArrayAdapter<String> adapter_judge = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_judge);
+                ArrayAdapter<String> adapter_puzzle = new ArrayAdapter<String>(this, R.layout.single_item, list_puzzle);
+                ArrayAdapter<String> adapter_judge = new ArrayAdapter<String>(this, R.layout.single_item, list_judge);
+//        ArrayAdapter<String> adapter_puzzle = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_puzzle);
+//        ArrayAdapter<String> adapter_judge =  new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_judge);
         lv_puzzle = findViewById(R.id.lv_gamerecord_puzzle);
         lv_judge = findViewById(R.id.lv_gamerecord_judge);
         lv_judge.setAdapter(adapter_judge);
@@ -62,16 +64,16 @@ public class GameRecord extends Activity {
                 switch (i) {
                     case 0:
                         Log.i("TAG", "判断每日游戏记录被点击了");
-                        Intent intent_judje_day=new Intent(GameRecord.this,DayRecord.class);
-                        intent_judje_day.putExtra("memberID",memberID);
-                        intent_judje_day.putExtra("gameType",GAME_JUDGAE);
+                        Intent intent_judje_day = new Intent(GameRecord.this, DayRecord.class);
+                        intent_judje_day.putExtra("memberID", memberID);
+                        intent_judje_day.putExtra("gameType", GAME_JUDGAE);
                         startActivity(intent_judje_day);
                         break;
                     case 1:
                         Log.i("TAG", "判断每月游戏记录被点击了");
-                        Intent intent_judje_month=new Intent(GameRecord.this,DayRecord.class);
-                        intent_judje_month.putExtra("memberID",memberID);
-                        intent_judje_month.putExtra("gameType",GAME_JUDGAE);
+                        Intent intent_judje_month = new Intent(GameRecord.this, DayRecord.class);
+                        intent_judje_month.putExtra("memberID", memberID);
+                        intent_judje_month.putExtra("gameType", GAME_JUDGAE);
                         startActivity(intent_judje_month);
                         break;
                 }
@@ -84,26 +86,26 @@ public class GameRecord extends Activity {
                 switch (i) {
                     case 0:
                         Log.i("TAG", "拼图每日游戏记录被点击了");
-                        Intent intent_puzzle_day=new Intent(GameRecord.this, PuzzleDayRecord.class);
-                        intent_puzzle_day.putExtra("memberID",memberID);
-                        intent_puzzle_day.putExtra("gameType",GAME_PUZZLE);
+                        Intent intent_puzzle_day = new Intent(GameRecord.this, PuzzleDayRecord.class);
+                        intent_puzzle_day.putExtra("memberID", memberID);
+                        intent_puzzle_day.putExtra("gameType", GAME_PUZZLE);
                         startActivity(intent_puzzle_day);
                         break;
                     case 1:
                         Log.i("TAG", "拼图每月游戏记录被点击了");
-                        Intent intent_puzzle_month=new Intent(GameRecord.this,PuzzleMonthRecord.class);
-                        intent_puzzle_month.putExtra("memberID",memberID);
-                        intent_puzzle_month.putExtra("gameType",GAME_PUZZLE);
+                        Intent intent_puzzle_month = new Intent(GameRecord.this, PuzzleMonthRecord.class);
+                        intent_puzzle_month.putExtra("memberID", memberID);
+                        intent_puzzle_month.putExtra("gameType", GAME_PUZZLE);
                         startActivity(intent_puzzle_month);
                         break;
                 }
             }
         });
-//        dataBaseManager = new DataBaseManager();
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(GameRecord.this, android.R.layout.simple_list_item_1, recordItems);
+        //        dataBaseManager = new DataBaseManager();
+        //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(GameRecord.this, android.R.layout.simple_list_item_1, recordItems);
 
 
-//        glist = dataBaseManager.getGameRecordList("", memberID, GAME_JUDGAE, 0, 0);
+        //        glist = dataBaseManager.getGameRecordList("", memberID, GAME_JUDGAE, 0, 0);
         //        Button btn_gamerecord_back = (Button) findViewById(R.id.btn_gamerecord_back);
         //        btn_gamerecord_back.setOnClickListener(new View.OnClickListener() {
         //            @Override

@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+            android:background="@color/light_gray"
               android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
+        android:background="@drawable/single_itme"
         >
 
         <TextView
@@ -15,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_gravity="center_vertical"
-
+            android:textColor="@color/black"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="头像"
@@ -33,14 +35,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="暖暖"
-                android:textSize="18sp"
-                android:visibility="gone"/>
+                android:textColor="@color/black"
+                android:text=""
+                android:textSize="18sp"/>
 
             <ImageView
                 android:id="@+id/iv_update_right"
                 android:layout_width="50dp"
-
                 android:layout_height="50dp"/>
         </RelativeLayout>
     </RelativeLayout>

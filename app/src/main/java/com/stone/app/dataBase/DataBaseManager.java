@@ -48,16 +48,22 @@ public class DataBaseManager {
     }
 
     public synchronized void CloseDataBase() throws DataBaseError {
-        if (!activateDB) {
-            Log.i("TAG", "CloseDataBase : RealmDataBaseHibernate");
-            throw new DataBaseError(DataBaseError.ErrorType.RealmDataBaseHibernate);
-        }
-        try {
-            Manager = null;
-            activateDB = false;
-        } catch (Exception e) {
-            Log.i("TAG", "CloseDataBase : " + e.getMessage() + e.getLocalizedMessage());
-            throw new DataBaseError(DataBaseError.ErrorType.UnknownError_HibernateDataBaseManager);
+        try{
+            Manager.commitTransaction();
+        }catch (Exception e){
+
+        }finally {
+            if (!activateDB) {
+                Log.i("TAG", "CloseDataBase : RealmDataBaseHibernate");
+                throw new DataBaseError(DataBaseError.ErrorType.RealmDataBaseHibernate);
+            }
+            try {
+                Manager = null;
+                activateDB = false;
+            } catch (Exception e) {
+                Log.i("TAG", "CloseDataBase : " + e.getMessage() + e.getLocalizedMessage());
+                throw new DataBaseError(DataBaseError.ErrorType.UnknownError_HibernateDataBaseManager);
+            }
         }
     }
 
@@ -178,6 +184,8 @@ public class DataBaseManager {
         try {
             dm.AddImage(Manager, memberID, name, location, imagePath, date, note, parentImage);
         } finally {
+//            Manager.commitTransaction();
+            Log.i("TAG","CloseDataBase is called"  );
             CloseDataBase();
         }
     }
@@ -514,6 +522,7 @@ public class DataBaseManager {
         try {
             dm.UpdateFamily(Manager, ID, name, rootMemberID, portraitID);
         } finally {
+            Log.i("TAG","CloseDataBase is called"  );
             CloseDataBase();
         }
     }

@@ -94,4 +94,5 @@ public class DataBaseError extends Exception {
     public ErrorType getErrorType() {
         return type;
     }
+
 }

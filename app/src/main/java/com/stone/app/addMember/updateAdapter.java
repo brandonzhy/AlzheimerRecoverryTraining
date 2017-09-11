@@ -39,16 +39,16 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
 
 
         TextView tv_updte_left = view.findViewById(R.id.tv_updte_left);
-        if(updateFamily.getLeftText()!=null){
-            tv_updte_left.setText(updateFamily.getLeftText());
-
-        }else {
-            tv_updte_left.setText("");
-        }
-
+//        if(updateFamily.getLeftText()!=null){
+//            tv_updte_left.setText(updateFamily.getLeftText());
+//
+//        }else {
+//            tv_updte_left.setText("");
+//        }
+        tv_updte_left.setText(updateFamily.getLeftText());
 
         if (position == 0) {
-            ImageView imageView = view.findViewById(R.id.img_family);
+            ImageView imageView = view.findViewById(R.id.iv_update_right);
             imageView.setVisibility(View.VISIBLE);
 //
             if(updateFamily.getRightImagepath().equals("")||updateFamily.getRightImagepath()==null){

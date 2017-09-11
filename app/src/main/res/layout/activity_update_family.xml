@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="@drawable/shape0"
-    android:background="@color/bggray"
+    android:background="@color/light_gray"
     android:showDividers="end|middle"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/bar_grey">
+        android:background="@color/gray">
 
         <ImageView
             android:id="@+id/iv_update_leftback"

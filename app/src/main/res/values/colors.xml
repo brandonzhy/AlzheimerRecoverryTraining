@@ -9,13 +9,13 @@
 
     <color name="spring_green">#00EE76</color>
     <color name="line_color">#DDDDDD</color>
-    <color name="bggray">#ebebeb</color>
+    <color name="bggray">#F5F5F5</color>
     <color name="backgray">#574E5e</color>
     <color name="pale_green">#7CCD7C</color>
     <color name="pink">#FFB6C1</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="theme_red">#CD2626</color>
-    <color name="white">#FFFFF0</color>
+    <color name="white">#FFffff</color>
     <color name="MistyRose2">#8B7D7B</color>
     <color name="backRose">#54515c</color>
     <color name="black_overlay">#66000000</color>

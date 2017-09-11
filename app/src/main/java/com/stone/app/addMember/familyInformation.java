@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.stone.app.R;
+import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.FamilyData;
@@ -46,8 +47,9 @@ public class familyInformation extends Activity {
                 finish();
             }
         });
-        final Intent intent = getIntent();
-        memberID = intent.getStringExtra("memberID");
+
+        memberID = getDataUtil.getmemberID(familyInformation.this);
+        Log.i("TAG","family获得的 memberID= "+ memberID);
         try {
             List<MemberData> list = dataBaseManager.getMemberList(memberID, "", "", "");
             if (list != null) {
@@ -67,10 +69,11 @@ public class familyInformation extends Activity {
                 if (familyDataList != null) {
                     FamilyData familyData = familyDataList.get(0);
                     familyItem familyItem = new familyItem();
-                    familyItem.setFamilyID(familyData.getID());
-                    familyItem.setFamilyName(familyData.getName());
-                    familyItem.setFamilyCreaterID(familyData.getRootMemberID());
-                    familyItem.setFamilyCreaterName(dataBaseManager.getMemberList(familyData.getRootMemberID(), "", "", "").get(0).getName());
+                    familyItem.setImagePath(familyData.getPortraitID());
+                    familyItem.setFamilyID("ID: "+familyData.getID());
+                    familyItem.setFamilyName("家庭名: "+familyData.getName());
+                    familyItem.setFamilyCreaterID("创建人ID: "+familyData.getRootMemberID());
+//                    familyItem.setFamilyCreaterName("创建人: "+dataBaseManager.getMemberList(familyData.getRootMemberID(), "", "", "").get(0).getName());
                     flist.add(familyItem);
                     familyAdapter familyAdapter = new familyAdapter(familyInformation.this, R.layout.family_item, flist);
                     lv_familyinfo.setAdapter(familyAdapter);
@@ -81,7 +84,7 @@ public class familyInformation extends Activity {
                                 case 0:
                                     Intent intent_update=new Intent(familyInformation.this,updateFamily.class);
                                     intent_update.putExtra("familyID",familyID);
-                                    intent_update.putExtra("Type",0);
+                                    intent_update.putExtra("modifyType",0);
                                     startActivity(intent_update);
 
                                 break;
@@ -106,8 +109,8 @@ public class familyInformation extends Activity {
             if (familymemberList != null) {
                 for (MemberData memberData : familymemberList) {
                     familyMemberItem familyMemberItem = new familyMemberItem();
-                    familyMemberItem.setMemberID(memberData.getID());
-                    familyMemberItem.setMemberName(memberData.getName());
+                    familyMemberItem.setMemberID("ID: "+memberData.getID());
+                    familyMemberItem.setMemberName("姓名: "+memberData.getName());
                     familyMemberItem.setImagePath(memberData.getPortraitID());
                     fmemberlist.add(familyMemberItem);
                 }
@@ -132,5 +135,12 @@ public class familyInformation extends Activity {
 
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(familyInformation.this,mainpageYoung.class));
+        onDestroy();
+        super.onBackPressed();
     }
 }

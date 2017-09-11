@@ -33,7 +33,7 @@ public class GameRecordAdapter extends ArrayAdapter<GameItem> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         GameItem gameItem = getItem(resourceID);
         if(convertView==null){
-             view = LayoutInflater.from(getContext()).inflate(resourceID, parent, false);
+            view = LayoutInflater.from(getContext()).inflate(resourceID, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.gamedate = view.findViewById(R.id.tv_date);
             viewHolder.gameResult = view.findViewById(R.id.tv_result);
@@ -42,8 +42,8 @@ public class GameRecordAdapter extends ArrayAdapter<GameItem> {
             view=convertView;
             viewHolder= (ViewHolder) view.getTag();
         }
-        gameItem.setDate(gameItem.getDate());
-        gameItem.setResult(gameItem.getResult());
+        viewHolder.gamedate.setText(gameItem.getData());
+        viewHolder.gameResult.setText(String.valueOf(gameItem.getResult()));
 
         return view;
 

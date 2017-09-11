@@ -12,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.stone.app.R;
 
 import java.util.List;
+
+import static com.stone.app.R.id.img_family_member;
+import static com.stone.app.R.id.tv_family_memberID;
+import static com.stone.app.R.id.tv_family_memberName;
 
 /**
  * Created by Brandon Zhang on 2017/9/10.
@@ -34,31 +37,48 @@ public class familyMemberAdapter extends ArrayAdapter<familyMemberItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         familyMemberItem familyMemberItem = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resID, parent,false);
-        ImageView img_family_member = view.findViewById(R.id.img_family_member);
-        TextView tv_family_memberName = view.findViewById(R.id.tv_family_memberName);
-        TextView tv_family_memberID = view.findViewById(R.id.tv_family_memberID);
-        if(familyMemberItem.getMemberName()!=null){
+        View view;
+        ViewHolder viewHolder;
+         view = LayoutInflater.from(getContext()).inflate(resID, parent, false);
 
-            tv_family_memberName.setText(familyMemberItem.getMemberName());
-        }else {
-            tv_family_memberName.setText("");
+        if (convertView == null) {
+            view = LayoutInflater.from(getContext()).inflate(resID, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.img_family_member = view.findViewById(img_family_member);
+            viewHolder.tv_family_memberName = view.findViewById(tv_family_memberName);
+            viewHolder.tv_family_memberID = view.findViewById(tv_family_memberID);
+            view.setTag(viewHolder);
+        } else {
+            view = convertView;
+            viewHolder=(ViewHolder)view.getTag();
         }
-        if(familyMemberItem.getMemberID()!=null){
+        if (familyMemberItem.getMemberName() != null) {
 
-            tv_family_memberID.setText(familyMemberItem.getMemberID());
-        }else {
-            tv_family_memberID.setText("");
+            viewHolder.tv_family_memberName.setText(familyMemberItem.getMemberName());
+        } else {
+            viewHolder.tv_family_memberName.setText("");
+        }
+        if (familyMemberItem.getMemberID() != null) {
+
+            viewHolder.tv_family_memberID.setText(familyMemberItem.getMemberID());
+        } else {
+            viewHolder.tv_family_memberID.setText("");
         }
         //  Glide.with(mycontext).load(familyMemberItem.getImagePath()).into(img_family_member);
         if (familyMemberItem.getImagePath().equals("")) {
-
-            img_family_member.setImageResource(R.mipmap.smiley);
+            Glide.with(mycontext).load("file:///android_asset/person1.jpg").into(viewHolder.img_family_member);
+            //            img_family_member.setImageResource(R.mipmap.smiley);
         } else {
-            Glide.with(mycontext).load(familyMemberItem.getImagePath()).into(img_family_member);
+            Glide.with(mycontext).load(familyMemberItem.getImagePath()).into(viewHolder.img_family_member);
 
         }
         return view;
 
+    }
+
+    class ViewHolder {
+        ImageView img_family_member;
+        TextView tv_family_memberName;
+        TextView tv_family_memberID;
     }
 }

@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.PictureData;
+import com.stone.app.dataBase.RealmDB;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,19 +54,24 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private static final int TIME_CHANGED = 2;
     private static final int NEXT_LEVEL = 4;
     private int level = 1;
+    private String memberID;
+
+    private Context mycontext;
     private String imagepath;
 
     public Context getMycontext() {
         return mycontext;
     }
 
-    private Context mycontext;
-
     public GamePintuLayout(Context context) {
         this(context, null);
         mycontext = context;
     }
 
+    public GamePintuLayout(Context context, AttributeSet attrs, int defStyleAttr, String memberID) {
+        super(context, attrs, defStyleAttr);
+        this.memberID = memberID;
+    }
 
     public GamePintuLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -88,10 +93,10 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
             //            mBitmap = BitmapFactory.decodeResource(getResources(),
             //                    R.drawable.image);
             //获取图片
-            DataBaseManager dataBaseManager = new DataBaseManager();
+            DataBaseManager dataBaseManager = RealmDB.getDataBaseManager();
             List<PictureData> listdata = null;
             try {
-                listdata = dataBaseManager.getRandomPicturesFromMember(getDataUtil.getmemberID(getMycontext()), "", "", 0, 0, 0);
+                listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
                 imagepath = listdata.get(0).getImagePath();
                 mBitmap = BitmapFactory.decodeFile(imagepath);
             } catch (DataBaseError dataBaseError) {
@@ -319,9 +324,11 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
                         Toast.LENGTH_LONG).show();
 
             } else {
-                mColumn = 2;
+
                 Toast.makeText(getContext(), "恭喜你，今天的任务已经完成！！！",
                         Toast.LENGTH_LONG).show();
+                mListener.gamefinish();
+
 
             }
             mHandler.sendEmptyMessage(NEXT_LEVEL);
@@ -419,6 +426,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
         void gameover();
 
+        void gamefinish();
 
     }
 

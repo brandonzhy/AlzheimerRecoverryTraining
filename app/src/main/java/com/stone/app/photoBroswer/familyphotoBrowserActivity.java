@@ -19,7 +19,7 @@ import com.stone.app.dataBase.PictureData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
-import com.stone.app.mainPage.MyInformation;
+import com.stone.app.style_young.mainpageYoung;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,33 +71,34 @@ public class familyphotoBrowserActivity extends FragmentActivity implements View
         try {
             String memberID = getDataUtil.getmemberID(familyphotoBrowserActivity.this);
             Log.i("TAG", " familyphotoBrowser的memberID: " + memberID);
-
+            familyID=dataBaseManager.getMemberList(memberID,"","","").get(0).getFamilyID();
             pictlist = dataBaseManager.getRandomPicturesFromFamily(familyID, "", "", 0, 0, -1);
 
+            if (pictlist.size() == 0) {
+                ToastUtil.showToast(familyphotoBrowserActivity.this, "图片列表为空");
+                Log.i("TAG", "图片列表为空");
+                finish();
+                //        }else {
+                //            int i = 0;
+                //            for (PictureData data : pictlist) {
+                //
+                //                imagePaths[i] = data.getImagePath();
+                //                names[i] = data.getName();
+                //                imageplaces[i] = data.getLocation();
+                //                imagetimes[i] = String.valueOf(data.getDate());
+                //                Log.i("TAG","path= " +imagePaths[i]  );
+                //                Log.i("TAG","places= " +  imageplaces[i]);
+                //                Log.i("TAG","name= " +names[i] );
+                //                Log.i("TAG"," imagetimes= " + imagetimes[i]  );
+                //                i++;
+                //        }
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         //                pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
-        if (pictlist.size() == 0) {
-            ToastUtil.showToast(familyphotoBrowserActivity.this, "图片列表为空");
-            Log.i("TAG", "图片列表为空");
-            finish();
-            //        }else {
-            //            int i = 0;
-            //            for (PictureData data : pictlist) {
-            //
-            //                imagePaths[i] = data.getImagePath();
-            //                names[i] = data.getName();
-            //                imageplaces[i] = data.getLocation();
-            //                imagetimes[i] = String.valueOf(data.getDate());
-            //                Log.i("TAG","path= " +imagePaths[i]  );
-            //                Log.i("TAG","places= " +  imageplaces[i]);
-            //                Log.i("TAG","name= " +names[i] );
-            //                Log.i("TAG"," imagetimes= " + imagetimes[i]  );
-            //                i++;
-            //        }
 
-        }
     }
 
     private void initView() {
@@ -262,7 +263,8 @@ public class familyphotoBrowserActivity extends FragmentActivity implements View
         switch (view.getId()) {
             case R.id.img_back:
                 //gotomypage()   返回我的界面
-                startActivity(new Intent(familyphotoBrowserActivity.this, MyInformation.class));
+                startActivity(new Intent(familyphotoBrowserActivity.this, mainpageYoung.class));
+                Log.i("TAG","startActivity 后finish执行"  );
                 finish();
                 break;
         }

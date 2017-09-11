@@ -18,7 +18,6 @@ import com.stone.app.dataBase.PictureData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
-import com.stone.app.mainPage.MyInformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +108,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             public void onShow(int index) {
                 Log.d("Card", "正在显示-" + dataList.get(index).userName);
 
-                if (pictlist.size() > 1 && index == (pictlist.size() - 1) * circulatetimes) {
+                if (pictlist.size() > 2 && index == (pictlist.size() - 2) * circulatetimes) {
                     appendDataList();
                     slidePanel.getAdapter().notifyDataSetChanged();
                     //4. 数据更新<
@@ -166,7 +165,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public Rect obtainDraggableArea(View view) {
-                if (pictlist.size() > 1) {
+                if (pictlist.size() > 2) {
                     View contentView = view.findViewById(R.id.card_item_content);
                     View topLayout = view.findViewById(R.id.card_top_layout);
                     View bottomLayout = view.findViewById(R.id.card_bottom_layout);
@@ -200,14 +199,18 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
     private void prepareDataList() {
         //        int num = imagePaths.length;
         //        int num = imagePaths.length;
-        for (PictureData pictureData : pictlist) {
+        for(int i=1;i<pictlist.size();i++){
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName = pictureData.getName();
-            dataItem.imagePath = pictureData.getImagePath();
-            dataItem.imagePlace = pictureData.getLocation();
-            dataItem.phototime = String.valueOf(pictureData.getDate());
+            dataItem.userName =  pictlist.get(i).getName().trim();
+            dataItem.imagePath =  pictlist.get(i).getImagePath().trim();
+            dataItem.imagePlace =  pictlist.get(i).getLocation().trim();
+            dataItem.phototime = String.valueOf (pictlist.get(i).getDate());
             dataList.add(dataItem);
+
         }
+//        for (PictureData pictureData : pictlist) {
+//
+//        }
         //        for (int i = 0; i < num; i++) {
         //            CardDataItem dataItem = new CardDataItem();
         //            dataItem.userName = names[i];
@@ -231,9 +234,9 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //        }
         for (PictureData pictureData : pictlist) {
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName = pictureData.getName();
-            dataItem.imagePath = pictureData.getImagePath();
-            dataItem.imagePlace = pictureData.getLocation();
+            dataItem.userName = pictureData.getName().trim();
+            dataItem.imagePath = pictureData.getImagePath().trim();
+            dataItem.imagePlace = pictureData.getLocation().trim();
             dataItem.phototime = String.valueOf(pictureData.getDate());
             dataList.add(dataItem);
         }
@@ -259,7 +262,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.img_back:
                 //gotomypage()   返回我的界面
-                startActivity(new Intent(photoBroswerActivity.this, MyInformation.class));
+//                startActivity(new Intent(photoBroswerActivity.this, MyInformation.class));
                 finish();
                 break;
         }
@@ -283,7 +286,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         }
 
         public void bindData(CardDataItem itemData) {
-            Glide.with(photoBroswerActivity.this).load(itemData.imagePath).into(imageView);
+            Glide.with(photoBroswerActivity.this).load(itemData.imagePath.trim()).into(imageView);
             //            userNameTv.setText("姓名：" + itemData.userName);
             userNameTv.setText(itemData.userName);
             String photoDate = itemData.phototime;

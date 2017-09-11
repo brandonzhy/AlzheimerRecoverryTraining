@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import com.stone.app.R;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.MemberData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
@@ -47,8 +48,8 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
         rb_gender = findViewById(R.id.rb_gender);
         rb_gender.setOnCheckedChangeListener(setInfomationActivity.this);
         bt_info_submit.setOnClickListener(setInfomationActivity.this);
-//        dataBaseManager = new DataBaseManager();    //数据库模块
-        dataBaseManager= RealmDB.getDataBaseManager();
+        //        dataBaseManager = new DataBaseManager();    //数据库模块
+        dataBaseManager = RealmDB.getDataBaseManager();
     }
 
     @Override
@@ -57,40 +58,47 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
         // 数据库模块
 
         try {
-//            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(), intent.getStringExtra("password"),
-//                    "", et_info_name.getText().toString(),
-//                    gendrType, intent.getStringExtra("phone"));
-            long phone = 111111110 + dataBaseManager.getPhoneList( "","").size();
-            String nickname ="";
-            String name="";
-            if(!TextUtils.isEmpty(et_info_nickname.getText().toString())){
-                nickname=et_info_nickname.getText().toString();
+            //            memberData = dataBaseManager.AddMember(et_info_nickname.getText().toString(), intent.getStringExtra("password"),
+            //                    "", et_info_name.getText().toString(),
+            //                    gendrType, intent.getStringExtra("phone"));
+            long phone = 111111110 + dataBaseManager.getPhoneList("", "").size();
+            String nickname = "";
+            String name = "";
+            if (!TextUtils.isEmpty(et_info_nickname.getText().toString())) {
+                nickname = et_info_nickname.getText().toString();
             }
-            if(!TextUtils.isEmpty(et_info_name.getText().toString())){
-                name=et_info_nickname.getText().toString();
+            if (!TextUtils.isEmpty(et_info_name.getText().toString())) {
+                name = et_info_nickname.getText().toString();
             }
-            memberData = dataBaseManager.AddMember(nickname,"123456" ,
+            memberData = dataBaseManager.AddMember(nickname, "123456",
                     "", name,
-                    gendrType, "11"+String.valueOf(phone),"");
-//                    gendrType, "15858260179","");
+                    gendrType, "11" + String.valueOf(phone), "");
+            //                    gendrType, "15858260179","");
+//            Log.i("TAG", "memberDatagetName " + memberData.getName()+"memberDatagetName " + memberData.getGender() );
             Intent intentmainPage = new Intent(setInfomationActivity.this, mainpageYoung.class);
             if (memberData != null) {
                 String memberID = memberData.getID();
                 String memberName = memberData.getName();
                 String memberNickName = memberData.getNickName();
                 int memberGender = memberData.getGender();
+                try {
+                    dataBaseManager.AddImage(memberID, "", "", "file:///android_asset/person1.jpg", 0, "", "");
 
+                } catch (DataBaseSignal dataBaseSignal) {
+                    Log.i("TAG", "添加头像dataBaseSignal " + dataBaseSignal.getSignalType() + dataBaseSignal.getMessage());
+                    dataBaseSignal.printStackTrace();
+                }
                 intentmainPage.putExtra("memberID", memberID);
                 intentmainPage.putExtra("memberName", memberName);
                 intentmainPage.putExtra("memberNickName", memberNickName);
                 intentmainPage.putExtra("memberGender", memberGender);
-                Log.i("TAG","memberID= " +memberID );
+                Log.i("TAG", "memberID= " + memberID);
                 //PreferenceManager.getDefaultSharedPreferences利用包名来命名SharedPreferences文件
                 SharedPreferences.Editor editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
-                editor.putBoolean("isFirstLogin",true);
-                editor.putString("memberID",memberID);
+                editor.putBoolean("isFirstLogin", true);
+                editor.putString("memberID", memberID);
                 editor.apply();
-                Log.i("TAG","登陆成功啦啦啦" );
+                Log.i("TAG", "登陆成功啦啦啦");
             }
             startActivity(intentmainPage);
             finish();
@@ -98,7 +106,7 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
 
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
-            Log.i("TAG","注册失败，错误类型为: " +dataBaseError.getErrorType() );
+            Log.i("TAG", "注册失败，错误类型为: " + dataBaseError.getErrorType());
         }
 
         //转到主界面

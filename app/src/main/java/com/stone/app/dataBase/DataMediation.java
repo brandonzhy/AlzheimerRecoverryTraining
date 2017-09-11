@@ -1272,46 +1272,15 @@ class DataMediation {
                 boolean single = false;
                 Manager.beginTransaction();
                 RealmResults<MemberData> ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
-                Log.i("TAG", "Size : " + ResultM.size());
                 if (ResultM.size() > 0) {
                     int telomere = ResultM.size();
                     do {
-                        ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
-                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
-                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
-                        Manager.commitTransaction();
-
                         Manager.beginTransaction();
-
                         updateMember = ResultM.first();
                         updateMember.setFamilyID(familyID);
-                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
-
-                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
-
                         Manager.commitTransaction();
-
-                        ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
-
-                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
-
-                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
-
-                        Manager.beginTransaction();
-
-                        Manager.commitTransaction();
-
-                        ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
-
-                        Log.i("TAG", "R : " + ResultM.get(0).getID() + "Size : " + ResultM.size());
-
-                        Log.i("TAG", "f ID " + ResultM.get(0).getFamilyID() );
-
-                        Manager.beginTransaction();
-
-                    } while (ResultM.size() > 0 && --telomere > 0);
-                    ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
-                    Log.i("TAG", "Size : " + ResultM.size());
+                    }
+                    while (ResultM.size() > 0 && --telomere > 0);
                     if (ResultM.size() > 0) {
                         Log.i("TAG", "AddExistMemberToExistFamily : RealmResultAutoUpdateFail");
                         throw new DataBaseError(DataBaseError.ErrorType.RealmResultAutoUpdateFail);
@@ -1761,7 +1730,8 @@ class DataMediation {
                   long date, String note, String parentImage)
             throws DataBaseSignal, DataBaseError {
         try {
-            PrimaryMemberIDCheck(Manager, memberID);
+            if(!memberID.equals(""))
+                PrimaryMemberIDCheck(Manager, memberID);
             if (!parentImage.equals("")) {
                 try {
                     PrimaryPictureIDCheck(Manager, parentImage);
@@ -2293,7 +2263,8 @@ class DataMediation {
             throws DataBaseError, DataBaseSignal {
         try {
             PrimaryFamilyIDCheck(Manager, ID);
-            PrimaryPictureIDCheck(Manager, portraitID);
+            if(!portraitID.equals(""))
+                PrimaryPictureIDCheck(Manager, portraitID);
             if (!rootMemberID.equals("")) {
                 PrimaryMemberIDCheck(Manager, rootMemberID);
                 RealmResults<MemberData> newRootMember = Manager.where(MemberData.class)
@@ -2335,7 +2306,8 @@ class DataMediation {
             throws DataBaseError, DataBaseSignal {
         try {
             PrimaryMemberIDCheck(Manager, ID);
-            PrimaryPictureIDCheck(Manager, portraitID);
+            if(!portraitID.equals(""))
+                PrimaryPictureIDCheck(Manager, portraitID);
             Manager.beginTransaction();
             RealmResults<MemberData> Results = Manager.where(MemberData.class)
                     .equalTo("ID", ID).findAll();

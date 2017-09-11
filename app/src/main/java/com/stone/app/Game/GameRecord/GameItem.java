@@ -1,27 +1,30 @@
 package com.stone.app.Game.GameRecord;
 
 /**
- * Created by Brandon Zhang on 2017/9/7.
+ * Created by Brandon Zhang on 2017/9/11.
  */
 
-public class GameItem {
-    private  String date;
-    private  double result;
-    public GameItem(String date, double result) {
-        this.date = date;
+class GameItem {
+    String data;
+    double result;
+
+    public GameItem(String data, double result) {
+        this.data = data;
         this.result = result;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public void setResult(double result) {
         this.result = result;
     }
 
-    public String getDate() {
-        return date;
+
+
+    public String getData() {
+        return data;
     }
 
     public double getResult() {

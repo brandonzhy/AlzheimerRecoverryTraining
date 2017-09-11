@@ -217,12 +217,12 @@ public class mainpageYoung extends AppCompatActivity {
         //        familyMemberItem2.setImagePath("\"file:///android_asset/heart.jpg\"");
         //        fmemberlist.add(familyMemberItem2);
 
-        imagAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_image);
-        gameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_game);
-        memberAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_member);
-        //         memberAdapter = new familyMemberAdapter(mainpageYoung.this, R.layout.family_member_item, fmemberlist);
-        familyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_family);
-        settingAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_setting);
+        imagAdapter = new ArrayAdapter<String>(this,    R.layout.single_item, list_image);
+        gameAdapter = new ArrayAdapter<String>(this,    R.layout.single_item, list_game);
+        memberAdapter = new ArrayAdapter<String>(this,  R.layout.single_item, list_member);
+        //         memberAdapter = new familyMemberAdaptR.layout.single_itemily_member_item, fmemberlist);
+        familyAdapter = new ArrayAdapter<String>(this,  R.layout.single_item, list_family);
+        settingAdapter = new ArrayAdapter<String>(this, R.layout.single_item, list_setting);
     }
 
     private void init() {
@@ -333,7 +333,7 @@ public class mainpageYoung extends AppCompatActivity {
                                 Log.i("TAG", "第0项个人信息被点击了");
                                 Intent intent_binfo = new Intent(mainpageYoung.this, updateFamily.class);
                                 intent_binfo.putExtra("memberID", memberID);
-                                intent_binfo.putExtra("Type",1);
+                                intent_binfo.putExtra("modifyType",1);
                                 startActivity(intent_binfo);
                                 break;
                             case 1:
@@ -447,6 +447,7 @@ public class mainpageYoung extends AppCompatActivity {
                                 try {
                                     FamilyData familyData = dataBaseManager.AddFamily("", memberID, "");
                                     familyData.getID();
+
                                     Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
                                     intent_updatefamily.putExtra("memberID", memberID);
                                     startActivity(intent_updatefamily);
