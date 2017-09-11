@@ -1,5 +1,7 @@
 package com.stone.app.Game.game_judge;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.stone.app.dataBase.RealmDB;
 import com.stone.app.library.CardAdapter;
 import com.stone.app.library.CardSlidePanel;
 import com.stone.app.photoBroswer.CardDataItem;
+import com.stone.app.style_young.mainpageYoung;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +47,12 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     //            "file:///android_asset/wall08.jpg", "file:///android_asset/wall09.jpg",
     //            "file:///android_asset/wall10.jpg", "file:///android_asset/wall11.jpg",
     //            "file:///android_asset/wall12.jpg"}; // 12个图片资源
-    private List<String> names = new ArrayList<>();
-    private List<String> imageplaces = new ArrayList<>();
+    private List<String> names = new ArrayList<>(10);
+    private List<String> imageplaces = new ArrayList<>(10);
     ;
-    private List<String> imagetimes = new ArrayList<>();
+    private List<String> imagetimes = new ArrayList<>(10);
     ;
-    private List<String> imagePaths = new ArrayList<>();
+    private List<String> imagePaths = new ArrayList<>(10);
     ;
 
     //    private String names[] = {"郭富城", "刘德华", "张学友", "李连杰", "成龙", "谢霆锋", "李易峰",
@@ -68,7 +71,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private boolean qflag;
     String memberID;
     String memberName;
-    private List<PictureData> pictlist=null;
+    private List<PictureData> pictlist = null;
     private String familyID = "";
 
 
@@ -79,13 +82,12 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
         Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         memberName = intent.getStringExtra("memberName");
-        initdData();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choice_game);
-
         initMainView();
-        qflag = getQuestion(questionLocation, tv_question);
-        initView();
+        initdData();
+
+        //        initView();
     }
 
     //    数据库初始化
@@ -118,15 +120,14 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
             dataBaseError.printStackTrace();
         }
         try {
-
             //            pictlist = dataBaseManager.getRandomPicturesFromMember(memberID, memberName, "", 0, 0, DEFUATNUMBER);
-
-
             pictlist = dataBaseManager.getRandomPicturesFromFamily(familyID, memberName, "", 0, 0, DEFUATNUMBER);
-
-            if (pictlist != null) {
-                Log.i("TAG","列表获取成功，长度为 " + pictlist.size());
+            if (pictlist != null  ) {
                 lenth = pictlist.size();
+                Log.i("TAG", "lenth在第127行获得");
+                listToArray();
+                qflag = getQuestion(questionLocation, tv_question);
+                initView();
             } else {
                 Log.i("TAG", "获取列表不存在");
                 finish();
@@ -136,25 +137,31 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                 try {
                     if (!familyID.equals("")) {
                         pictlist = dataBaseManager.getRandomPicturesFromMember(familyID, memberName, "", 0, 0, -1);
-                        if (pictlist != null) {
-                            lenth = pictlist.size();
-                        } else {
-                            Log.i("TAG", "获取列表不存在");
-                            finish();
-                        }
+//                        if (pictlist != null || pictlist.size() != 0) {
+//                        if (pictlist != null  ) {
+//                            lenth = pictlist.size();
+//                            Log.i("TAG", "lenth在第142行获得");
+//                            listToArray();
+//                            qflag = getQuestion(questionLocation, tv_question);
+//                            initView();
+//                        } else {
+//                            Log.i("TAG", "获取列表不存在,下面要finish啦");
+//                            finish();
+//                            onDestroy();
+//                        }
                     } else {
                         Log.i("TAG", "你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
                         ToastUtil.showToast(game_judgeActivity.this, "你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
                         finish();
                     }
 
-                    if (pictlist != null) {
-                        lenth = pictlist.size();
-
-                    } else {
-                        Log.i("TAG", "获取列表不存在");
-                        finish();
-                    }
+                    //                    if (pictlist != null) {
+                    //                        lenth = pictlist.size();
+                    //
+                    //                    } else {
+                    //                        Log.i("TAG", "获取列表不存在");
+                    //                        finish();
+                    //                    }
 
                 } catch (DataBaseError dataBaseError1) {
                     if (dataBaseError1.getErrorType() == RequiredResultsReturnNULL) {
@@ -164,28 +171,50 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                     Log.i("TAG", "dataBaseError 的类型为： " + dataBaseError);
                     dataBaseError1.printStackTrace();
                 }
+                if ((pictlist != null) ) {
+                    lenth = pictlist.size();
+                    Log.i("TAG", "lenth在第174行获得");
+                    listToArray();
+                    qflag = getQuestion(questionLocation, tv_question);
+                    initView();
+                } else {
+                    Log.i("TAG", "获取全部列表不存在");
+                    //                    ToastUtil.showToast(game_judgeActivity.this,"家庭里还没有人传你的图片呢");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(game_judgeActivity.this);
+                    builder.setTitle("家庭信息");
+                    builder.setCancelable(false);
+                    builder.setMessage("啊偶，家庭里还没有人传你的图片呢");
+                    builder.setPositiveButton("好的，知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(game_judgeActivity.this, mainpageYoung.class));
+                        }
+                    });
+                    builder.show();
+                    //                    finish();
+                }
             }
         }
 
-//        if (pictlist != null) {
-//            //            int i = 0;
-//            for (int i = 0; i < pictlist.size(); i++) {
-//                imagePaths.add(pictlist.get(i).getImagePath());
-//                names.add(pictlist.get(i).getName());
-//                imageplaces.add(pictlist.get(i).getLocation());
-//                imagetimes.add(String.valueOf(pictlist.get(i).getDate()));
-//            }
-//        }
-//            //            for (PictureData data : pictlist) {
-//            //
-//            //                i++;
-//            //            }
-//        }
+        //        if (pictlist != null) {
+        //            //            int i = 0;
+        //            for (int i = 0; i < pictlist.size(); i++) {
+        //                imagePaths.add(pictlist.get(i).getImagePath());
+        //                names.add(pictlist.get(i).getName());
+        //                imageplaces.add(pictlist.get(i).getLocation());
+        //                imagetimes.add(String.valueOf(pictlist.get(i).getDate()));
+        //            }
+        //        }
+        //            //            for (PictureData data : pictlist) {
+        //            //
+        //            //                i++;
+        //            //            }
+        //        }
 
     }
 
     private void initMainView() {
-        img_back = findViewById(R.id.img_back);
+        img_back = findViewById(R.id.img_gamejudgeback);
         tv_question = findViewById(R.id.tv_question);
         questionLocation = 0;
         correctnum = 0;
@@ -292,16 +321,17 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private boolean getQuestion(int Location, TextView textView) {
         int typeNumber = (int) (Math.random() * 4);
         int questionLocation = (int) (Math.random() * lenth);
-        Log.i("TAG","typeNumber = " +typeNumber );
-        Log.i("TAG","questionLocation = " +questionLocation );
-        Log.i("TAG","Location of photo= " + Location);
+        Log.i("TAG", "typeNumber = " + typeNumber);
+        Log.i("TAG", "questionLocation = " + questionLocation);
+        Log.i("TAG", "lenth " + lenth);
+        Log.i("TAG", "Location of photo= " + Location);
         boolean flag = false;
         //0代表名字，1代表地点,2代表时间
         if (typeNumber == 0) {
             if (!names.get(questionLocation).equals("")) {
                 textView.setText("图片中的人的名字是叫" + names.get(questionLocation) + "吗？\n" + "左滑是右滑不是");
             } else {
-//                getQuestion(Location, textView);
+                //                getQuestion(Location, textView);
                 return false;
             }
         } else if (typeNumber == 1) {
@@ -340,27 +370,27 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                 if (photoDate.charAt(4) == '0') {
 
                     if (photoDate.charAt(6) == '0') {
-                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7, 8) + "日");
+                        textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7, 8) + "日"+"吗？\n" + "左滑是右滑不是");
                     } else {
-                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6, 8) + "日");
+                        textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6, 8) + "日"+"吗？\n" + "左滑是右滑不是");
                     }
                 } else {
                     if (photoDate.charAt(6) == '0') {
 
-                        textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7, 8) + "日");
+                        textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7, 8) + "日"+"吗？\n" + "左滑是右滑不是");
                     }
 
-                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6, 8) + "日");
+                    textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6, 8) + "日"+"吗？\n" + "左滑是右滑不是");
                 }
             } else if (photoDate.length() == 6) {
                 if (photoDate.charAt(4) == '0') {
-                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月");
+                    textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月"+"吗？\n" + "左滑是右滑不是");
                 } else {
-                    textView.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月");
+                    textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月"+"吗？\n" + "左滑是右滑不是");
 
                 }
             } else if (photoDate.length() == 4) {
-                textView.setText(photoDate.substring(0, 4) + "年");
+                textView.setText("图片拍摄的时间是在"+photoDate.substring(0, 4) + "年"+"吗？\n" + "左滑是右滑不是");
             } else if (photoDate.length() < 4) {
                 getQuestion(Location, textView);
             }
@@ -376,21 +406,26 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     private void prepareDataList() {
         //        int num = lenth;
         int num = lenth;
+
+        for (int i = 0; i < num; i++) {
+            CardDataItem dataItem = new CardDataItem();
+            dataItem.userName = names.get(i);
+            dataItem.imagePath = imagePaths.get(i);
+            dataItem.imagePlace = imageplaces.get(i);
+            //                    dataItem.likeNum = (int) (Math.random() * 10);
+            //                    dataItem.imageNum = (int) (Math.random() * 6);
+            dataList.add(dataItem);
+        }
+    }
+
+    private void listToArray() {
         for (int i = 0; i < pictlist.size(); i++) {
             imagePaths.add(pictlist.get(i).getImagePath());
             names.add(pictlist.get(i).getName());
             imageplaces.add(pictlist.get(i).getLocation());
             imagetimes.add(String.valueOf(pictlist.get(i).getDate()));
+            Log.i("TAG", "imagePaths " + imagePaths.get(i) + " names " + names.get(i) + " imageplaces " + imageplaces.get(i) + " imagetimes " + imagetimes.get(i));
         }
-        //        for (int i = 0; i < num; i++) {
-        //            CardDataItem dataItem = new CardDataItem();
-        //            dataItem.userName = names[i];
-        //            dataItem.imagePath = imagePaths[i];
-        //            dataItem.imagePlace = imageplaces[i];
-        //            dataItem.likeNum = (int) (Math.random() * 10);
-        //            dataItem.imageNum = (int) (Math.random() * 6);
-        //            dataList.add(dataItem);
-        //        }
     }
 
     @Override

@@ -61,7 +61,7 @@
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         <activity android:name=".Game.game_judge.game_judgeActivity"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+                  android:theme="@style/AppThemeNoTitle">
         </activity>
         <activity android:name=".showResultActivity">
         </activity>

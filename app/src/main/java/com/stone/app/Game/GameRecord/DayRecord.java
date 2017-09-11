@@ -11,6 +11,7 @@ import com.stone.app.R;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.GameRecordData;
+import com.stone.app.dataBase.RealmDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,19 +32,22 @@ public class DayRecord extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_day_record);
         Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
-
+        dataBaseManager= RealmDB.getDataBaseManager();
         gameType = intent.getIntExtra("gameType", -1);
+        Log.i("TAG", "memberID= " + memberID + "gameType =" + gameType);
         listView = findViewById(R.id.lv_dayrecord);
-
         try {
             glist = dataBaseManager.getGameRecordList("", memberID, gameType, 0, 0);
-            initData();
+            if(glist!=null){
+
+                initData();
+                adapter = new GameRecordAdapter(this, R.layout.game_item, gameItemList);
+                listView.setAdapter(adapter);
+            }
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
-            Log.i("TAG","浏览失败，错误类型为: " +dataBaseError.getErrorType() );
+            Log.i("TAG", "浏览失败，错误类型为: " + dataBaseError.getErrorType());
         }
-        adapter = new GameRecordAdapter(this, R.layout.game_item, gameItemList);
-        listView.setAdapter(adapter);
     }
 
     private void initData() {

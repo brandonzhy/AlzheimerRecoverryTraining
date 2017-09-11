@@ -31,7 +31,7 @@ public class updateFamily extends Activity {
     private List<FamilyData> familyDataList = null;
     private List<MemberData> memberDataList = null;
     final static int ITEMNUM = 4;
-    private int modifyType = 3;
+    private int modifyType = 10;
     private List<updateFamilyItem> updateFamilyItemList = new ArrayList<updateFamilyItem>();
     private List<updateFamilyItem> updatememberItemList = new ArrayList<updateFamilyItem>();
 
@@ -51,7 +51,8 @@ public class updateFamily extends Activity {
             }
         });
         Intent intent = getIntent();
-        modifyType = intent.getIntExtra("modifyType", 3);
+
+        modifyType = intent.getIntExtra("modifyType", 10);
         //        修改家庭信息
         if (modifyType == 0) {
             familyID = intent.getStringExtra("familyID");
@@ -131,7 +132,7 @@ public class updateFamily extends Activity {
 
                     updateFamilyItem updateFamilyItem2 = new updateFamilyItem();
                     updateFamilyItem2.setLeftText("ID");
-                    if (TextUtils.isEmpty(memberData.getName())) {
+                    if (TextUtils.isEmpty(memberData.getID())) {
                         updateFamilyItem2.setRightText("无");
                     } else {
 
@@ -141,7 +142,7 @@ public class updateFamily extends Activity {
 
                     updateFamilyItem updateFamilyItem3 = new updateFamilyItem();
                     updateFamilyItem3.setLeftText("昵称");
-                    if (TextUtils.isEmpty(memberData.getName())) {
+                    if (TextUtils.isEmpty(memberData.getNickName())) {
                         updateFamilyItem3.setRightText("无");
                     } else {
 

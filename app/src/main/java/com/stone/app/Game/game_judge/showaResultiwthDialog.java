@@ -14,7 +14,7 @@ import com.stone.app.Util.DateUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
-import com.stone.app.Game.game_puzzle.game_centre;
+import com.stone.app.style_young.mainpageYoung;
 
 import static com.stone.app.Util.staticConstUtil.GAME_JUDGAE;
 
@@ -65,7 +65,7 @@ public class showaResultiwthDialog extends Activity  implements View.OnClickList
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
         }
-        startActivity(new Intent(showaResultiwthDialog.this,game_centre.class));
+        startActivity(new Intent(showaResultiwthDialog.this,mainpageYoung.class));
 
     }
 }

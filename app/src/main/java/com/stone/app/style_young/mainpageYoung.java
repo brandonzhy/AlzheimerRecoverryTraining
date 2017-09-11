@@ -333,7 +333,9 @@ public class mainpageYoung extends AppCompatActivity {
                                 Log.i("TAG", "第0项个人信息被点击了");
                                 Intent intent_binfo = new Intent(mainpageYoung.this, updateFamily.class);
                                 intent_binfo.putExtra("memberID", memberID);
+                                Log.i("TAG","从mainpageYoung跳到updateFamily  的memberID" + memberID);
                                 intent_binfo.putExtra("modifyType",1);
+                                Log.i("TAG","从mainpageYoung跳到updateFamily  modifyType= " + 1);
                                 startActivity(intent_binfo);
                                 break;
                             case 1:

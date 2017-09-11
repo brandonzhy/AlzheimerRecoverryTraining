@@ -24,7 +24,7 @@
 
 
         <ImageView
-            android:id="@+id/img_back"
+            android:id="@+id/img_gamejudgeback"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left|center_vertical"

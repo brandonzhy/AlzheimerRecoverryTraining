@@ -68,8 +68,10 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
                 nickname = et_info_nickname.getText().toString();
             }
             if (!TextUtils.isEmpty(et_info_name.getText().toString())) {
-                name = et_info_nickname.getText().toString();
+                name = et_info_name.getText().toString();
             }
+            Log.i("TAG","name = " + name);
+            Log.i("TAG","nickname = " + nickname);
             memberData = dataBaseManager.AddMember(nickname, "123456",
                     "", name,
                     gendrType, "11" + String.valueOf(phone), "");

@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/single_itme"
+              android:orientation="vertical"
 >
-<TextView
-    android:id="@+id/tv_date"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="游戏日期"
-    android:textSize="20dp"/>
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="10dp"
         android:text="游戏结果"
+        android:textColor="@color/black"
         android:textSize="20dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="游戏日期"
+            android:textSize="20dp"/>
+    </RelativeLayout>
+
 </LinearLayout>

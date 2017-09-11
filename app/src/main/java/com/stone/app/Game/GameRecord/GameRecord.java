@@ -39,7 +39,7 @@ public class GameRecord extends Activity {
                 finish();
             }
         });
-        final Intent intent = getIntent();
+         Intent intent = getIntent();
         memberID = intent.getStringExtra("memberID");
         list_puzzle = new ArrayList<String>();
         list_judge = new ArrayList<String>();
@@ -68,13 +68,15 @@ public class GameRecord extends Activity {
                         intent_judje_day.putExtra("memberID", memberID);
                         intent_judje_day.putExtra("gameType", GAME_JUDGAE);
                         startActivity(intent_judje_day);
+                        finish();
                         break;
                     case 1:
                         Log.i("TAG", "判断每月游戏记录被点击了");
-                        Intent intent_judje_month = new Intent(GameRecord.this, DayRecord.class);
+                        Intent intent_judje_month = new Intent(GameRecord.this, JudgeMonthRecord.class);
                         intent_judje_month.putExtra("memberID", memberID);
                         intent_judje_month.putExtra("gameType", GAME_JUDGAE);
                         startActivity(intent_judje_month);
+                        finish();
                         break;
                 }
             }
@@ -90,6 +92,7 @@ public class GameRecord extends Activity {
                         intent_puzzle_day.putExtra("memberID", memberID);
                         intent_puzzle_day.putExtra("gameType", GAME_PUZZLE);
                         startActivity(intent_puzzle_day);
+                        finish();
                         break;
                     case 1:
                         Log.i("TAG", "拼图每月游戏记录被点击了");
@@ -97,6 +100,7 @@ public class GameRecord extends Activity {
                         intent_puzzle_month.putExtra("memberID", memberID);
                         intent_puzzle_month.putExtra("gameType", GAME_PUZZLE);
                         startActivity(intent_puzzle_month);
+                        finish();
                         break;
                 }
             }
