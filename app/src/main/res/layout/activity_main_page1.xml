@@ -6,9 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context="com.stone.app.mainPage1">
-<ImageView
-    android:id="@+id/iv_test"
-    android:layout_width="wrap_content"
-    android:layout_height="60dp"/>
+    tools:context="com.stone.app.test.mainPage1">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/modifyportrait_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="never"/>
 </android.support.constraint.ConstraintLayout>

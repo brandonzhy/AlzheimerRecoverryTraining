@@ -113,7 +113,7 @@
         </activity>
         <activity android:name=".addMember.addFamilyMember">
         </activity>
-        <activity android:name=".mainPage1">
+        <activity android:name=".test.mainPage1">
 
         </activity>
         <activity android:name=".mainPage.familyInformation"
