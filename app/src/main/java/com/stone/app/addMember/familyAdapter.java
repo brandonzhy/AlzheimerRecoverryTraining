@@ -88,8 +88,8 @@ public class familyAdapter extends ArrayAdapter<familyItem> {
 
         if (familyItem.getImagePath().equals("")) {
 
-            Glide.with(mycontext).load("file:///android_asset/person1.jpg").into(viewHolder.imageView);
-            //            imageView.setImageResource(R.mipmap.smiley);
+//            Glide.with(mycontext).load("file:///android_asset/person1.jpg").into(viewHolder.imageView);
+            viewHolder.imageView.setImageResource(R.mipmap.wall01);
         } else {
             Glide.with(mycontext).load(familyItem.getImagePath()).into(viewHolder.imageView);
 

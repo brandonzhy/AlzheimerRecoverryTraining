@@ -42,6 +42,7 @@ public class loginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View widget) {
                 startActivity(new Intent(loginActivity.this, RegisterActivity.class));
+                finish();
             }
         }, 6, 10, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -67,6 +68,7 @@ public class loginActivity extends Activity implements View.OnClickListener {
             //手机登录按钮点击后事件响应
             case R.id.btn_login_phone:
                 startActivity(new Intent(loginActivity.this, phone_loginActivity.class));
+                finish();
                 break;
             //QQ登录按钮点击后事件响应
             case R.id.btn_qq:

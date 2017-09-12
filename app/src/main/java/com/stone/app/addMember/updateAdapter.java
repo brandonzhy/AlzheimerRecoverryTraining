@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,14 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
             //Tag 的key必须是resID的形式，保证是唯一的
             view.setTag(R.id.tag_first,imageView);
 
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                }
+//            });Log.i("TAG","" + );
+            ;
+            Log.i("TAG"," updateAdapter的 updateFamily.getRightImagepath() = " + updateFamily.getRightImagepath());
             if(updateFamily.getRightImagepath().equals("")||updateFamily.getRightImagepath()==null){
 
                 imageView.setImageResource(R.mipmap.smiley);

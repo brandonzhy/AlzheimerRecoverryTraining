@@ -108,7 +108,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             public void onShow(int index) {
                 Log.d("Card", "正在显示-" + dataList.get(index).userName);
 
-                if (pictlist.size() > 2 && index == (pictlist.size() - 2) * circulatetimes) {
+                if (pictlist.size() > 1 && index == (pictlist.size() - 1) * circulatetimes) {
                     appendDataList();
                     slidePanel.getAdapter().notifyDataSetChanged();
                     //4. 数据更新<
@@ -199,18 +199,18 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
     private void prepareDataList() {
         //        int num = imagePaths.length;
         //        int num = imagePaths.length;
-        for(int i=1;i<pictlist.size();i++){
+        for (int i = 0; i < pictlist.size(); i++) {
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName =  pictlist.get(i).getName().trim();
-            dataItem.imagePath =  pictlist.get(i).getImagePath().trim();
-            dataItem.imagePlace =  pictlist.get(i).getLocation().trim();
-            dataItem.phototime = String.valueOf (pictlist.get(i).getDate());
+            dataItem.userName = pictlist.get(i).getName().trim();
+            dataItem.imagePath = pictlist.get(i).getImagePath().trim();
+            dataItem.imagePlace = pictlist.get(i).getLocation().trim();
+            dataItem.phototime = String.valueOf(pictlist.get(i).getDate());
             dataList.add(dataItem);
 
         }
-//        for (PictureData pictureData : pictlist) {
-//
-//        }
+        //        for (PictureData pictureData : pictlist) {
+        //
+        //        }
         //        for (int i = 0; i < num; i++) {
         //            CardDataItem dataItem = new CardDataItem();
         //            dataItem.userName = names[i];
@@ -232,20 +232,20 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //            dataItem.imageNum = (int) (Math.random() * 6);
         //            dataList.add(dataItem);
         //        }
-//        for (PictureData pictureData : pictlist) {
-//            CardDataItem dataItem = new CardDataItem();
-//            dataItem.userName = pictureData.getName().trim();
-//            dataItem.imagePath = pictureData.getImagePath().trim();
-//            dataItem.imagePlace = pictureData.getLocation().trim();
-//            dataItem.phototime = String.valueOf(pictureData.getDate());
-//            dataList.add(dataItem);
-//        }
-        for(int i=1;i<pictlist.size();i++){
+        //        for (PictureData pictureData : pictlist) {
+        //            CardDataItem dataItem = new CardDataItem();
+        //            dataItem.userName = pictureData.getName().trim();
+        //            dataItem.imagePath = pictureData.getImagePath().trim();
+        //            dataItem.imagePlace = pictureData.getLocation().trim();
+        //            dataItem.phototime = String.valueOf(pictureData.getDate());
+        //            dataList.add(dataItem);
+        //        }
+        for (int i = 0; i < pictlist.size(); i++) {
             CardDataItem dataItem = new CardDataItem();
-            dataItem.userName =  pictlist.get(i).getName().trim();
-            dataItem.imagePath =  pictlist.get(i).getImagePath().trim();
-            dataItem.imagePlace =  pictlist.get(i).getLocation().trim();
-            dataItem.phototime = String.valueOf (pictlist.get(i).getDate());
+            dataItem.userName = pictlist.get(i).getName().trim();
+            dataItem.imagePath = pictlist.get(i).getImagePath().trim();
+            dataItem.imagePlace = pictlist.get(i).getLocation().trim();
+            dataItem.phototime = String.valueOf(pictlist.get(i).getDate());
             dataList.add(dataItem);
 
         }
@@ -271,7 +271,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.img_back:
                 //gotomypage()   返回我的界面
-//                startActivity(new Intent(photoBroswerActivity.this, MyInformation.class));
+                //                startActivity(new Intent(photoBroswerActivity.this, MyInformation.class));
                 finish();
                 break;
         }
@@ -300,35 +300,104 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             userNameTv.setText(itemData.userName);
             String photoDate = itemData.phototime;
 
-            if (photoDate.length() == 8) {
-                if (photoDate.charAt(4) == '0') {
-
-                    if (photoDate.charAt(6) == '0') {
-                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7, 8) + "日");
-                    } else {
-                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6, 8) + "日");
-                    }
-                } else {
-                    if (photoDate.charAt(6) == '0') {
-
-                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7, 8) + "日");
-                    }
-
-                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6, 8) + "日");
+            String month = "";
+            String day="" ;
+//            if (month > 10) {
+//                if (day > 10) {
+//                    //20171112
+//                    newdate = "photoDate.substring(0, 4) + \"年\" + photoDate.substring(4, 6) + \"月\" + photoDate.substring(6, 8) + \"日\"";
+//                } else if (day < 10) {
+//                    if (day == 0) {
+//                        //201711
+//                        newdate = "photoDate.substring(0, 4) + \"年\" + photoDate.substring(4, 6) + \"月\"";
+//                    }
+//                    //2017.11.8
+//                    newdate = "photoDate.substring(0, 4) + \"年\" + photoDate.substring(4, 6) + \"月\" + photoDate.substring(7, 8) + \"日\"";
+//
+//                }
+//            } else if (month < 10) {
+//                if (month == 0) {
+//
+//                    if (day > 10) {
+//                        //2017.11
+//                        newdate = "photoDate.substring(0, 4) + \"年\"+ p+photoDate.substring(6, 8) + \"日\"";
+//                    } else {
+//                        if (day == 0) {
+//                            newdate = "photoDate.substring(0, 4) + \"年\"";
+//                        }
+//                        newdate = "photoDate.substring(0, 4) + \"年\"+ p+photoDate.substring(7, 8) + \"日\"";
+//                    }
+//                }
+//                if (day > 10) {
+//                    //2017.8.18
+//                    newdate = "photoDate.substring(0, 4) + \"年\"+ photoDate.substring(4, 5) + \"月\"+photoDate.substring(6, 8) + \"日\"";
+//                } else {
+//                    if (day == 0) {
+//
+//                        newdate = "photoDate.substring(0, 4) + \"年\" + photoDate.substring(5, 6) + \"月\"";//2017.8
+//                    } else {
+//                        newdate = "photoDate.substring(0, 4) + \"年\" + photoDate.substring(5, 6) + \"月\"+photoDate.substring(7, 8) + \"日\"";
+//                        //2017.6.8
+//                    }
+//                }
+//            }
+//            tv_time.setText(newdate);
+            //            if(photoDate.charAt(6) == '0'){
+            //                    if(photoDate.charAt(4) == '0'){
+            //                            tv_time.setText(photoDate.substring(0, 4) + "年");
+            //                    }else {
+            //
+            //                    }
+            //
+            //            }
+            if(photoDate.charAt(4) == '0'){
+                if(photoDate.charAt(5) != '0'){
+                    month=photoDate.charAt(5)+"月";
                 }
-            } else if (photoDate.length() == 6) {
-                if (photoDate.charAt(4) == '0') {
-                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月");
-                } else {
-                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月");
 
-                }
-            } else if (photoDate.length() == 4) {
-                tv_time.setText(photoDate.substring(0, 4) + "年");
-            } else if (photoDate.length() < 4) {
-                tv_time.setText("");
+            }else {
+                month=photoDate.substring(4,6)+"月";
             }
-            tv_imageplace.setText(itemData.imagePlace);
+            //日
+            if(photoDate.charAt(6) == '0'){
+                if(photoDate.charAt(7) != '0'){
+                    day=photoDate.charAt(5)+"日";
+                }
+
+            }else {
+                day=photoDate.substring(6,8)+"日";
+            }
+//            if (photoDate.length() == 8) {
+//                if (photoDate.charAt(4) == '0') {
+//
+//                    if (photoDate.charAt(6) == '0') {
+//                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(7, 8) + "日");
+//                    } else {
+//                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月" + photoDate.substring(6, 8) + "日");
+//                    }
+//                } else {
+//                    if (photoDate.charAt(6) == '0') {
+//                        if (photoDate.charAt(7) == '0') {
+//
+//                        }
+//                        tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(7, 8) + "日");
+//                    }
+//
+//                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月" + photoDate.substring(6, 8) + "日");
+//                }
+//            } else if (photoDate.length() == 6) {
+//                if (photoDate.charAt(4) == '0') {
+//                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(5, 6) + "月");
+//                } else {
+//                    tv_time.setText(photoDate.substring(0, 4) + "年" + photoDate.substring(4, 6) + "月");
+//
+//                }
+//            } else if (photoDate.length() == 4) {
+//                tv_time.setText(photoDate.substring(0, 4) + "年");
+//            } else if (photoDate.length() < 4) {
+//                tv_time.setText("");
+//            }
+            tv_imageplace.setText(photoDate.substring(0, 4) + "年"+month+day);
             //            tv_imageplace.setText("拍摄地：" + itemData.imagePlace + "");
         }
     }

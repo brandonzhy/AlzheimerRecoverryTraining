@@ -79,9 +79,9 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
             Intent intentmainPage = new Intent(setInfomationActivity.this, mainpageYoung.class);
             if (memberData != null) {
                 String memberID = memberData.getID();
-                String memberName = memberData.getName();
-                String memberNickName = memberData.getNickName();
-                int memberGender = memberData.getGender();
+//                String memberName = memberData.getName();
+//                String memberNickName = memberData.getNickName();
+//                int memberGender = memberData.getGender();
 //                try {
 //                    String pic_name=getDataUtil.setPicName();
 //                    dataBaseManager.AddImage(memberID, pic_name, "", "/data/data/com.stone.card/cache/1505178491475.jpg", 0, "", "");
@@ -92,9 +92,9 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
 //                    dataBaseSignal.printStackTrace();
 //                }
                 intentmainPage.putExtra("memberID", memberID);
-                intentmainPage.putExtra("memberName", memberName);
-                intentmainPage.putExtra("memberNickName", memberNickName);
-                intentmainPage.putExtra("memberGender", memberGender);
+//                intentmainPage.putExtra("memberName", memberName);
+//                intentmainPage.putExtra("memberNickName", memberNickName);
+//                intentmainPage.putExtra("memberGender", memberGender);
                 Log.i("TAG", "memberID= " + memberID);
                 //PreferenceManager.getDefaultSharedPreferences利用包名来命名SharedPreferences文件
                 SharedPreferences.Editor editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();

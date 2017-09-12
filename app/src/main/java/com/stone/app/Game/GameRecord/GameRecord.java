@@ -88,7 +88,7 @@ public class GameRecord extends Activity {
                 switch (i) {
                     case 0:
                         Log.i("TAG", "拼图每日游戏记录被点击了");
-                        Intent intent_puzzle_day = new Intent(GameRecord.this, PuzzleDayRecord.class);
+                        Intent intent_puzzle_day = new Intent(GameRecord.this, DayRecord.class);
                         intent_puzzle_day.putExtra("memberID", memberID);
                         intent_puzzle_day.putExtra("gameType", GAME_PUZZLE);
                         startActivity(intent_puzzle_day);

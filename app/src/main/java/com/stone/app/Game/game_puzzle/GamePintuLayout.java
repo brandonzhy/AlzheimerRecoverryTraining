@@ -33,7 +33,7 @@ import java.util.List;
 
 public class GamePintuLayout extends RelativeLayout implements View.OnClickListener {
     private int totaltime;
-    private int mColumn = 3;//拼图行数
+    private int mColumn = 2;//拼图行数
     private int mPadding;//与窗口边沿的间距
     private int mMargin = 3;//图片
     private ImageView[] mGamePintuItems;//存储图片的宽高

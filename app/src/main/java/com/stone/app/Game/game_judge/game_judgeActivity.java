@@ -188,9 +188,11 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             startActivity(new Intent(game_judgeActivity.this, mainpageYoung.class));
+                            finish();
                         }
                     });
                     builder.show();
+
                     //                    finish();
                 }
             }

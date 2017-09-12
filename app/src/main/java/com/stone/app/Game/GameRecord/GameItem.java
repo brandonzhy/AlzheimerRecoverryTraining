@@ -7,10 +7,12 @@ package com.stone.app.Game.GameRecord;
 class GameItem {
     String data;
     double result;
+    int type;
 
-    public GameItem(String data, double result) {
+    public GameItem(String data, double result,int type) {
         this.data = data;
         this.result = result;
+        this.type = type;
     }
 
     public void setData(String data) {
@@ -21,7 +23,13 @@ class GameItem {
         this.result = result;
     }
 
+    public int getType() {
+        return type;
+    }
 
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getData() {
         return data;

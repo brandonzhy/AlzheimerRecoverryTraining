@@ -33,7 +33,8 @@ public class familyInformation extends Activity {
     private ListView lv_familyinfo, lv_familymember_info;
     private List<familyItem> flist = new ArrayList<familyItem>();
     private List<familyMemberItem> fmemberlist = new ArrayList<familyMemberItem>();
-    private String imgmagrPath="";
+    private String imgmagrPath = "";
+    private String MemberImagePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,49 +63,64 @@ public class familyInformation extends Activity {
         } catch (DataBaseError dataBaseError) {
             Log.i("TAG", "familyInformation  error info: " + dataBaseError.getMessage());
             dataBaseError.printStackTrace();
+
+            finish();
         }
         if (!familyID.equals("")) {
             List<FamilyData> familyDataList = null;
             List<MemberData> familymemberList = null;
             try {
+                Log.i("TAG", " information 获得的familyID =" + familyID);
                 familyDataList = dataBaseManager.getFamilyList(familyID, "", "");
-                if (familyDataList != null) {
 
-                    FamilyData familyData = familyDataList.get(0);
-                    familyItem familyItem = new familyItem();
-                    List<PictureData> pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", "", "", "", 0, 0);
-                    if (pictureDataList != null) {
-                        imgmagrPath = pictureDataList.get(0).getImagePath();
-                    }
-                    familyItem.setImagePath(imgmagrPath);
-                    familyItem.setFamilyID("ID: " + familyData.getID());
-                    familyItem.setFamilyName("家庭名: " + familyData.getName());
-                    familyItem.setFamilyCreaterID("创建人ID: " + familyData.getRootMemberID());
-                    //                    familyItem.setFamilyCreaterName("创建人: "+dataBaseManager.getMemberList(familyData.getRootMemberID(), "", "", "").get(0).getName());
-                    flist.add(familyItem);
-                    familyAdapter familyAdapter = new familyAdapter(familyInformation.this, R.layout.family_item, flist);
-                    lv_familyinfo.setAdapter(familyAdapter);
-                    lv_familyinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            switch (i) {
-                                case 0:
-                                    Intent intent_update = new Intent(familyInformation.this, updateFamily.class);
-                                    intent_update.putExtra("familyID", familyID);
-                                    intent_update.putExtra("modifyType", 0);
-                                    startActivity(intent_update);
-                                    finish();
-                                    break;
-                            }
-                        }
-                    });
-                } else {
-                    Log.i("TAG", "familyDataList为空");
-                }
 
             } catch (DataBaseError dataBaseError) {
                 Log.i("TAG", "familyinformation获取familylist错误 ,信息为： " + dataBaseError.getMessage());
                 dataBaseError.printStackTrace();
+            }
+            if (familyDataList != null) {
+
+                FamilyData familyData = familyDataList.get(0);
+                familyItem familyItem = new familyItem();
+                List<PictureData> pictureDataList = null;
+
+                if (familyData.getPortraitID()==null) {
+
+                    try {
+                        pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", "", "", "", 0, 0);
+                        imgmagrPath = pictureDataList.get(0).getImagePath();
+                    } catch (DataBaseError dataBaseError) {
+                        dataBaseError.printStackTrace();
+                    }
+                }
+
+                //                if (pictureDataList != null&&pictureDataList.size()>0) {
+                //                    imgmagrPath = pictureDataList.get(0).getImagePath();
+                //                }
+                familyItem.setImagePath(imgmagrPath);
+                familyItem.setFamilyID("ID: " + familyData.getID());
+                familyItem.setFamilyName("家庭名: " + familyData.getName());
+                familyItem.setFamilyCreaterID("创建人ID: " + familyData.getRootMemberID());
+                //                    familyItem.setFamilyCreaterName("创建人: "+dataBaseManager.getMemberList(familyData.getRootMemberID(), "", "", "").get(0).getName());
+                flist.add(familyItem);
+                familyAdapter familyAdapter = new familyAdapter(familyInformation.this, R.layout.family_item, flist);
+                lv_familyinfo.setAdapter(familyAdapter);
+                lv_familyinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        switch (i) {
+                            case 0:
+                                Intent intent_update = new Intent(familyInformation.this, updateFamily.class);
+                                intent_update.putExtra("familyID", familyID);
+                                intent_update.putExtra("modifyType", 0);
+                                startActivity(intent_update);
+                                finish();
+                                break;
+                        }
+                    }
+                });
+            } else {
+                Log.i("TAG", "familyDataList为空");
             }
             try {
                 familymemberList = dataBaseManager.getMemberList("", familyID, "", "");
@@ -118,11 +134,24 @@ public class familyInformation extends Activity {
                     familyMemberItem familyMemberItem = new familyMemberItem();
                     familyMemberItem.setMemberID("ID: " + memberData.getID());
                     familyMemberItem.setMemberName("姓名: " + memberData.getName());
-                    familyMemberItem.setImagePath(memberData.getPortraitID());
+                    if(memberData.getPortraitID()!=null){
+                        try {
+                                List<PictureData> pictureDataList= dataBaseManager.getPictureList(memberData.getPortraitID(),"",memberID,"","",0,0);
+                                if(pictureDataList.size()>0){
+                                    MemberImagePath = pictureDataList.get(0).getImagePath();
+                                }
+                        } catch (DataBaseError dataBaseError) {
+                            Log.i("TAG"," dataBaseManager.getPictureList的 dataBaseError=" +dataBaseError.getErrorType()+dataBaseError.getMessage() );
+                            dataBaseError.printStackTrace();
+                        }
+
+                    }
+                    familyMemberItem.setImagePath(MemberImagePath);
                     fmemberlist.add(familyMemberItem);
                 }
                 familyMemberAdapter familyMemberAdapter = new familyMemberAdapter(familyInformation.this, R.layout.family_member_item, fmemberlist);
                 lv_familymember_info.setAdapter(familyMemberAdapter);
+
             } else {
                 Log.i("TAG", " familymemberList为空");
             }
@@ -136,6 +165,7 @@ public class familyInformation extends Activity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     startActivity(new Intent(familyInformation.this, mainpageYoung.class));
+                    finish();
                 }
             });
             builder.show();
@@ -148,6 +178,7 @@ public class familyInformation extends Activity {
     public void onBackPressed() {
         startActivity(new Intent(familyInformation.this, mainpageYoung.class));
         onDestroy();
+        finish();
         super.onBackPressed();
     }
 }

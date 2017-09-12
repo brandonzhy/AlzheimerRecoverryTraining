@@ -49,6 +49,7 @@
         </activity>
         <activity
             android:name=".photoUpload.photoUploadActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppThemeNoTitle">
         </activity>
         <activity android:name=".Game.game_puzzle.game_centre"
@@ -106,8 +107,6 @@
         </activity>
         <activity android:name=".Game.GameRecord.JudgeMonthRecord">
         </activity>
-        <activity android:name=".Game.GameRecord.PuzzleDayRecord">
-        </activity>
         <activity android:name=".addMember.searchMemberActivity"
                   android:theme="@style/AppThemeNoTitle">
         </activity>
@@ -122,6 +121,7 @@
         <activity
             android:name=".style_young.mainpageYoung"
             android:label=" 忆难忘"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme">
 
         </activity>

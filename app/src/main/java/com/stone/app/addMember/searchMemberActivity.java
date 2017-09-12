@@ -24,6 +24,7 @@ import com.stone.app.dataBase.RealmDB;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.stone.app.dataBase.DataBaseError.ErrorType.RealmResultAutoUpdateFail;
 import static com.stone.app.dataBase.DataBaseSignal.SignalType.AddSingleMemberToFamilySucceed;
 import static com.stone.app.dataBase.DataBaseSignal.SignalType.MergeTwoFamiliesSucceed;
 
@@ -67,6 +68,9 @@ public class searchMemberActivity extends Activity implements SearchView.OnQuery
                     Log.i("TAG","search 的memberID"+memberID  );
                     dataBaseManager.AddExistMemberToExistFamily(((TextView) view).getText().toString(),memberID);
                 } catch (DataBaseError dataBaseError) {
+                    if(RealmResultAutoUpdateFail==dataBaseError.getErrorType()){
+                        ToastUtil.showToast(searchMemberActivity.this,"数据库更新数据失败，请更新到最新版本");
+                    }
                     dataBaseError.printStackTrace();
                 } catch (DataBaseSignal dataBaseSignal) {
                     if(dataBaseSignal.getSignalType()==AddSingleMemberToFamilySucceed){

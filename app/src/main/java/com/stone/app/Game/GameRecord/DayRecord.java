@@ -45,7 +45,7 @@ private ImageView tv_left_back;
         try {
             glist = dataBaseManager.getGameRecordList("", memberID, gameType, 0, 0);
             if(glist!=null){
-                initData();
+                initData(gameType);
                 adapter = new GameRecordAdapter(this, R.layout.game_item, gameItemList);
                 listView.setAdapter(adapter);
             }
@@ -60,20 +60,23 @@ private ImageView tv_left_back;
         }
     }
 
-    private void initData() {
+    private void initData(int Type) {
         for (GameRecordData recordData : glist) {
             String date = String.valueOf(recordData.getDate()).substring(0, 14);
             StringBuffer sbf = new StringBuffer(date);
+            //插入后stringBuffer长度改变，每次加三
             sbf.insert(4, "年");
-            sbf.insert(6, "月");
-            sbf.insert(8, "日");
-            sbf.insert(10, "时");
-            sbf.insert(12, "分");
-            sbf.insert(14, "秒");
+            sbf.insert(7, "月");
+            sbf.insert(10, "日");
+            sbf.insert(13, "时");
+            sbf.insert(16, "分");
+            sbf.insert(19, "秒");
 
             date = sbf.toString();
-            GameItem gameItem = new GameItem(date, recordData.getFactor());
-            gameItemList.add(gameItem);
+                //判断
+                GameItem gameItem = new GameItem(date, recordData.getFactor(),gameType);
+                gameItemList.add(gameItem);
+
         }
     }
 

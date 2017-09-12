@@ -78,9 +78,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:theme="@style/MyEditText"
         android:hint="请输入照片中相关人物姓名（不包括本人）"
+
+
         android:visibility="gone"/>
 
 
@@ -92,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:hint="请输入拍摄照片的地点"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:theme="@style/MyEditText"
         android:visibility="gone"/>
 
@@ -111,7 +113,7 @@
             android:layout_marginTop="30dp"
             android:text="拍摄时间: "
             android:textColor="@color/black"
-            android:textSize="22dp"/>
+            android:textSize="18dp"/>
 
         <EditText
 
@@ -119,11 +121,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/MyEditText"
+            android:inputType="number"
+
             android:layout_marginTop="30dp"
             android:layout_marginLeft="5dp"
 
             android:ems="3"
-            android:textSize="20dp"
+            android:textSize="18sp"
             android:visibility="visible"/>
         <!--android:text="2010"-->
         <TextView
@@ -134,7 +138,7 @@
 
             android:layout_marginLeft="5dp"
             android:textColor="@color/black"
-            android:textSize="22dp"/>
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/et_photoinfo_data_month"
@@ -143,8 +147,9 @@
             android:layout_marginTop="30dp"
             android:theme="@style/MyEditText"
             android:ems="2"
+            android:inputType="number"
             android:layout_marginLeft="5dp"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:visibility="visible"/>
 
         <TextView
@@ -152,9 +157,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="月"
+            android:inputType="number"
+
             android:layout_marginLeft="5dp"
             android:textColor="@color/black"
-            android:textSize="22dp"
+            android:textSize="18dp"
             />
 
         <EditText
@@ -164,9 +171,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:ems="2"
+            android:inputType="number"
             android:theme="@style/MyEditText"
             android:layout_marginLeft="5dp"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:visibility="visible"/>
 
         <TextView
@@ -175,7 +183,7 @@
             android:layout_marginTop="30dp"
             android:text="日"
             android:textColor="@color/black"
-            android:textSize="22dp"/>
+            android:textSize="18dp"/>
     </LinearLayout>
 
 

@@ -53,11 +53,10 @@ public class updateFamily extends Activity {
     private List<MemberData> memberDataList = null;
     final static int ITEMNUM = 4;
     private int modifyType = 10;
-    private  int type;
+    private int type;
     private String pic_neme = String.valueOf(DateUtil.getTime());
     private List<updateFamilyItem> updateFamilyItemList = new ArrayList<updateFamilyItem>();
     //    private List<updateFamilyItem> updatememberItemList = new ArrayList<updateFamilyItem>();
-
     private ImageView ivHead;//头像显示
     private Bitmap head;// 头像Bitmap
     private static String path = "/sdcard/myHead/";// sd路径
@@ -98,8 +97,15 @@ public class updateFamily extends Activity {
                     FamilyData familyData = familyDataList.get(0);
                     updateFamilyItem updateFamilyItem = new updateFamilyItem();
                     updateFamilyItem.setLeftText("头像");
+                    List<PictureData> pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", memberID, "", "", 0, 0);
+                    String imagepath = "";
+                    if (pictureDataList != null) {
+                        imagepath = pictureDataList.get(0).getImagePath();
+                    }
+                    updateFamilyItem.setRightImagepath(imagepath);
+                    Log.i("TAG","imagepath = " +imagepath );
                     updateFamilyItemList.add(updateFamilyItem);
-                    updateFamilyItem.setRightImagepath(familyData.getPortraitID());
+
 
                     updateFamilyItem updateFamilyItem1 = new updateFamilyItem();
                     updateFamilyItem1.setLeftText("家庭名");
@@ -154,100 +160,111 @@ public class updateFamily extends Activity {
             //修改个人信息
             memberID = intent.getStringExtra("memberID");
             Log.i("TAG", "update的memberID：" + memberID);
+
             try {
                 memberDataList = dataBaseManager.getMemberList(memberID, "", "", "");
-                if (memberDataList != null) {
-                    MemberData memberData = memberDataList.get(0);
-                    updateFamilyItem updateFamilyItem = new updateFamilyItem();
-                    updateFamilyItem.setLeftText("头像");
-                    updateFamilyItemList.add(updateFamilyItem);
-                    List<PictureData> pictureDataList = dataBaseManager.getPictureList(memberData.getPortraitID(), "", "", "", "", 0, 0);
-                    if (pictureDataList != null) {
-                        imgmagrPath = pictureDataList.get(0).getImagePath();
-                    }
-                    updateFamilyItem.setRightImagepath(imgmagrPath);
-
-                    updateFamilyItem updateFamilyItem1 = new updateFamilyItem();
-                    updateFamilyItem1.setLeftText("姓名");
-                    if (TextUtils.isEmpty(memberData.getName())) {
-                        updateFamilyItem1.setRightText("无");
-                    } else {
-
-                        updateFamilyItem1.setRightText(memberData.getName());
-                    }
-                    updateFamilyItemList.add(updateFamilyItem1);
-
-                    updateFamilyItem updateFamilyItem2 = new updateFamilyItem();
-                    updateFamilyItem2.setLeftText("ID");
-                    if (TextUtils.isEmpty(memberData.getID())) {
-                        updateFamilyItem2.setRightText("无");
-                    } else {
-
-                        updateFamilyItem2.setRightText(memberData.getID());
-                    }
-                    updateFamilyItemList.add(updateFamilyItem2);
-
-                    updateFamilyItem updateFamilyItem3 = new updateFamilyItem();
-                    updateFamilyItem3.setLeftText("昵称");
-                    if (TextUtils.isEmpty(memberData.getNickName())) {
-                        updateFamilyItem3.setRightText("无");
-                    } else {
-
-                        updateFamilyItem3.setRightText(memberData.getNickName());
-                    }
-                    updateFamilyItemList.add(updateFamilyItem3);
-
-                    updateAdapter Adapter = new updateAdapter(updateFamily.this, R.layout.updatefamily_item, updateFamilyItemList);
-                    lv_update_info.setAdapter(Adapter);
-                    lv_update_info.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            switch (i) {
-                                case 0:
-                                    ivHead = (ImageView) view.getTag(R.id.tag_first);
-                                    if (ivHead != null) {
-                                        Log.i("TAG", "ivHead的信息" + ivHead.toString());
-                                        setType(1);
-
-                                        findView(1);
-                                    } else {
-                                        finish();
-                                    }
-
-                                    Log.i("TAG", "修改个人图像按钮被点击了");
-
-
-                                    break;
-                                case 1:
-                                    Log.i("TAG", "修改个人名字按钮被点击了");
-                                    Intent intentmodify_membername = new Intent(updateFamily.this, modifyName.class);
-                                    intentmodify_membername.putExtra("modifyType", 1);
-                                    intentmodify_membername.putExtra("memberID", memberID);
-                                    startActivity(intentmodify_membername);
-                                    //                                    Log.i("TAG"," onDestroy is called" );
-                                    //                                    onDestroy();
-                                    finish();
-                                    break;
-                                case 3:
-                                    Log.i("TAG", "修改nickname按钮被点击了");
-                                    Intent intentmodify_nickname = new Intent(updateFamily.this, modifyName.class);
-                                    intentmodify_nickname.putExtra("modifyType", 2);
-                                    intentmodify_nickname.putExtra("memberID", memberID);
-                                    startActivity(intentmodify_nickname);
-                                    finish();
-                                    break;
-                            }
-                        }
-                    });
-                }
             } catch (DataBaseError dataBaseError) {
                 dataBaseError.printStackTrace();
             }
+            if (memberDataList != null && memberDataList.size() > 0) {
+                MemberData memberData = memberDataList.get(0);
+                updateFamilyItem updateFamilyItem = new updateFamilyItem();
+                updateFamilyItem.setLeftText("头像");
+                List<PictureData> pictureDataList = null;
+                try {
+                    pictureDataList = dataBaseManager.getPictureList(memberData.getPortraitID(), "", "", "", "", 0, 0);
+                } catch (DataBaseError dataBaseError) {
+                    Log.i("TAG", "  updateamily 的dataBaseError type" +dataBaseError.getErrorType()+dataBaseError.getMessage());
+                    dataBaseError.printStackTrace();
+                }
+                String imagepath = "";
+                if (pictureDataList != null && pictureDataList.size() > 0) {
+                    imgmagrPath = pictureDataList.get(0).getImagePath();
+                }
+                updateFamilyItem.setRightImagepath(imgmagrPath);
+                Log.i("TAG","imgmagrPath= " +imgmagrPath );
+                updateFamilyItemList.add(updateFamilyItem);
 
+                updateFamilyItem updateFamilyItem1 = new updateFamilyItem();
+                updateFamilyItem1.setLeftText("姓名");
+                if (TextUtils.isEmpty(memberData.getName())) {
+                    updateFamilyItem1.setRightText("无");
+                } else {
+
+                    updateFamilyItem1.setRightText(memberData.getName());
+                }
+                updateFamilyItemList.add(updateFamilyItem1);
+
+                updateFamilyItem updateFamilyItem2 = new updateFamilyItem();
+                updateFamilyItem2.setLeftText("ID");
+                if (TextUtils.isEmpty(memberData.getID())) {
+                    updateFamilyItem2.setRightText("无");
+                } else {
+
+                    updateFamilyItem2.setRightText(memberData.getID());
+                }
+                updateFamilyItemList.add(updateFamilyItem2);
+
+                updateFamilyItem updateFamilyItem3 = new updateFamilyItem();
+                updateFamilyItem3.setLeftText("昵称");
+                if (TextUtils.isEmpty(memberData.getNickName())) {
+                    updateFamilyItem3.setRightText("无");
+                } else {
+                    updateFamilyItem3.setRightText(memberData.getNickName());
+                }
+
+                updateFamilyItemList.add(updateFamilyItem3);
+            }else {
+                ToastUtil.showToast(updateFamily.this,"用户不存在");
+                finish();
+            }
+            updateAdapter Adapter = new updateAdapter(updateFamily.this, R.layout.updatefamily_item, updateFamilyItemList);
+            lv_update_info.setAdapter(Adapter);
+            lv_update_info.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    switch (i) {
+                        case 0:
+                            ivHead = (ImageView) view.getTag(R.id.tag_first);
+                            if (ivHead != null) {
+                                Log.i("TAG", "ivHead的信息" + ivHead.toString());
+                                setType(1);
+
+                                findView(1);
+                            } else {
+                                finish();
+                            }
+
+                            Log.i("TAG", "修改个人图像按钮被点击了");
+
+
+                            break;
+                        case 1:
+                            Log.i("TAG", "修改个人名字按钮被点击了");
+                            Intent intentmodify_membername = new Intent(updateFamily.this, modifyName.class);
+                            intentmodify_membername.putExtra("modifyType", 1);
+                            intentmodify_membername.putExtra("memberID", memberID);
+                            startActivity(intentmodify_membername);
+                            //                                    Log.i("TAG"," onDestroy is called" );
+                            //                                    onDestroy();
+                            finish();
+                            break;
+                        case 3:
+                            Log.i("TAG", "修改nickname按钮被点击了");
+                            Intent intentmodify_nickname = new Intent(updateFamily.this, modifyName.class);
+                            intentmodify_nickname.putExtra("modifyType", 2);
+                            intentmodify_nickname.putExtra("memberID", memberID);
+                            startActivity(intentmodify_nickname);
+                            finish();
+                            break;
+                    }
+                }
+            });
         }
 
 
     }
+
 
     @Override
     protected void onResume() {
@@ -292,7 +309,7 @@ public class updateFamily extends Activity {
     }
 
     //创文件夹
-    public void setPicToView(Bitmap mBitmap, String family,int type) {
+    public void setPicToView(Bitmap mBitmap, String family, int type) {
         String sdStatus = Environment.getExternalStorageState();
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
             return;
@@ -317,21 +334,21 @@ public class updateFamily extends Activity {
             }
 
         }
-//
-            try {
-                dataBaseManager.AddImage(memberID, pic_neme, "", fileName, 0, "", "");
-                Log.i("TAG", "fileName" + fileName);
+        //
+        try {
+            dataBaseManager.AddImage(memberID, pic_neme, "", fileName, 0, "", "");
+            Log.i("TAG", "fileName" + fileName);
 
-            } catch (DataBaseSignal dataBaseSignal) {
-                if (dataBaseSignal.getSignalType() == ImageAddedAlready) {
-                    Log.i("TAG", "头像上传成功");
+        } catch (DataBaseSignal dataBaseSignal) {
+            if (dataBaseSignal.getSignalType() == ImageAddedAlready) {
+                Log.i("TAG", "头像上传成功");
 
-                }
-                dataBaseSignal.printStackTrace();
-            } catch (DataBaseError dataBaseError) {
-                dataBaseError.printStackTrace();
-                Log.i("TAG", "dataBaseError " + dataBaseError.getErrorType() + dataBaseError.getMessage());
             }
+            dataBaseSignal.printStackTrace();
+        } catch (DataBaseError dataBaseError) {
+            dataBaseError.printStackTrace();
+            Log.i("TAG", "dataBaseError " + dataBaseError.getErrorType() + dataBaseError.getMessage());
+        }
 
         List<PictureData> pictures = null;
         try {
@@ -341,8 +358,8 @@ public class updateFamily extends Activity {
             dataBaseError.printStackTrace();
         }
         try {
-            if(type==1) {
-                Log.i("TAG","更新个人头像"  );
+            if (type == 1) {
+                Log.i("TAG", "更新个人头像");
                 dataBaseManager.UpdateMember(memberID, "", 0, "", "", pictures.get(0).getID());
             }
         } catch (DataBaseError dataBaseError) {
@@ -350,29 +367,29 @@ public class updateFamily extends Activity {
         } catch (DataBaseSignal dataBaseSignal) {
             if (dataBaseSignal.getSignalType() == MemberUpdated) {
                 Log.i("TAG", "头像更新成功");
-                ToastUtil.showToast(updateFamily.this,"更新成功");
+                ToastUtil.showToast(updateFamily.this, "更新成功");
                 finish();
             }
             dataBaseSignal.printStackTrace();
         }
-        if(type==0){
-            Log.i("TAG","更新家庭头像"  );
+        if (type == 0) {
+            Log.i("TAG", "更新家庭头像");
             try {
-                dataBaseManager.UpdateFamily(familyID,"","",pictures.get(0).getID());
+                dataBaseManager.UpdateFamily(familyID, "", "", pictures.get(0).getID());
             } catch (DataBaseError dataBaseError) {
                 dataBaseError.printStackTrace();
             } catch (DataBaseSignal dataBaseSignal) {
-                if(FamilyUpdated==dataBaseSignal.getSignalType()){
-                    Log.i("TAG","更新成功"  );
-                    ToastUtil.showToast(updateFamily.this,"更新成功");
+                if (FamilyUpdated == dataBaseSignal.getSignalType()) {
+                    Log.i("TAG", "更新成功");
+                    ToastUtil.showToast(updateFamily.this, "更新成功");
 
-                    }else {
-                        finish();
-                    }
-                    dataBaseSignal.printStackTrace();
+                } else {
+                    finish();
                 }
+                dataBaseSignal.printStackTrace();
             }
-//        }
+        }
+        //        }
 
     }
 
@@ -407,7 +424,7 @@ public class updateFamily extends Activity {
                         //head= toRoundBitmap(head); //变圆
 
 
-                            setPicToView(head, String.valueOf(DateUtil.getTime()),getType());//保存在SD卡中
+                        setPicToView(head, String.valueOf(DateUtil.getTime()), getType());//保存在SD卡中
 
                         ivHead.setImageBitmap(head);//用ImageView显示出来
                     }
@@ -422,11 +439,13 @@ public class updateFamily extends Activity {
     }
 
     private int getType() {
-       return type;
+        return type;
     }
+
     private void setType(int Type) {
-        type= Type;
+        type = Type;
     }
+
     public void cropPhoto(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");

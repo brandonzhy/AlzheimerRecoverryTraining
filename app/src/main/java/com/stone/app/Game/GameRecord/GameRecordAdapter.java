@@ -14,6 +14,8 @@ import com.stone.app.R;
 
 import java.util.List;
 
+import static com.stone.app.Util.staticConstUtil.GAME_JUDGAE;
+
 /**
  * Created by Brandon Zhang on 2017/9/7.
  */
@@ -42,8 +44,15 @@ public class GameRecordAdapter extends ArrayAdapter<GameItem> {
             view=convertView;
             viewHolder= (ViewHolder) view.getTag();
         }
-        viewHolder.gamedate.setText(gameItem.getData());
-        viewHolder.gameResult.setText(String.valueOf(gameItem.getResult()));
+        if(gameItem.getType()==GAME_JUDGAE){
+
+            viewHolder.gameResult.setText("准确率: "+String.valueOf(gameItem.getResult())+"%");
+//            viewHolder.gamedate.setText("准确率: "+gameItem.getData());
+        }else {
+            viewHolder.gameResult.setText("关数: "+String.valueOf(gameItem.getResult()));
+        }
+        viewHolder.gamedate.setText("游戏时间"+gameItem.getData());
+//        viewHolder.gameResult.setText(String.valueOf(gameItem.getResult()));
 
         return view;
 

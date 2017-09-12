@@ -449,14 +449,16 @@ public class mainpageYoung extends AppCompatActivity {
                                 try {
                                     FamilyData familyData = dataBaseManager.AddFamily("", memberID, "");
                                     familyData.getID();
-                                    familyData.setPortraitID("file:///android_asset/person1.png");
+                                    //familyData.setPortraitID("file:///android_asset/person1.png");
                                     Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
+                                   // familyData.setPortraitID("");
+                                    //外部不能设置id
                                     intent_updatefamily.putExtra("memberID", memberID);
                                     startActivity(intent_updatefamily);
 
                                 } catch (DataBaseError dataBaseError) {
                                     if (dataBaseError.getErrorType() == DataBaseError.ErrorType.MemberHasFamilyAlready) {
-                                        ToastUtil.showToast(mainpageYoung.this, "创建失败，你已经创建过一个家庭了");
+                                        ToastUtil.showToast(mainpageYoung.this, "创建失败，你已经有一个家庭了");
                                     }
                                     dataBaseError.printStackTrace();
                                 }

@@ -263,6 +263,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     if(!TextUtils.isEmpty(et_photoinfo_date_month.getText().toString().trim())){
                         if(Long.parseLong(et_photoinfo_date_month.getText().toString().trim())<10){
                             month="0"+et_photoinfo_date_month.getText().toString().trim();
+//                            Log.i("TAG","month" + month);
                         }
                     }else {
                         month="00";
@@ -275,7 +276,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     }else {
                         day = "00";
                     }
-
+                    Log.i("TAG","day= " +day );
                     String date = year + month + day;
                     if ((!TextUtils.isEmpty(date))) {
 //                        mydata = Long.parseLong(date) * mypoe(10, 2);

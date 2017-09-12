@@ -60,7 +60,7 @@ public class FamilyData extends RealmObject {
         this.rootMemberID = RootMemberID;
     }
 
-    public void setPortraitID(String PortraitID) throws DataBaseError {
+     void setPortraitID(String PortraitID) throws DataBaseError {
         Pattern p = Pattern.compile("\\D");
         Matcher m = p.matcher(PortraitID);
         if (m.find())
