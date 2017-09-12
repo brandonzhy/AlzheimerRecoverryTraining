@@ -171,7 +171,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public Rect obtainDraggableArea(View view) {
-                if (pictlist.size() > 2) {
+                if (pictlist.size() > 1) {
                     View contentView = view.findViewById(R.id.card_item_content);
                     View topLayout = view.findViewById(R.id.card_top_layout);
                     View bottomLayout = view.findViewById(R.id.card_bottom_layout);
