@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.app.R;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.PictureData;
@@ -76,6 +77,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         //                pictlist = dataBaseManager.getPictureList("", "", intent.getStringExtra("memberID"), "", "",0,0);
         if (pictlist.size() == 0) {
             //            ToastUtil.showToast(photoBroswerActivity.this,"图片列表为空");
+            ToastUtil.showToast(photoBroswerActivity.this,"图片列表为空");
             Log.i("TAG", "图片列表为空");
             finish();
             //        }else {

@@ -104,7 +104,7 @@
             android:paddingLeft="10dip"
             android:text="性别"
             android:textColor="@color/white"
-            android:textSize="25sp"/>
+            android:textSize="18sp"/>
 
         <RadioGroup
             android:id="@+id/rb_gender"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/tv_info_gender"
-            android:layout_alignTop="@+id/tv_info_gender"
+
             android:orientation="horizontal">
 
             <RadioButton
@@ -120,12 +120,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="18sp"
+
                 android:text="男"
                 />
 
             <RadioButton
                 android:id="@+id/rb_info_female"
                 android:layout_width="0dp"
+                android:textSize="18sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="女"

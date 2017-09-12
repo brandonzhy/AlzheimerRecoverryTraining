@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.stone.app.R;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.FamilyData;
 import com.stone.app.dataBase.MemberData;
-import com.stone.app.dataBase.PictureData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
 
@@ -33,7 +33,7 @@ public class familyInformation extends Activity {
     private ListView lv_familyinfo, lv_familymember_info;
     private List<familyItem> flist = new ArrayList<familyItem>();
     private List<familyMemberItem> fmemberlist = new ArrayList<familyMemberItem>();
-    private String imgmagrPath = "";
+    private String familyImagePath = "";
     private String MemberImagePath = "";
 
     @Override
@@ -55,7 +55,7 @@ public class familyInformation extends Activity {
         Log.i("TAG", "family获得的 memberID= " + memberID);
         try {
             List<MemberData> list = dataBaseManager.getMemberList(memberID, "", "", "");
-            if (list != null) {
+            if (list != null && list.size() > 0) {
                 familyID = list.get(0).getFamilyID();
             } else {
                 Log.i("TAG", " memberID 不存在");
@@ -66,7 +66,9 @@ public class familyInformation extends Activity {
 
             finish();
         }
+
         if (!familyID.equals("")) {
+
             List<FamilyData> familyDataList = null;
             List<MemberData> familymemberList = null;
             try {
@@ -82,22 +84,30 @@ public class familyInformation extends Activity {
 
                 FamilyData familyData = familyDataList.get(0);
                 familyItem familyItem = new familyItem();
-                List<PictureData> pictureDataList = null;
+//                List<PictureData> pictureDataList = null;
 
-                if (familyData.getPortraitID()==null) {
+//                if (familyData.getPortraitID() == null) {
 
-                    try {
-                        pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", "", "", "", 0, 0);
-                        imgmagrPath = pictureDataList.get(0).getImagePath();
-                    } catch (DataBaseError dataBaseError) {
-                        dataBaseError.printStackTrace();
-                    }
-                }
+//                    try {
+//                        pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", "", "", "", 0, 0);
+//                        familyImagePath = pictureDataList.get(0).getImagePath();
+//                    } catch (DataBaseError dataBaseError) {
+//                        dataBaseError.printStackTrace();
+//                    }
+//                }
 
                 //                if (pictureDataList != null&&pictureDataList.size()>0) {
-                //                    imgmagrPath = pictureDataList.get(0).getImagePath();
+                //                    familyImagePath = pictureDataList.get(0).getImagePath();
                 //                }
-                familyItem.setImagePath(imgmagrPath);
+                try {
+                    familyImagePath=dataBaseManager.getFamilyPortraitPath(familyID);
+                } catch (DataBaseError dataBaseError) {
+                    dataBaseError.printStackTrace();
+//                    if(PortraitNotExist==dataBaseError.getErrorType()){
+                      Log.i("TAG","getFamilyPortraitPath de dataBaseError= " + dataBaseError.getErrorType()+dataBaseError.getMessage());
+//                    }
+                }
+                familyItem.setImagePath(familyImagePath);
                 familyItem.setFamilyID("ID: " + familyData.getID());
                 familyItem.setFamilyName("家庭名: " + familyData.getName());
                 familyItem.setFamilyCreaterID("创建人ID: " + familyData.getRootMemberID());
@@ -121,7 +131,10 @@ public class familyInformation extends Activity {
                 });
             } else {
                 Log.i("TAG", "familyDataList为空");
+                ToastUtil.showToast(familyInformation.this,"familyDataList为空");
             }
+
+            //member列表
             try {
                 familymemberList = dataBaseManager.getMemberList("", familyID, "", "");
             } catch (DataBaseError dataBaseError) {
@@ -134,17 +147,22 @@ public class familyInformation extends Activity {
                     familyMemberItem familyMemberItem = new familyMemberItem();
                     familyMemberItem.setMemberID("ID: " + memberData.getID());
                     familyMemberItem.setMemberName("姓名: " + memberData.getName());
-                    if(memberData.getPortraitID()!=null){
-                        try {
-                                List<PictureData> pictureDataList= dataBaseManager.getPictureList(memberData.getPortraitID(),"",memberID,"","",0,0);
-                                if(pictureDataList.size()>0){
-                                    MemberImagePath = pictureDataList.get(0).getImagePath();
-                                }
-                        } catch (DataBaseError dataBaseError) {
-                            Log.i("TAG"," dataBaseManager.getPictureList的 dataBaseError=" +dataBaseError.getErrorType()+dataBaseError.getMessage() );
-                            dataBaseError.printStackTrace();
-                        }
-
+//                    if (memberData.getPortraitID() != null) {
+//                        try {
+//                            List<PictureData> pictureDataList = dataBaseManager.getPictureList(memberData.getPortraitID(), "", memberID, "", "", 0, 0);
+//                            if (pictureDataList.size() > 0) {
+//                                MemberImagePath = pictureDataList.get(0).getImagePath();
+//                            }
+//                        } catch (DataBaseError dataBaseError) {
+//                            Log.i("TAG", " dataBaseManager.getPictureList的 dataBaseError=" + dataBaseError.getErrorType() + dataBaseError.getMessage());
+//                            dataBaseError.printStackTrace();
+//                        }
+//
+//                    }
+                    try {
+                        MemberImagePath=dataBaseManager.getMemberPortraitPath(memberID);
+                    } catch (DataBaseError dataBaseError) {
+                        dataBaseError.printStackTrace();
                     }
                     familyMemberItem.setImagePath(MemberImagePath);
                     fmemberlist.add(familyMemberItem);

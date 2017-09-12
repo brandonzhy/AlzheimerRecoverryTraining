@@ -51,7 +51,6 @@ public class updateFamily extends Activity {
     private ListView lv_update_info;
     private List<FamilyData> familyDataList = null;
     private List<MemberData> memberDataList = null;
-    final static int ITEMNUM = 4;
     private int modifyType = 10;
     private int type;
     private String pic_neme = String.valueOf(DateUtil.getTime());

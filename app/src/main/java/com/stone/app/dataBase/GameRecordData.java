@@ -74,15 +74,17 @@ public class GameRecordData extends RealmObject {
     void setDate(long date, long now) throws DataBaseError {
         long min = Long.parseLong("10000000000000");
         long max = Long.parseLong("99999999999999");
-        if (now < date - DB_DATE_CHECK_DELTA) {
-            Log.i("TAG", "Current Time : " + String.valueOf(now));
-            Log.i("TAG", "Your Time : " + String.valueOf(date));
-            throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
-        } else if (date < min || date > max) {
-            Log.i("TAG", "Current Time : " + String.valueOf(now));
-            Log.i("TAG", "Your Time : " + String.valueOf(date));
-            Log.i("TAG", "Legal range is : " + String.valueOf(min) + " to " + String.valueOf(max));
-            throw new DataBaseError(DataBaseError.ErrorType.NotStandardDateLength);
+        if (0 != date) {
+            if (now < date - DB_DATE_CHECK_DELTA) {
+                Log.i("TAG", "Current Time : " + String.valueOf(now));
+                Log.i("TAG", "Your Time : " + String.valueOf(date));
+                throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
+            } else if (date < min || date > max) {
+                Log.i("TAG", "Current Time : " + String.valueOf(now));
+                Log.i("TAG", "Your Time : " + String.valueOf(date));
+                Log.i("TAG", "Legal range is : " + String.valueOf(min) + " to " + String.valueOf(max));
+                throw new DataBaseError(DataBaseError.ErrorType.NotStandardDateLength);
+            }
         }
         this.date = date;
     }

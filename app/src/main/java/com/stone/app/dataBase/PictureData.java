@@ -100,15 +100,17 @@ public class PictureData extends RealmObject {
     void setDate(long Date, long Now) throws DataBaseError {
         long min = 10000000;
         long max = 99999999;
-        if (Now < Date - DB_DATE_CHECK_DELTA) {
-            Log.i("TAG", "Current Time : " + String.valueOf(Now));
-            Log.i("TAG", "Your Time : " + String.valueOf(Date));
-            throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
-        } else if (Date < min || Date > max) {
-            Log.i("TAG", "Current Time : " + String.valueOf(Now));
-            Log.i("TAG", "Your Time : " + String.valueOf(Date));
-            Log.i("TAG", "Legal range is : " + String.valueOf(min) + " to " + String.valueOf(max));
-            throw new DataBaseError(DataBaseError.ErrorType.NotStandardDateLength);
+        if (0 != date) {
+            if (Now < Date - DB_DATE_CHECK_DELTA) {
+                Log.i("TAG", "Current Time : " + String.valueOf(Now));
+                Log.i("TAG", "Your Time : " + String.valueOf(Date));
+                throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
+            } else if (Date < min || Date > max) {
+                Log.i("TAG", "Current Time : " + String.valueOf(Now));
+                Log.i("TAG", "Your Time : " + String.valueOf(Date));
+                Log.i("TAG", "Legal range is : " + String.valueOf(min) + " to " + String.valueOf(max));
+                throw new DataBaseError(DataBaseError.ErrorType.NotStandardDateLength);
+            }
         }
         this.date = Date;
     }

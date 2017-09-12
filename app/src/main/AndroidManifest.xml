@@ -90,7 +90,7 @@
         </activity>
         <activity
             android:name=".login.setInfomationActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/picture.green.style">
         </activity>
         <activity android:name=".mainPage.ChangeMessage">
         </activity>

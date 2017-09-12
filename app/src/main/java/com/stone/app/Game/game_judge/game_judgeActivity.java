@@ -435,7 +435,7 @@ public class game_judgeActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_back:
+            case R.id.img_gamejudgeback:
                 //gotomypage()   返回我的界面
                 finish();
                 break;

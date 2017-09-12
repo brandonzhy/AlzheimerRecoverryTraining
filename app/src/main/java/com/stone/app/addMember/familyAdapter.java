@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,13 +87,18 @@ public class familyAdapter extends ArrayAdapter<familyItem> {
         }
 
 
-        if (familyItem.getImagePath().equals("")) {
+        if ((familyItem.getImagePath()==null)||(familyItem.getImagePath().equals(""))) {
 
 //            Glide.with(mycontext).load("file:///android_asset/person1.jpg").into(viewHolder.imageView);
             viewHolder.imageView.setImageResource(R.mipmap.wall01);
         } else {
+            Log.i("TAG","getImagePath()=!null,  value=" +familyItem.getImagePath() );
             Glide.with(mycontext).load(familyItem.getImagePath()).into(viewHolder.imageView);
-
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//
+//            options.inSampleSize = 2;
+//
+//            Bitmap img = BitmapFactory.decodeFile(familyItem.getImagePath(), options);
         }
         return view;
 

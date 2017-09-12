@@ -99,11 +99,11 @@ public class mainpageYoung extends AppCompatActivity {
                 switch (state) {
                     case CANCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff5e5e5e));
-                        getSupportActionBar().setTitle("back");
+                        getSupportActionBar().setTitle("返回");
                         break;
                     case CANNOTCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xdd000000));
-                        getSupportActionBar().setTitle("InboxLayout");
+                        getSupportActionBar().setTitle("勿忘我");
                         break;
                 }
             }
@@ -114,11 +114,11 @@ public class mainpageYoung extends AppCompatActivity {
                 switch (state) {
                     case CANCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff5e5e5e));
-                        getSupportActionBar().setTitle("back");
+                        getSupportActionBar().setTitle("返回");
                         break;
                     case CANNOTCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xdd000000));
-                        getSupportActionBar().setTitle("InboxLayout");
+                        getSupportActionBar().setTitle("勿忘我");
                         break;
                 }
             }
@@ -129,11 +129,11 @@ public class mainpageYoung extends AppCompatActivity {
                 switch (state) {
                     case CANCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff5e5e5e));
-                        getSupportActionBar().setTitle("back");
+                        getSupportActionBar().setTitle("返回");
                         break;
                     case CANNOTCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xdd000000));
-                        getSupportActionBar().setTitle("InboxLayout");
+                        getSupportActionBar().setTitle("勿忘我");
                         break;
                 }
             }
@@ -144,11 +144,11 @@ public class mainpageYoung extends AppCompatActivity {
                 switch (state) {
                     case CANCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff5e5e5e));
-                        getSupportActionBar().setTitle("back");
+                        getSupportActionBar().setTitle("返回");
                         break;
                     case CANNOTCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xdd000000));
-                        getSupportActionBar().setTitle("InboxLayout");
+                        getSupportActionBar().setTitle("勿忘我");
                         break;
                 }
             }
@@ -159,11 +159,11 @@ public class mainpageYoung extends AppCompatActivity {
                 switch (state) {
                     case CANCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff5e5e5e));
-                        getSupportActionBar().setTitle("back");
+                        getSupportActionBar().setTitle("返回");
                         break;
                     case CANNOTCLOSE:
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xdd000000));
-                        getSupportActionBar().setTitle("InboxLayout");
+                        getSupportActionBar().setTitle("勿忘我");
                         break;
                 }
             }
