@@ -25,16 +25,15 @@
             android:visibility="visible"/>
     </RelativeLayout>
 
-
     <ListView
-        android:id="@+id/lv_updatafamily_info"
+        android:id="@+id/lv_updata_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
     </ListView>
     <ListView
-        android:id="@+id/lv_updata_info"
+        android:id="@+id/lv_updatafamily_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">

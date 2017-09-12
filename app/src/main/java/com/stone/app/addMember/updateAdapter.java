@@ -49,14 +49,15 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
 
         if (position == 0) {
             ImageView imageView = view.findViewById(R.id.iv_update_right);
-            view.setTag(0,imageView);
+            //Tag 的key必须是resID的形式，保证是唯一的
+            view.setTag(R.id.tag_first,imageView);
 
-//            imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                }
-//            });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
             if(updateFamily.getRightImagepath().equals("")||updateFamily.getRightImagepath()==null){
 
                 imageView.setImageResource(R.mipmap.smiley);
@@ -79,7 +80,5 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
         return view;
     }
 
-    private void onActivityResult() {
 
-    }
 }

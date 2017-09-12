@@ -13,16 +13,11 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.stone.app.R;
-import com.stone.app.Util.getDataUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
-import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.MemberData;
-import com.stone.app.dataBase.PictureData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
-
-import java.util.List;
 
 import static com.stone.app.Util.staticConstUtil.FEMALE;
 import static com.stone.app.Util.staticConstUtil.MALE;
@@ -87,15 +82,15 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
                 String memberName = memberData.getName();
                 String memberNickName = memberData.getNickName();
                 int memberGender = memberData.getGender();
-                try {
-                    String pic_name=getDataUtil.setPicName();
-                    dataBaseManager.AddImage(memberID, pic_name, "", "/data/data/com.stone.card/cache/1505178491475.jpg", 0, "", "");
-                    List<PictureData> pictures=dataBaseManager.getPictureList("",pic_name,memberID,"","",0,0);
-                    dataBaseManager.UpdateMember(memberID,"",0,"","", pictures.get(0).getID());
-                } catch (DataBaseSignal dataBaseSignal) {
-                    Log.i("TAG", "添加头像dataBaseSignal " + dataBaseSignal.getSignalType() + dataBaseSignal.getMessage());
-                    dataBaseSignal.printStackTrace();
-                }
+//                try {
+//                    String pic_name=getDataUtil.setPicName();
+//                    dataBaseManager.AddImage(memberID, pic_name, "", "/data/data/com.stone.card/cache/1505178491475.jpg", 0, "", "");
+//                    List<PictureData> pictures=dataBaseManager.getPictureList("",pic_name,memberID,"","",0,0);
+//                    dataBaseManager.UpdateMember(memberID,"",0,"","", pictures.get(0).getID());
+//                } catch (DataBaseSignal dataBaseSignal) {
+//                    Log.i("TAG", "添加头像dataBaseSignal " + dataBaseSignal.getSignalType() + dataBaseSignal.getMessage());
+//                    dataBaseSignal.printStackTrace();
+//                }
                 intentmainPage.putExtra("memberID", memberID);
                 intentmainPage.putExtra("memberName", memberName);
                 intentmainPage.putExtra("memberNickName", memberNickName);

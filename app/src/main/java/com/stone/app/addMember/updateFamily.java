@@ -23,6 +23,7 @@ import android.widget.ListView;
 
 import com.stone.app.R;
 import com.stone.app.Util.DateUtil;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
@@ -38,7 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.stone.app.R.id.lv_updatafamily_info;
+import static com.stone.app.dataBase.DataBaseSignal.SignalType.FamilyUpdated;
 import static com.stone.app.dataBase.DataBaseSignal.SignalType.ImageAddedAlready;
 import static com.stone.app.dataBase.DataBaseSignal.SignalType.MemberUpdated;
 
@@ -52,13 +53,15 @@ public class updateFamily extends Activity {
     private List<MemberData> memberDataList = null;
     final static int ITEMNUM = 4;
     private int modifyType = 10;
+    private  int type;
+    private String pic_neme = String.valueOf(DateUtil.getTime());
     private List<updateFamilyItem> updateFamilyItemList = new ArrayList<updateFamilyItem>();
-    private List<updateFamilyItem> updatememberItemList = new ArrayList<updateFamilyItem>();
+    //    private List<updateFamilyItem> updatememberItemList = new ArrayList<updateFamilyItem>();
 
     private ImageView ivHead;//头像显示
     private Bitmap head;// 头像Bitmap
     private static String path = "/sdcard/myHead/";// sd路径
-    private String imgmagrPath="";
+    private String imgmagrPath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,14 @@ public class updateFamily extends Activity {
         setContentView(R.layout.activity_update_family);
         Log.i("TAG", "updateFamily onCreate  ");
         dataBaseManager = RealmDB.getDataBaseManager();
-        lv_update_info = findViewById(lv_updatafamily_info);
+        lv_update_info = findViewById(R.id.lv_updata_info);
+        //        ivHead=findViewById(R.id.iv_portrait);
+        //        ivHead.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View view) {
+        //                findView();
+        //            }
+        //        });
         final ImageView imageView = findViewById(R.id.iv_update_leftback);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +124,14 @@ public class updateFamily extends Activity {
                             switch (i) {
                                 case 0:
                                     Log.i("TAG", "修改家庭图像按钮被点击了");
-                                    ivHead = (ImageView) view.getTag(0);
+                                    //                                    ivHead = (ImageView) view.getTag(R.id.tag_first);
+                                    ivHead = (ImageView) view.getTag(R.id.tag_first);
+                                    if (ivHead != null) {
+                                        Log.i("TAG", "ivHead的信息" + ivHead.toString());
+                                        setType(0);
+                                        findView(0);
+
+                                    }
                                     break;
                                 case 1:
                                     Log.i("TAG", "修改家庭名字按钮被点击了");
@@ -187,9 +204,18 @@ public class updateFamily extends Activity {
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             switch (i) {
                                 case 0:
-                                    ivHead = (ImageView) view.getTag(0);
+                                    ivHead = (ImageView) view.getTag(R.id.tag_first);
+                                    if (ivHead != null) {
+                                        Log.i("TAG", "ivHead的信息" + ivHead.toString());
+                                        setType(1);
+
+                                        findView(1);
+                                    } else {
+                                        finish();
+                                    }
+
                                     Log.i("TAG", "修改个人图像按钮被点击了");
-                                    findView();
+
 
                                     break;
                                 case 1:
@@ -246,14 +272,14 @@ public class updateFamily extends Activity {
 
     }
 
-    private void findView() {
-       //  Bitmap bt = BitmapFactory.decodeFile(path +family+".png");// 从SD卡中找头像，转换成Bitmap
-//              if(bt!=null){
-//        @SuppressWarnings("deprecation")
-//        Drawable drawable = new BitmapDrawable(bt);//转换成drawable
-                //ivHead.setImageDrawable(drawable);
+    private void findView(int type) {
+        //  Bitmap bt = BitmapFactory.decodeFile(path +family+".png");// 从SD卡中找头像，转换成Bitmap
+        //              if(bt!=null){
+        //        @SuppressWarnings("deprecation")
+        //        Drawable drawable = new BitmapDrawable(bt);//转换成drawable
+        //ivHead.setImageDrawable(drawable);
 
-                Intent intent1 = new Intent(Intent.ACTION_PICK, null);
+        Intent intent1 = new Intent(Intent.ACTION_PICK, null);
         intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent1, 1);
         //        }else{
@@ -266,7 +292,7 @@ public class updateFamily extends Activity {
     }
 
     //创文件夹
-    private void setPicToView(Bitmap mBitmap, String family) {
+    public void setPicToView(Bitmap mBitmap, String family,int type) {
         String sdStatus = Environment.getExternalStorageState();
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
             return;
@@ -275,7 +301,6 @@ public class updateFamily extends Activity {
         File file = new File(path);
         file.mkdirs();// 创建文件夹
         String fileName = path + family + ".png";//图片名字
-
         try {
             b = new FileOutputStream(fileName);
             mBitmap.compress(Bitmap.CompressFormat.PNG, 100, b);// 把数据写入文件
@@ -292,29 +317,68 @@ public class updateFamily extends Activity {
             }
 
         }
-        try {
-            String pic_neme = setPicName();
-            dataBaseManager.AddImage(memberID,pic_neme,"",fileName,0,"", "");
-            List<PictureData> pictures=dataBaseManager.getPictureList("",pic_neme,memberID,"","",0,0);
-            dataBaseManager.UpdateMember(memberID,"",0,"","", pictures.get(0).getID());
+//
+            try {
+                dataBaseManager.AddImage(memberID, pic_neme, "", fileName, 0, "", "");
+                Log.i("TAG", "fileName" + fileName);
 
-        } catch (DataBaseSignal dataBaseSignal) {
-            if(dataBaseSignal.getSignalType()== ImageAddedAlready){
-                Log.i("TAG","头像上传成功" );
+            } catch (DataBaseSignal dataBaseSignal) {
+                if (dataBaseSignal.getSignalType() == ImageAddedAlready) {
+                    Log.i("TAG", "头像上传成功");
+
+                }
+                dataBaseSignal.printStackTrace();
+            } catch (DataBaseError dataBaseError) {
+                dataBaseError.printStackTrace();
+                Log.i("TAG", "dataBaseError " + dataBaseError.getErrorType() + dataBaseError.getMessage());
             }
-            if(dataBaseSignal.getSignalType()== MemberUpdated){
-                Log.i("TAG","头像更新成功" );
-            }
-            dataBaseSignal.printStackTrace();
+
+        List<PictureData> pictures = null;
+        try {
+
+            pictures = dataBaseManager.getPictureList("", pic_neme, memberID, "", "", 0, 0);
         } catch (DataBaseError dataBaseError) {
             dataBaseError.printStackTrace();
-            Log.i("TAG","dataBaseError " + dataBaseError.getErrorType()+dataBaseError.getMessage());
         }
+        try {
+            if(type==1) {
+                Log.i("TAG","更新个人头像"  );
+                dataBaseManager.UpdateMember(memberID, "", 0, "", "", pictures.get(0).getID());
+            }
+        } catch (DataBaseError dataBaseError) {
+            dataBaseError.printStackTrace();
+        } catch (DataBaseSignal dataBaseSignal) {
+            if (dataBaseSignal.getSignalType() == MemberUpdated) {
+                Log.i("TAG", "头像更新成功");
+                ToastUtil.showToast(updateFamily.this,"更新成功");
+                finish();
+            }
+            dataBaseSignal.printStackTrace();
+        }
+        if(type==0){
+            Log.i("TAG","更新家庭头像"  );
+            try {
+                dataBaseManager.UpdateFamily(familyID,"","",pictures.get(0).getID());
+            } catch (DataBaseError dataBaseError) {
+                dataBaseError.printStackTrace();
+            } catch (DataBaseSignal dataBaseSignal) {
+                if(FamilyUpdated==dataBaseSignal.getSignalType()){
+                    Log.i("TAG","更新成功"  );
+                    ToastUtil.showToast(updateFamily.this,"更新成功");
+
+                    }else {
+                        finish();
+                    }
+                    dataBaseSignal.printStackTrace();
+                }
+            }
+//        }
+
     }
 
     @NonNull
     private String setPicName() {
-        return String.valueOf(DateUtil.getTime())+"pic_portrait";
+        return String.valueOf(DateUtil.getTime()) + "pic_portrait";
     }
 
     @Override
@@ -324,6 +388,7 @@ public class updateFamily extends Activity {
             case 1:
                 if (resultCode == RESULT_OK) {
                     cropPhoto(data.getData());//裁剪图片
+                    Log.i("TAG", "裁剪图片");
                 }
 
                 break;
@@ -332,13 +397,18 @@ public class updateFamily extends Activity {
                 if (data != null) {
                     Bundle extras = data.getExtras();
                     head = extras.getParcelable("data");
+
                     if (head != null) {
+                        Log.i("TAG", "updatafamilyNo.341  head不为空");
                         /**
                          * 上传服务器代码
                          */
 
                         //head= toRoundBitmap(head); //变圆
-                         setPicToView(head,String.valueOf(DateUtil.getTime()));//保存在SD卡中
+
+
+                            setPicToView(head, String.valueOf(DateUtil.getTime()),getType());//保存在SD卡中
+
                         ivHead.setImageBitmap(head);//用ImageView显示出来
                     }
                 }
@@ -351,6 +421,12 @@ public class updateFamily extends Activity {
 
     }
 
+    private int getType() {
+       return type;
+    }
+    private void setType(int Type) {
+        type= Type;
+    }
     public void cropPhoto(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");

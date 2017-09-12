@@ -105,7 +105,8 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
             Log.i("TAG", " gamepuzzle 的 memberID= " + memberID);
             listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
             if (listdata.size() > 0 && i < listdata.size()) {
-                imagepath = listdata.get(i).getImagePath().trim();
+
+                imagepath = listdata.get(i).getImagePath();
                 Log.i("TAG", "gamepuzzle 的 imagepath = " + imagepath);
                 mBitmap = BitmapFactory.decodeFile(imagepath);
                 Log.i("TAG", "gamepuzzle 的 mBitmap = " + mBitmap);

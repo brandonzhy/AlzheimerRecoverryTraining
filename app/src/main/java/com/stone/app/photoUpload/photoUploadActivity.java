@@ -286,14 +286,15 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
 
                     }
 //                    dataBaseManager.AddImage(memberID, name,plece , adapter.getImagePath(), mydata, "", "");
-                    if(selectList.get(0).isCut()){
-                        dataBaseManager.AddImage(memberID, name,plece , selectList.get(0).getCutPath(), mydata, "", "");
-                        Log.i("TAG","图片的cutpath为" + selectList.get(0).getPath());
-                    }else {
-                        Log.i("TAG","图片没有的path为" + selectList.get(0).getPath());
-
-                        dataBaseManager.AddImage(memberID, name,plece , selectList.get(0).getPath(), mydata, "", "");
-                    }
+                    Log.i("TAG","图片的cutpath为" + selectList.get(0).getPath());
+                    Log.i("TAG","图片没有的path为" + selectList.get(0).getCutPath());
+//                    if(selectList.get(0).isCut()){
+//                        dataBaseManager.AddImage(memberID, name,plece , selectList.get(0).getCutPath(), mydata, "", "");
+//                    }else {
+//
+//                        dataBaseManager.AddImage(memberID, name,plece , selectList.get(0).getPath(), mydata, "", "");
+//                    }
+                    dataBaseManager.AddImage(memberID, name,plece , selectList.get(0).getPath(), mydata, "", "");
                     //                    if(!TextUtils.isEmpty(et_photoinfo_name.getText().toString())){
                     //                      if(!TextUtils.isEmpty(et_photoinfo_place.getText().toString())){
                     //                          if((!TextUtils.isEmpty(date))){

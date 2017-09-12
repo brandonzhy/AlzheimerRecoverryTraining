@@ -93,7 +93,7 @@ public class familyInformation extends Activity {
                                     intent_update.putExtra("familyID", familyID);
                                     intent_update.putExtra("modifyType", 0);
                                     startActivity(intent_update);
-
+                                    finish();
                                     break;
                             }
                         }
