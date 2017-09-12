@@ -18,6 +18,7 @@ import com.stone.app.Game.GameRecord.GameRecord;
 import com.stone.app.Game.game_judge.game_judgeActivity;
 import com.stone.app.Game.game_puzzle.gamestart;
 import com.stone.app.R;
+import com.stone.app.Util.DateUtil;
 import com.stone.app.Util.ToastUtil;
 import com.stone.app.Util.getDataUtil;
 import com.stone.app.addMember.familyInformation;
@@ -26,7 +27,9 @@ import com.stone.app.addMember.searchMemberActivity;
 import com.stone.app.addMember.updateFamily;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.FamilyData;
+import com.stone.app.dataBase.PictureData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.login.loginActivity;
 import com.stone.app.photoBroswer.familyphotoBrowserActivity;
@@ -38,6 +41,7 @@ import com.zzt.inbox.widget.InboxLayoutBase;
 import com.zzt.inbox.widget.InboxLayoutListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class mainpageYoung extends AppCompatActivity {
@@ -395,6 +399,7 @@ public class mainpageYoung extends AppCompatActivity {
                                 break;
                             case 4:
                                 Log.i("TAG", "第4项版本更新被点击了");
+                                ToastUtil.showToast(mainpageYoung.this,"已经为最新版本，版本号为V1.5");
                                 break;
 
                             case 5:
@@ -448,11 +453,27 @@ public class mainpageYoung extends AppCompatActivity {
                                 Log.i("TAG", "第1项创建家庭被点击了");
                                 try {
                                     FamilyData familyData = dataBaseManager.AddFamily("", memberID, "");
-                                    familyData.getID();
+                                    String familyID = familyData.getID();
                                     //familyData.setPortraitID("file:///android_asset/person1.png");
-                                    Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
                                    // familyData.setPortraitID("");
                                     //外部不能设置id
+                                    try {
+                                        dataBaseManager.AddImage(memberID,"portrait","","file:///android_asset/person1.png", DateUtil.getTime(),"","");
+                                        //E:\Androidworlspace\photoBrowser\app\src\main\res\mipmap-mdpi\ic_password_eye_on.png
+                                    } catch (DataBaseSignal dataBaseSignal) {
+                                        dataBaseSignal.printStackTrace();
+                                    }
+
+                                    List<PictureData> pictureDataList=dataBaseManager.getPictureList("","portrait",memberID,"","",0,0);
+                                    if(pictureDataList!=null&&pictureDataList.size()>0){
+                                        try {
+                                            dataBaseManager.UpdateFamily(familyID,"","",pictureDataList.get(0).getID());
+                                        } catch (DataBaseSignal dataBaseSignal) {
+                                            dataBaseSignal.printStackTrace();
+                                            Log.i("TAG","UpdateFamily  的 dataBaseSignal= " + dataBaseSignal.getMessage());
+                                        }
+                                    }
+                                    Intent intent_updatefamily = new Intent(mainpageYoung.this, familyInformation.class);
                                     intent_updatefamily.putExtra("memberID", memberID);
                                     startActivity(intent_updatefamily);
 

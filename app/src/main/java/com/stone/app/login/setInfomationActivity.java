@@ -13,11 +13,16 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.stone.app.R;
+import com.stone.app.Util.DateUtil;
 import com.stone.app.dataBase.DataBaseError;
 import com.stone.app.dataBase.DataBaseManager;
+import com.stone.app.dataBase.DataBaseSignal;
 import com.stone.app.dataBase.MemberData;
+import com.stone.app.dataBase.PictureData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
+
+import java.util.List;
 
 import static com.stone.app.Util.staticConstUtil.FEMALE;
 import static com.stone.app.Util.staticConstUtil.MALE;
@@ -74,27 +79,43 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
             memberData = dataBaseManager.AddMember(nickname, "123456",
                     "", name,
                     gendrType, "11" + String.valueOf(phone), "");
+
             //                    gendrType, "15858260179","");
 //            Log.i("TAG", "memberDatagetName " + memberData.getName()+"memberDatagetName " + memberData.getGender() );
-            Intent intentmainPage = new Intent(setInfomationActivity.this, mainpageYoung.class);
             if (memberData != null) {
                 String memberID = memberData.getID();
-//                String memberName = memberData.getName();
-//                String memberNickName = memberData.getNickName();
-//                int memberGender = memberData.getGender();
-//                try {
-//                    String pic_name=getDataUtil.setPicName();
-//                    dataBaseManager.AddImage(memberID, pic_name, "", "/data/data/com.stone.card/cache/1505178491475.jpg", 0, "", "");
-//                    List<PictureData> pictures=dataBaseManager.getPictureList("",pic_name,memberID,"","",0,0);
-//                    dataBaseManager.UpdateMember(memberID,"",0,"","", pictures.get(0).getID());
-//                } catch (DataBaseSignal dataBaseSignal) {
-//                    Log.i("TAG", "添加头像dataBaseSignal " + dataBaseSignal.getSignalType() + dataBaseSignal.getMessage());
-//                    dataBaseSignal.printStackTrace();
-//                }
-                intentmainPage.putExtra("memberID", memberID);
-//                intentmainPage.putExtra("memberName", memberName);
-//                intentmainPage.putExtra("memberNickName", memberNickName);
-//                intentmainPage.putExtra("memberGender", memberGender);
+                try {
+                    dataBaseManager.AddImage(memberID,"portrait","","file:///android_asset/wall02.jpg", DateUtil.getTime(),"","");
+                    //E:\Androidworlspace\photoBrowser\app\src\main\res\mipmap-mdpi\ic_password_eye_on.png
+                } catch (DataBaseSignal dataBaseSignal) {
+                    Log.i("TAG","AddImage de dataBaseSignal= " + dataBaseSignal.getMessage());
+                    dataBaseSignal.printStackTrace();
+                }
+
+                List<PictureData> pictureDataList=dataBaseManager.getPictureList("","portrait",memberID,"","",0,0);
+                if(pictureDataList!=null&&pictureDataList.size()>0){
+                    try {
+                        dataBaseManager.UpdateMember(memberID,"",0,"","",pictureDataList.get(0).getID());
+                    } catch (DataBaseSignal dataBaseSignal) {
+                        dataBaseSignal.printStackTrace();
+                        Log.i("TAG","UpdateFamily  的 dataBaseSignal= " + dataBaseSignal.getMessage()+dataBaseSignal.getSignalType());
+                    }
+                }
+                //                String memberName = memberData.getName();
+                //                String memberNickName = memberData.getNickName();
+                //                int memberGender = memberData.getGender();
+                //                try {
+                //                    String pic_name=getDataUtil.setPicName();
+                //                    dataBaseManager.AddImage(memberID, pic_name, "", "/data/data/com.stone.card/cache/1505178491475.jpg", 0, "", "");
+                //                    List<PictureData> pictures=dataBaseManager.getPictureList("",pic_name,memberID,"","",0,0);
+                //                    dataBaseManager.UpdateMember(memberID,"",0,"","", pictures.get(0).getID());
+                //                } catch (DataBaseSignal dataBaseSignal) {
+                //                    Log.i("TAG", "添加头像dataBaseSignal " + dataBaseSignal.getSignalType() + dataBaseSignal.getMessage());
+                //                    dataBaseSignal.printStackTrace();
+                //                }
+                //                intentmainPage.putExtra("memberName", memberName);
+                //                intentmainPage.putExtra("memberNickName", memberNickName);
+                //                intentmainPage.putExtra("memberGender", memberGender);
                 Log.i("TAG", "memberID= " + memberID);
                 //PreferenceManager.getDefaultSharedPreferences利用包名来命名SharedPreferences文件
                 SharedPreferences.Editor editor = getSharedPreferences("autologin", MODE_PRIVATE).edit();
@@ -102,15 +123,19 @@ public class setInfomationActivity extends Activity implements View.OnClickListe
                 editor.putString("memberID", memberID);
                 editor.apply();
                 Log.i("TAG", "登陆成功啦啦啦");
+                Intent intentmainPage = new Intent(setInfomationActivity.this, mainpageYoung.class);
+                intentmainPage.putExtra("memberID", memberID);
+                startActivity(intentmainPage);
             }
-            startActivity(intentmainPage);
-            finish();
 
 
         } catch (DataBaseError dataBaseError) {
+            finish();
+
             dataBaseError.printStackTrace();
             Log.i("TAG", "注册失败，错误类型为: " + dataBaseError.getErrorType());
         }
+        finish();
 
         //转到主界面
         //gotomainpage

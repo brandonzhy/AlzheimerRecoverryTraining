@@ -126,7 +126,7 @@
 
         </activity>
         <activity android:name=".addMember.familyInformation"
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+                  android:theme="@style/AppThemeNoTitle">
         </activity>
         <activity android:name=".addMember.createFamily">
         </activity>

@@ -88,6 +88,7 @@ public class updateFamily extends Activity {
         modifyType = intent.getIntExtra("modifyType", 10);
         //        修改家庭信息
         if (modifyType == 0) {
+            String imagepath = "";
             familyID = intent.getStringExtra("familyID");
             Log.i("TAG", "获得的familyID 为： " + familyID);
             try {
@@ -96,11 +97,12 @@ public class updateFamily extends Activity {
                     FamilyData familyData = familyDataList.get(0);
                     updateFamilyItem updateFamilyItem = new updateFamilyItem();
                     updateFamilyItem.setLeftText("头像");
-                    List<PictureData> pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", memberID, "", "", 0, 0);
-                    String imagepath = "";
-                    if (pictureDataList != null) {
-                        imagepath = pictureDataList.get(0).getImagePath();
-                    }
+                    imagepath=dataBaseManager.getFamilyPortraitPath(familyID);
+//                    List<PictureData> pictureDataList = dataBaseManager.getPictureList(familyData.getPortraitID(), "", memberID, "", "", 0, 0);
+//
+//                    if (pictureDataList != null) {
+//                        imagepath = pictureDataList.get(0).getImagePath();
+//                    }
                     updateFamilyItem.setRightImagepath(imagepath);
                     Log.i("TAG","imagepath = " +imagepath );
                     updateFamilyItemList.add(updateFamilyItem);
@@ -156,6 +158,7 @@ public class updateFamily extends Activity {
             }
 
         } else if (modifyType == 1) {
+            String memberImagePath="";
             //修改个人信息
             memberID = intent.getStringExtra("memberID");
             Log.i("TAG", "update的memberID：" + memberID);
@@ -169,19 +172,24 @@ public class updateFamily extends Activity {
                 MemberData memberData = memberDataList.get(0);
                 updateFamilyItem updateFamilyItem = new updateFamilyItem();
                 updateFamilyItem.setLeftText("头像");
-                List<PictureData> pictureDataList = null;
                 try {
-                    pictureDataList = dataBaseManager.getPictureList(memberData.getPortraitID(), "", "", "", "", 0, 0);
+                    memberImagePath=dataBaseManager.getMemberPortraitPath(memberID);
                 } catch (DataBaseError dataBaseError) {
-                    Log.i("TAG", "  updateamily 的dataBaseError type" +dataBaseError.getErrorType()+dataBaseError.getMessage());
                     dataBaseError.printStackTrace();
                 }
-                String imagepath = "";
-                if (pictureDataList != null && pictureDataList.size() > 0) {
-                    imgmagrPath = pictureDataList.get(0).getImagePath();
-                }
-                updateFamilyItem.setRightImagepath(imgmagrPath);
-                Log.i("TAG","imgmagrPath= " +imgmagrPath );
+//                List<PictureData> pictureDataList = null;
+//                try {
+//                    pictureDataList = dataBaseManager.getPictureList(memberData.getPortraitID(), "", "", "", "", 0, 0);
+//                } catch (DataBaseError dataBaseError) {
+//                    Log.i("TAG", "  updateamily 的dataBaseError type" +dataBaseError.getErrorType()+dataBaseError.getMessage());
+//                    dataBaseError.printStackTrace();
+//                }
+
+//                if (pictureDataList != null && pictureDataList.size() > 0) {
+//                    imgmagrPath = pictureDataList.get(0).getImagePath();
+//                }
+                updateFamilyItem.setRightImagepath(memberImagePath);
+                Log.i("TAG","imgmagrPath= " +memberImagePath );
                 updateFamilyItemList.add(updateFamilyItem);
 
                 updateFamilyItem updateFamilyItem1 = new updateFamilyItem();

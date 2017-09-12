@@ -24,7 +24,7 @@ import java.util.List;
 public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
     private int resID;
     private Context mycontext;
-
+    private  boolean flag=false;
     public updateAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<updateFamilyItem> objects) {
         super(context, resource, objects);
         this.resID = resource;
@@ -35,6 +35,8 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         updateFamilyItem updateFamily = getItem(position);
+        Log.i("TAG"," getView de position" + position);
+        Log.i("TAG","flag= " + flag);
         View view = LayoutInflater.from(getContext()).inflate(resID, parent,false);
 //        View view = LayoutInflater.from(getContext()).inflate(resID, null);
 
@@ -52,7 +54,6 @@ public class updateAdapter extends ArrayAdapter<updateFamilyItem> {
             ImageView imageView = view.findViewById(R.id.iv_update_right);
             //Tag 的key必须是resID的形式，保证是唯一的
             view.setTag(R.id.tag_first,imageView);
-
 //            imageView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {

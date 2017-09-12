@@ -25,7 +25,8 @@ import java.util.List;
 
 
 public class photoBroswerActivity extends FragmentActivity implements View.OnClickListener {
-
+    String month = "";
+    String day="" ;
     private CardSlidePanel.CardSwitchListener cardSwitchListener;
     //    private String imagePaths[] = {};
     //    private String imagePaths[] = {"file:///android_asset/wall01.jpg",
@@ -161,7 +162,10 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
                 //
                 //                    }
                 //                }, 500);
-                viewHolder.bindData(dataList.get(index));
+//                if(dataList.get(index).phototime.length()==8){
+
+                    viewHolder.bindData(dataList.get(index));
+//                }
 
             }
 
@@ -297,13 +301,39 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
         }
 
         public void bindData(CardDataItem itemData) {
-            Glide.with(photoBroswerActivity.this).load(itemData.imagePath.trim()).into(imageView);
-            //            userNameTv.setText("姓名：" + itemData.userName);
-            userNameTv.setText(itemData.userName);
-            String photoDate = itemData.phototime;
 
-            String month = "";
-            String day="" ;
+                Glide.with(photoBroswerActivity.this).load(itemData.imagePath.trim()).into(imageView);
+                //            userNameTv.setText("姓名：" + itemData.userName);
+                userNameTv.setText(itemData.userName);
+            tv_imageplace.setText(itemData.imagePlace);
+            if(itemData.phototime.length()==8){
+                String photoDate = itemData.phototime;
+                if(photoDate.charAt(4) == '0'){
+                    if(photoDate.charAt(5) != '0'){
+                        month=photoDate.charAt(5)+"月";
+                    }
+
+                }else {
+                    month=photoDate.substring(4,6)+"月";
+                }
+                //日
+                if(photoDate.charAt(6) == '0'){
+                    if(photoDate.charAt(7) != '0'){
+                        day=photoDate.charAt(5)+"日";
+                    }
+
+                }else {
+                    day=photoDate.substring(6,8)+"日";
+                }
+                tv_time.setText(photoDate.substring(0, 4) + "年");
+            }else {
+                tv_time.setText("");
+
+            }
+
+
+
+
 //            if (month > 10) {
 //                if (day > 10) {
 //                    //20171112
@@ -352,23 +382,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
             //                    }
             //
             //            }
-            if(photoDate.charAt(4) == '0'){
-                if(photoDate.charAt(5) != '0'){
-                    month=photoDate.charAt(5)+"月";
-                }
 
-            }else {
-                month=photoDate.substring(4,6)+"月";
-            }
-            //日
-            if(photoDate.charAt(6) == '0'){
-                if(photoDate.charAt(7) != '0'){
-                    day=photoDate.charAt(5)+"日";
-                }
-
-            }else {
-                day=photoDate.substring(6,8)+"日";
-            }
 //            if (photoDate.length() == 8) {
 //                if (photoDate.charAt(4) == '0') {
 //
@@ -399,7 +413,7 @@ public class photoBroswerActivity extends FragmentActivity implements View.OnCli
 //            } else if (photoDate.length() < 4) {
 //                tv_time.setText("");
 //            }
-            tv_imageplace.setText(photoDate.substring(0, 4) + "年"+month+day);
+
             //            tv_imageplace.setText("拍摄地：" + itemData.imagePlace + "");
         }
     }

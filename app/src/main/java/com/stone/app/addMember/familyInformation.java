@@ -160,7 +160,7 @@ public class familyInformation extends Activity {
 //
 //                    }
                     try {
-                        MemberImagePath=dataBaseManager.getMemberPortraitPath(memberID);
+                        MemberImagePath=dataBaseManager.getMemberPortraitPath(memberData.getID());
                     } catch (DataBaseError dataBaseError) {
                         dataBaseError.printStackTrace();
                     }

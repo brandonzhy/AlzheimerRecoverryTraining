@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/img_family_member"
+        android:layout_marginTop="5dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
         />
 
 
