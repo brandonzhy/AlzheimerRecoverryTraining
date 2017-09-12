@@ -4,7 +4,6 @@ public class DataBaseSignal extends Exception {
     private final SignalType type;
 
     public enum SignalType {
-
         PhoneAddedAlready,
         GameRecordAddedAlready,
         MemberRelationAddedAlready,

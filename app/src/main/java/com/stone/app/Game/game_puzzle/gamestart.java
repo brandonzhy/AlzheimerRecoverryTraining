@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.stone.app.R;
 import com.stone.app.Util.DateUtil;
+import com.stone.app.Util.ToastUtil;
 import com.stone.app.dataBase.DataBaseError;
+import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
+import com.stone.app.dataBase.FamilyData;
 import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
 
@@ -26,8 +29,10 @@ public class gamestart extends Activity {
 
     private GamePintuLayout mgamePintuLayout;
     private int gametiem;
-    private String memberID;
+    private String familyID=null;
+    private String memberyID=null;
     int gamelevel;
+    private DataBaseManager dataBaseManager = RealmDB.getDataBaseManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +42,22 @@ public class gamestart extends Activity {
         //        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.activity_gamestart2, null);
 
         setContentView(R.layout.activity_gamestart2);
-        memberID=getIntent().getStringExtra("memberID");
+        //        familyID=getIntent().getStringExtra("familyID");
+        memberyID = getIntent().getStringExtra("memberyID");
+        FamilyData familyData = null;
+        try {
+            familyData = dataBaseManager.getFamilyList(memberyID, "", "").get(0);
+
+        } catch (DataBaseError dataBaseError) {
+            dataBaseError.printStackTrace();
+        }
+        if (familyData != null&&familyData.getID()!=null){
+            familyID=familyData.getID();
+        } else {
+            ToastUtil.showToast(gamestart.this,"你现在还没有家庭呢，赶紧创建一个或加入一个家庭吧");
+            finish();
+        }
+
         //建立接口
         //        Button back=new Button(this);
         //        mgamePintuLayout=new GamePintuLayout(this);
@@ -45,7 +65,7 @@ public class gamestart extends Activity {
         //        viewGroup.addView(back);
 
         mgamePintuLayout = (GamePintuLayout) findViewById(R.id.id_gamepintu);
-        mgamePintuLayout.setMemberID(memberID);
+        mgamePintuLayout.setfamilyID(familyID);
         mgamePintuLayout.setTimeEnabled();
         //返回游戏选择界面
         Button back = (Button) findViewById(R.id.button3);
@@ -78,22 +98,22 @@ public class gamestart extends Activity {
 
                 TextView mlevel = findViewById(R.id.textView1);
                 //Log.i("tag","next leval of game is called");
-//                new AlertDialog.Builder(gamestart.this).setTitle("升级").setMessage("祝贺!!! 可以提高难度").
-//                        setPositiveButton("难度升级", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-                                 gamelevel = mgamePintuLayout.gamelevel();
-////                                Log.i("TAG","gamelevel  = " + gamelevel);
-//                                //显示下一关的时间
-//
-//                                //Toast.makeText( gamestart.this,"this is  "+gametiem,Toast.LENGTH_SHORT).show();
-//
-////                                mlevel.setText("关卡" + gamelevel);
-//
-//                                //
-//
-//                            }
-//                        }).show();
+                //                new AlertDialog.Builder(gamestart.this).setTitle("升级").setMessage("祝贺!!! 可以提高难度").
+                //                        setPositiveButton("难度升级", new DialogInterface.OnClickListener() {
+                //                            @Override
+                //                            public void onClick(DialogInterface dialog, int which) {
+                gamelevel = mgamePintuLayout.gamelevel();
+                ////                                Log.i("TAG","gamelevel  = " + gamelevel);
+                //                                //显示下一关的时间
+                //
+                //                                //Toast.makeText( gamestart.this,"this is  "+gametiem,Toast.LENGTH_SHORT).show();
+                //
+                ////                                mlevel.setText("关卡" + gamelevel);
+                //
+                //                                //
+                //
+                //                            }
+                //                        }).show();
             }
 
             @Override
@@ -130,10 +150,10 @@ public class gamestart extends Activity {
 
     private void uploadRecord() {
         String memberID = getIntent().getStringExtra("memberID");
-//        int time_cost = mgamePintuLayout.getmTime() - mgamePintuLayout.gametimechange();
+        //        int time_cost = mgamePintuLayout.getmTime() - mgamePintuLayout.gametimechange();
 
         try {
-            RealmDB.getDataBaseManager().AddGameRecord(memberID, (double) gamelevel, DateUtil.getTime(), GAME_PUZZLE);
+            dataBaseManager.AddGameRecord(memberID, (double) gamelevel, DateUtil.getTime(), GAME_PUZZLE);
         } catch (DataBaseSignal dataBaseSignal) {
             dataBaseSignal.printStackTrace();
         } catch (DataBaseError dataBaseError) {

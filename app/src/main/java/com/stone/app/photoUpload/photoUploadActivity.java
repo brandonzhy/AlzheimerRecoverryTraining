@@ -37,6 +37,7 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.stone.app.dataBase.DataBaseError.ErrorType.AddingFutureDate;
 import static com.stone.app.dataBase.DataBaseError.ErrorType.MemberNotExist;
 import static com.stone.app.dataBase.DataBaseError.ErrorType.UnknownError_AddImage;
 
@@ -258,20 +259,27 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                         if(year.length()<4){
                             year=String.valueOf(DateUtil.getyear());
                         }
-
+                        Log.i("TAG","year= " +year );
                     }
                     if(!TextUtils.isEmpty(et_photoinfo_date_month.getText().toString().trim())){
                         if(Long.parseLong(et_photoinfo_date_month.getText().toString().trim())<10){
                             month="0"+et_photoinfo_date_month.getText().toString().trim();
 //                            Log.i("TAG","month" + month);
+                        }else {
+
+                            month=et_photoinfo_date_month.getText().toString().trim();
                         }
                     }else {
                         month="00";
                     }
                     Log.i("TAG","month= " +month );
+
                     if((!TextUtils.isEmpty(et_photoinfo_date_day.getText().toString().trim()))){
                         if(Long.parseLong(et_photoinfo_date_day.getText().toString().trim())<10){
                             day="0"+et_photoinfo_date_day.getText().toString().trim();
+                        }else {
+                            day=et_photoinfo_date_day.getText().toString().trim();
+
                         }
                     }else {
                         day = "00";
@@ -327,6 +335,8 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     } else if (dataBaseError.getErrorType() == MemberNotExist) {
                         Toast.makeText(photoUploadActivity.this, "成员不存在啊", Toast.LENGTH_SHORT).show();
 
+                    }else if(AddingFutureDate==dataBaseError.getErrorType()){
+                        Toast.makeText(photoUploadActivity.this, "不能添加未来时间", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

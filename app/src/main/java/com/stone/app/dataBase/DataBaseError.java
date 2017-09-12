@@ -19,6 +19,7 @@ public class DataBaseError extends Exception {
         MemberNotExist,
         RecordNotExist,
         PortraitNotExist,
+        ImagePathNotExist,
         ParentImageNotExist,
         MemberRelationNotExist,
         ThirdPartyAccountNotExist,
@@ -31,6 +32,7 @@ public class DataBaseError extends Exception {
         NotStandardID,
         NotStandardPhone,
         NotStandardFactor,
+        NotStandardDateLength,
         IllegalName_DigitExistInRealName,
         IllegalName_DisapprovedCharacter,
         IllegalName_ChineseMingleWithEnglish,
@@ -94,5 +96,4 @@ public class DataBaseError extends Exception {
     public ErrorType getErrorType() {
         return type;
     }
-
 }

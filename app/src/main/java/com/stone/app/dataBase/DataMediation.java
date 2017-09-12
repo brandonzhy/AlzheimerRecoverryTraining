@@ -1261,7 +1261,9 @@ class DataMediation {
             Manager.commitTransaction();
 
             // When the member has original family
-            if (!oldFamilyID.equals("") && getFamilyList(Manager, oldFamilyID, "", "").size() > 0) {
+            // Attention : Take care when one wants to move to its own family
+            if (!oldFamilyID.equals("") && !oldFamilyID.equals(familyID) &&
+                    getFamilyList(Manager, oldFamilyID, "", "").size() > 0) {
                 // change original family data
                 Manager.beginTransaction();
                 FamilyData updateFamily = Manager.where(FamilyData.class).equalTo("ID", oldFamilyID).findFirst();
@@ -1270,7 +1272,6 @@ class DataMediation {
 
                 // check and update other original family member
                 boolean single = false;
-                Manager.beginTransaction();
                 RealmResults<MemberData> ResultM = Manager.where(MemberData.class).equalTo("familyID", oldFamilyID).findAll();
                 if (ResultM.size() > 0) {
                     int telomere = ResultM.size();
@@ -1287,7 +1288,6 @@ class DataMediation {
                     }
                 } else
                     single = true;
-                Manager.commitTransaction();
                 if (single)
                     throw new DataBaseSignal(DataBaseSignal.SignalType.AddSingleMemberToFamilySucceed);
                 else
@@ -1752,7 +1752,7 @@ class DataMediation {
             if (!imagePath.equals(""))
                 newImage.setImagePath(imagePath);
             else
-                newImage.setImagePath(".ImageStore." + newImage.getID());
+                throw new DataBaseError(DataBaseError.ErrorType.ImagePathNotExist);
             newImage.setMemberID(memberID);
             newImage.setDate(date, getCurrentDBTime(false)); // accurate to day
             newImage.setLocation(location);

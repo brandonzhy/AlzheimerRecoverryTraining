@@ -56,11 +56,11 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private int level = 0;
     private  int position=0;
 
-    public void setMemberID(String memberID) {
-        this.memberID = memberID;
+    public void setfamilyID(String familyID) {
+        this.familyID = familyID;
     }
 
-    private String memberID;
+    private String familyID;
 
     private Context mycontext;
     private String imagepath;
@@ -74,9 +74,9 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         mycontext = context;
     }
 
-    public GamePintuLayout(Context context, AttributeSet attrs, int defStyleAttr, String memberID) {
+    public GamePintuLayout(Context context, AttributeSet attrs, int defStyleAttr, String familyID) {
         super(context, attrs, defStyleAttr);
-        this.memberID = memberID;
+        this.familyID = familyID;
     }
 
     public GamePintuLayout(Context context, AttributeSet attrs) {
@@ -103,8 +103,8 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         DataBaseManager dataBaseManager = RealmDB.getDataBaseManager();
         List<PictureData> listdata = null;
         try {
-            Log.i("TAG", " gamepuzzle 的 memberID= " + memberID);
-            listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
+            Log.i("TAG", " gamepuzzle 的 familyID= " + familyID);
+            listdata = dataBaseManager.getRandomPicturesFromFamily(familyID, "", "", 0, 0, 0);
             if (listdata.size() > 0 ) {
                 if(position < listdata.size()){
                     imagepath = listdata.get(position).getImagePath();
@@ -119,10 +119,13 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
                 }else {
                     position=0;
                 }
+            }else {
+
             }
         } catch (DataBaseError dataBaseError) {
             Log.i("TAG", "错误类型为" + dataBaseError.getMessage());
             dataBaseError.printStackTrace();
+
 
         }
         mItemBitmaps = ImageSplitterUtil.split(mBitmap, mColumn);
