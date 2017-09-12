@@ -58,8 +58,11 @@ public class getDataUtil {
 //    }
 
     //    public static
-    public static String getfamilyID(Context context) {
-        SharedPreferences pref = context.getSharedPreferences("autologin", MODE_PRIVATE);
-        return pref.getString("familyID", "");
+//    public static String getfamilyID(Context context) {
+//        SharedPreferences pref = context.getSharedPreferences("autologin", MODE_PRIVATE);
+//        return pref.getString("familyID", "");
+//    }
+    public static  String setPicName() {
+        return String.valueOf(DateUtil.getTime())+"pic_portrait";
     }
 }

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +19,6 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.DateUtils;
-import com.luck.picture.lib.tools.DebugUtil;
 import com.luck.picture.lib.tools.StringUtils;
 import com.stone.app.R;
 
@@ -73,14 +71,14 @@ public class myGridImageAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mImg;
-        LinearLayout ll_del;
+//        LinearLayout ll_del;
         TextView tv_duration;
 
         public ViewHolder(View view) {
             super(view);
-            mImg = (ImageView) view.findViewById(R.id.fiv);
-            ll_del = (LinearLayout) view.findViewById(R.id.ll_del);
-            tv_duration = (TextView) view.findViewById(R.id.tv_duration);
+            mImg = (ImageView) view.findViewById(R.id.iv_update_right);
+//            ll_del = (LinearLayout) view.findViewById(R.id.ll_del);
+            tv_duration = (TextView) view.findViewById(R.id.tv_updte_left);
         }
     }
 
@@ -107,7 +105,7 @@ public class myGridImageAdapter extends
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.gv_filter_image,
+        View view = mInflater.inflate(R.layout.updatefamily_item,
                 viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -132,22 +130,22 @@ public class myGridImageAdapter extends
                     mOnAddPicClickListener.onAddPicClick();
                 }
             });
-            viewHolder.ll_del.setVisibility(View.INVISIBLE);
+//            viewHolder.ll_del.setVisibility(View.INVISIBLE);
         } else {
-            viewHolder.ll_del.setVisibility(View.VISIBLE);
-            viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int index = viewHolder.getAdapterPosition();
-                    // 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
-                    if (index != RecyclerView.NO_POSITION) {
-                        list.remove(index);
-                        notifyItemRemoved(index);
-                        notifyItemRangeChanged(index, list.size());
-                        DebugUtil.i("delete position:", index + "--->remove after:" + list.size());
-                    }
-                }
-            });
+//            viewHolder.ll_del.setVisibility(View.VISIBLE);
+//            viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    int index = viewHolder.getAdapterPosition();
+//                    // 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
+//                    if (index != RecyclerView.NO_POSITION) {
+//                        list.remove(index);
+//                        notifyItemRemoved(index);
+//                        notifyItemRangeChanged(index, list.size());
+//                        DebugUtil.i("delete position:", index + "--->remove after:" + list.size());
+//                    }
+//                }
+//            });
             LocalMedia media = list.get(position);
             int mimeType = media.getMimeType();
             String path = "";

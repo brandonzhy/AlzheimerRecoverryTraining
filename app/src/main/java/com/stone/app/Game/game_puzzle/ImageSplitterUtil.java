@@ -1,6 +1,7 @@
 package com.stone.app.Game.game_puzzle;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class ImageSplitterUtil {
         List<image> pieces = new ArrayList<image>(piece*piece);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+        Log.i("TAG","width= " +width );
+        Log.i("TAG","height= " +height );
 
         int pieceWidth=Math.min(width,height)/piece;
         for (int i = 0; i < piece; i++) {

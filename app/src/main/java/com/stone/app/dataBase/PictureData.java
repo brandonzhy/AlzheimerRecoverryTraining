@@ -96,7 +96,7 @@ public class PictureData extends RealmObject {
     }
 
     void setDate(long Date, long Now) throws DataBaseError {
-        if (Now < Date + DB_DATE_CHECK_DELTA)
+        if (Now < Date - DB_DATE_CHECK_DELTA)
             throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = Date;
     }

@@ -15,7 +15,7 @@ public class GameRecordData extends RealmObject {
     @Required
     private String memberID;
 
-    public static final long DB_DATE_CHECK_DELTA = 1;
+    public static final long DB_DATE_CHECK_DELTA = 24 * 60 * 60;
 
     private double factor; // 指通关时间/答题准确率
     private long date;
@@ -70,7 +70,7 @@ public class GameRecordData extends RealmObject {
     }
 
     void setDate(long date, long now) throws DataBaseError {
-        if (now < date + DB_DATE_CHECK_DELTA)
+        if (now < date - DB_DATE_CHECK_DELTA)
             throw new DataBaseError(DataBaseError.ErrorType.AddingFutureDate);
         this.date = date;
     }

@@ -53,7 +53,8 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private RelativeLayout mAnimLayout;//拼图界面
     private static final int TIME_CHANGED = 2;
     private static final int NEXT_LEVEL = 4;
-    private int level = 1;
+    private int level = 0;
+
 
     public void setMemberID(String memberID) {
         this.memberID = memberID;
@@ -93,28 +94,29 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     }
 
     //碎片随机排列,调用drawable中的 image2
-    private void initBitmap() {
-        if (mBitmap == null) {
-            //            mBitmap = BitmapFactory.decodeResource(getResources(),
-            //                    R.drawable.image);
-            //获取图片
-            DataBaseManager dataBaseManager = RealmDB.getDataBaseManager();
-            List<PictureData> listdata = null;
-            try {
-                Log.i("TAG"," gamepuzzle 的 memberID= " +memberID );
-                listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
-                if(listdata.size()>1){
-                    imagepath = listdata.get(1).getImagePath().trim();
-                    Log.i("TAG","gamepuzzle 的 imagepath = " + imagepath);
-                    mBitmap = BitmapFactory.decodeFile(imagepath);
-                    Log.i("TAG","gamepuzzle 的 mBitmap = " + mBitmap );
+    private void initBitmap(int i) {
+        //        if (mBitmap != null) {
+        //            mBitmap = BitmapFactory.decodeResource(getResources(),
+        //                    R.drawable.image);
+        //获取图片
+        DataBaseManager dataBaseManager = RealmDB.getDataBaseManager();
+        List<PictureData> listdata = null;
+        try {
+            Log.i("TAG", " gamepuzzle 的 memberID= " + memberID);
+            listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
+            if (listdata.size() > 0 && i < listdata.size()) {
+                imagepath = listdata.get(i).getImagePath().trim();
+                Log.i("TAG", "gamepuzzle 的 imagepath = " + imagepath);
+                mBitmap = BitmapFactory.decodeFile(imagepath);
+                Log.i("TAG", "gamepuzzle 的 mBitmap = " + mBitmap);
+                if(mBitmap==null){
+                    Log.i("TAG","mBitmap==null " );
+                    return;
                 }
-            } catch (DataBaseError dataBaseError) {
-                Log.i("TAG", "错误类型为" + dataBaseError.getMessage());
-                dataBaseError.printStackTrace();
-
             }
-
+        } catch (DataBaseError dataBaseError) {
+            Log.i("TAG", "错误类型为" + dataBaseError.getMessage());
+            dataBaseError.printStackTrace();
 
         }
         mItemBitmaps = ImageSplitterUtil.split(mBitmap, mColumn);
@@ -163,7 +165,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
         mWidth = Math.min(getMeasuredHeight(), getMeasuredWidth());
         if (!once) {
-            initBitmap();
+            initBitmap(level);
             initItem();
             checkTimeEnable();
             once = true;
@@ -357,29 +359,29 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     public void nextLevel() {
         this.removeAllViews();
         mAnimLayout = null;
-        mColumn++;
+        //        mColumn++;
         isGameSuccess = false;
         checkTimeEnable();
 
-        initBitmap();
+        initBitmap(level);
         initItem();
         Log.i("tag", "next leval of layout is called");
     }
 
     //成功后对下一关的设置
-    public int gamelevel() {
-        this.removeAllViews();
-        mAnimLayout = null;
-        mColumn++;
-        isGameSuccess = false;
-        checkTimeEnable();
-
-        initBitmap();
-        initItem();
-
-        Log.i("tag", "next leval of layout is called");
-        return level;
-    }
+    //    public int gamelevel() {
+    //        this.removeAllViews();
+    //        mAnimLayout = null;
+    //        mColumn++;
+    //        isGameSuccess = false;
+    //        checkTimeEnable();
+    //
+    //        initBitmap();
+    //        initItem();
+    //
+    //        Log.i("tag", "next leval of layout is called");
+    //        return level;
+    //    }
 
     private int mTime = 30;//初始时间=30+30，每一关加30
 
@@ -421,7 +423,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     }
 
     private void counttimeLv() {
-        mTime = (int) Math.pow(2, level) * 30;
+        mTime = (int) Math.pow(2, 1) * 30;
         totaltime = mTime;
     }
 
@@ -472,7 +474,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
                     if (mListener != null) {
 
-                        mListener.nextLevel();
+                        // mListener.nextLevel();
                     } else {
                         nextLevel();
                     }

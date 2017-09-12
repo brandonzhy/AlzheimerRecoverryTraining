@@ -18,4 +18,11 @@ public class DateUtil {
         return Long.parseLong(str);
 
     }
+    public static long getyear() {
+        SimpleDateFormat formatter   =  new SimpleDateFormat   ("yyyy");
+        Date curDate =  new Date(System.currentTimeMillis());
+        String   str   =   formatter.format(curDate);
+        return Long.parseLong(str);
+
+    }
 }

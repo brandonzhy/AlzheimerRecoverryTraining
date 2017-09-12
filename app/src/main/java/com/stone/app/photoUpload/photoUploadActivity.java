@@ -58,7 +58,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
     private ImageView left_back;
     private DataBaseManager dataBaseManager;
     private LinearLayout ly_date;
-
+    private String mypicname=getDataUtil.setPicName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,7 +157,7 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     //                        .compressGrade(Luban.THIRD_GEAR)// luban压缩档次，默认3档 Luban.FIRST_GEAR、Luban.CUSTOM_GEAR
                     //                        .isCamera()// 是否显示拍照按钮  true/false  默认为true
                     //                        .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
-                    //                        //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
+                    .setOutputCameraPath("/storage/youAreMyAlways/mypicname")// 自定义拍照保存路径
                     .enableCrop(true)// 是否裁剪
                     //                        .compress()// 是否压缩
                     .compressMode(compressMode)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
@@ -241,22 +241,42 @@ public class photoUploadActivity extends AppCompatActivity implements View.OnCli
                     String plece = "";
                     String  month="";
                     String day="";
+                    String year="";
                     if ((!TextUtils.isEmpty(et_photoinfo_name.getText().toString()))) {
                         name = et_photoinfo_name.getText().toString();
 
                     }
                     if ((!TextUtils.isEmpty(et_photoinfo_place.getText().toString()))) {
+
                         plece = et_photoinfo_place.getText().toString();
 
                     }
-                    if(!TextUtils.isEmpty(et_photoinfo_date_month.getText().toString().trim())&&Long.parseLong(et_photoinfo_date_month.getText().toString().trim())<10){
-                        month="0"+et_photoinfo_date_month.getText().toString().trim();
+                    if ((!TextUtils.isEmpty(et_photoinfo_date_year.getText().toString()))) {
+
+                        year = et_photoinfo_date_year.getText().toString();
+                        //小于4位默认是今年
+                        if(year.length()<4){
+                            year=String.valueOf(DateUtil.getyear());
+                        }
+
                     }
-                    if(!TextUtils.isEmpty(et_photoinfo_date_day.getText().toString().trim())&&Long.parseLong(et_photoinfo_date_day.getText().toString().trim())<10){
-                        day="0"+et_photoinfo_date_day.getText().toString().trim();
+                    if(!TextUtils.isEmpty(et_photoinfo_date_month.getText().toString().trim())){
+                        if(Long.parseLong(et_photoinfo_date_month.getText().toString().trim())<10){
+                            month="0"+et_photoinfo_date_month.getText().toString().trim();
+                        }
+                    }else {
+                        month="00";
+                    }
+                    Log.i("TAG","month= " +month );
+                    if((!TextUtils.isEmpty(et_photoinfo_date_day.getText().toString().trim()))){
+                        if(Long.parseLong(et_photoinfo_date_day.getText().toString().trim())<10){
+                            day="0"+et_photoinfo_date_day.getText().toString().trim();
+                        }
+                    }else {
+                        day = "00";
                     }
 
-                    String date = et_photoinfo_date_year.getText().toString().trim() + month + day;
+                    String date = year + month + day;
                     if ((!TextUtils.isEmpty(date))) {
 //                        mydata = Long.parseLong(date) * mypoe(10, 2);
                         mydata = Long.parseLong(date) ;

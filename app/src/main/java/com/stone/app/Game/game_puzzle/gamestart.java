@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.stone.app.R;
 import com.stone.app.Util.DateUtil;
 import com.stone.app.dataBase.DataBaseError;
-import com.stone.app.dataBase.DataBaseManager;
 import com.stone.app.dataBase.DataBaseSignal;
+import com.stone.app.dataBase.RealmDB;
 import com.stone.app.style_young.mainpageYoung;
 
 import static com.stone.app.Util.staticConstUtil.GAME_PUZZLE;
@@ -82,12 +82,13 @@ public class gamestart extends Activity {
                         setPositiveButton("难度升级", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                int gamelevel = mgamePintuLayout.gamelevel();
+//                                int gamelevel = mgamePintuLayout.gamelevel();
+//                                Log.i("TAG","gamelevel  = " + gamelevel);
                                 //显示下一关的时间
 
                                 //Toast.makeText( gamestart.this,"this is  "+gametiem,Toast.LENGTH_SHORT).show();
                                 TextView mlevel = findViewById(R.id.textView1);
-                                mlevel.setText("关卡" + gamelevel);
+//                                mlevel.setText("关卡" + gamelevel);
 
                                 //
 
@@ -131,7 +132,7 @@ public class gamestart extends Activity {
         String memberID = getIntent().getStringExtra("memberID");
         int time_cost = mgamePintuLayout.getmTime() - mgamePintuLayout.gametimechange();
         try {
-            new DataBaseManager().AddGameRecord(memberID, (double) time_cost, DateUtil.getTime(), GAME_PUZZLE);
+            RealmDB.getDataBaseManager().AddGameRecord(memberID, (double) time_cost, DateUtil.getTime(), GAME_PUZZLE);
         } catch (DataBaseSignal dataBaseSignal) {
             dataBaseSignal.printStackTrace();
         } catch (DataBaseError dataBaseError) {
