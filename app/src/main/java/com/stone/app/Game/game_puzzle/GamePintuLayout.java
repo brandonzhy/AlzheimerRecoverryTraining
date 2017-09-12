@@ -33,7 +33,7 @@ import java.util.List;
 
 public class GamePintuLayout extends RelativeLayout implements View.OnClickListener {
     private int totaltime;
-    private int mColumn = 2;//拼图行数
+    private int mColumn = 3;//拼图行数
     private int mPadding;//与窗口边沿的间距
     private int mMargin = 3;//图片
     private ImageView[] mGamePintuItems;//存储图片的宽高
@@ -54,7 +54,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private static final int TIME_CHANGED = 2;
     private static final int NEXT_LEVEL = 4;
     private int level = 0;
-
+    private  int position=0;
 
     public void setMemberID(String memberID) {
         this.memberID = memberID;
@@ -94,7 +94,8 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     }
 
     //碎片随机排列,调用drawable中的 image2
-    private void initBitmap(int i) {
+    private void initBitmap() {
+
         //        if (mBitmap != null) {
         //            mBitmap = BitmapFactory.decodeResource(getResources(),
         //                    R.drawable.image);
@@ -104,15 +105,19 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         try {
             Log.i("TAG", " gamepuzzle 的 memberID= " + memberID);
             listdata = dataBaseManager.getRandomPicturesFromMember(memberID, "", "", 0, 0, 0);
-            if (listdata.size() > 0 && i < listdata.size()) {
-
-                imagepath = listdata.get(i).getImagePath();
-                Log.i("TAG", "gamepuzzle 的 imagepath = " + imagepath);
-                mBitmap = BitmapFactory.decodeFile(imagepath);
-                Log.i("TAG", "gamepuzzle 的 mBitmap = " + mBitmap);
-                if(mBitmap==null){
-                    Log.i("TAG","mBitmap==null " );
-                    return;
+            if (listdata.size() > 0 ) {
+                if(position < listdata.size()){
+                    imagepath = listdata.get(position).getImagePath();
+                    Log.i("TAG", "gamepuzzle 的 imagepath = " + imagepath);
+                    mBitmap = BitmapFactory.decodeFile(imagepath);
+                    Log.i("TAG", "gamepuzzle 的 mBitmap = " + mBitmap);
+                    position++;
+                    if(mBitmap==null){
+                        Log.i("TAG","mBitmap==null " );
+                        return;
+                    }
+                }else {
+                    position=0;
                 }
             }
         } catch (DataBaseError dataBaseError) {
@@ -166,7 +171,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
         mWidth = Math.min(getMeasuredHeight(), getMeasuredWidth());
         if (!once) {
-            initBitmap(level);
+            initBitmap();
             initItem();
             checkTimeEnable();
             once = true;
@@ -364,25 +369,25 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         isGameSuccess = false;
         checkTimeEnable();
 
-        initBitmap(level);
+        initBitmap();
         initItem();
         Log.i("tag", "next leval of layout is called");
     }
 
     //成功后对下一关的设置
-    //    public int gamelevel() {
-    //        this.removeAllViews();
-    //        mAnimLayout = null;
-    //        mColumn++;
-    //        isGameSuccess = false;
-    //        checkTimeEnable();
-    //
-    //        initBitmap();
-    //        initItem();
-    //
-    //        Log.i("tag", "next leval of layout is called");
-    //        return level;
-    //    }
+        public int gamelevel() {
+            this.removeAllViews();
+            mAnimLayout = null;
+//            mColumn++;
+            isGameSuccess = false;
+            checkTimeEnable();
+
+            initBitmap();
+            initItem();
+
+            Log.i("tag", "next leval of layout is called");
+            return level;
+        }
 
     private int mTime = 30;//初始时间=30+30，每一关加30
 
@@ -475,7 +480,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
                     if (mListener != null) {
 
-                        // mListener.nextLevel();
+                        mListener.nextLevel();
                     } else {
                         nextLevel();
                     }

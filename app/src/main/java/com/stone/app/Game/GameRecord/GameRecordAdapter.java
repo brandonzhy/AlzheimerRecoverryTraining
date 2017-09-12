@@ -31,7 +31,7 @@ public class GameRecordAdapter extends ArrayAdapter<GameItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        GameItem gameItem = getItem(resourceID);
+        GameItem gameItem = getItem(position);
         if(convertView==null){
             view = LayoutInflater.from(getContext()).inflate(resourceID, parent, false);
             viewHolder = new ViewHolder();

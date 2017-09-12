@@ -27,7 +27,7 @@ public class gamestart extends Activity {
     private GamePintuLayout mgamePintuLayout;
     private int gametiem;
     private String memberID;
-
+    int gamelevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,24 +76,24 @@ public class gamestart extends Activity {
             @Override
             public void nextLevel() {
 
-
+                TextView mlevel = findViewById(R.id.textView1);
                 //Log.i("tag","next leval of game is called");
-                new AlertDialog.Builder(gamestart.this).setTitle("升级").setMessage("祝贺!!! 可以提高难度").
-                        setPositiveButton("难度升级", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-//                                int gamelevel = mgamePintuLayout.gamelevel();
-//                                Log.i("TAG","gamelevel  = " + gamelevel);
-                                //显示下一关的时间
-
-                                //Toast.makeText( gamestart.this,"this is  "+gametiem,Toast.LENGTH_SHORT).show();
-                                TextView mlevel = findViewById(R.id.textView1);
-//                                mlevel.setText("关卡" + gamelevel);
-
-                                //
-
-                            }
-                        }).show();
+//                new AlertDialog.Builder(gamestart.this).setTitle("升级").setMessage("祝贺!!! 可以提高难度").
+//                        setPositiveButton("难度升级", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+                                 gamelevel = mgamePintuLayout.gamelevel();
+////                                Log.i("TAG","gamelevel  = " + gamelevel);
+//                                //显示下一关的时间
+//
+//                                //Toast.makeText( gamestart.this,"this is  "+gametiem,Toast.LENGTH_SHORT).show();
+//
+////                                mlevel.setText("关卡" + gamelevel);
+//
+//                                //
+//
+//                            }
+//                        }).show();
             }
 
             @Override
@@ -130,9 +130,10 @@ public class gamestart extends Activity {
 
     private void uploadRecord() {
         String memberID = getIntent().getStringExtra("memberID");
-        int time_cost = mgamePintuLayout.getmTime() - mgamePintuLayout.gametimechange();
+//        int time_cost = mgamePintuLayout.getmTime() - mgamePintuLayout.gametimechange();
+
         try {
-            RealmDB.getDataBaseManager().AddGameRecord(memberID, (double) time_cost, DateUtil.getTime(), GAME_PUZZLE);
+            RealmDB.getDataBaseManager().AddGameRecord(memberID, (double) gamelevel, DateUtil.getTime(), GAME_PUZZLE);
         } catch (DataBaseSignal dataBaseSignal) {
             dataBaseSignal.printStackTrace();
         } catch (DataBaseError dataBaseError) {
