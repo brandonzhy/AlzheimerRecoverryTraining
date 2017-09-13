@@ -561,7 +561,7 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
     private static final int TIME_CHANGED = 2;
     private static final int NEXT_LEVEL = 4;
     private int level = 1;
-    private  int position=0;
+    private int position = 0;
 
     public void setfamilyID(String familyID) {
         this.familyID = familyID;
@@ -611,41 +611,51 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
         List<PictureData> listdata = null;
         try {
             Log.i("TAG", " gamepuzzle 的 familyID= " + familyID);
-            listdata = dataBaseManager.getRandomPicturesFromFamily(familyID, "", "", 0, 0, 0);
-            if (listdata.size() > 0 ) {
-                if(position < listdata.size()){
+            listdata = dataBaseManager.getRandomPicturesFromFamily(familyID, "", "", 0, 0, -1);
+//            int num=dataBaseManager.getFamilyList(familyID,"","").size()+1;
+            int num=dataBaseManager.getMemberList("", familyID, "", "").size()+1;
+            Log.i("TAG","getFamilyList.size = " +num );
+            Log.i("TAG","picturelistdata.size() = " + listdata.size());
+            if (listdata.size() > num) {
+                if (position < listdata.size()) {
                     int getposition=0;
-                    while(getposition < listdata.size()){
-                        if(!listdata.get(getposition).getName().equals("portrait")){
-
-                            imagepath = listdata.get(getposition).getImagePath();
-                            Log.i("TAG", "gamepuzzle 的 imagepath = " + imagepath);
-                            mBitmap = BitmapFactory.decodeFile(imagepath);
-                        }
-                        getposition++;
-                    }
-//                    Log.i("TAG", "gamepuzzle 的 mBitmap = " + mBitmap);
+                    do {
+                        getposition = (int) (Math.random() * listdata.size());
+                    } while (listdata.get(getposition).getName().equals("portrait"));
+                    Log.i("TAG","名字是否为portrait  " +listdata.get(getposition).getName().equals("portrait") );
+                    imagepath = listdata.get(getposition).getImagePath();
+                    mBitmap = BitmapFactory.decodeFile(imagepath);
+                    //                    int getposition = (int) (Math.random() * listdata.size());
+                    //                    while(getposition < listdata.size()){
+                    //                        if(!listdata.get(getposition).getName().equals("portrait")){
+                    //
+                    //                            imagepath = listdata.get(getposition).getImagePath();
+                    //                            Log.i("TAG", "gamepuzzle 的 imagepath = " + imagepath);
+                    //                            mBitmap = BitmapFactory.decodeFile(imagepath);
+                    //                        }
+                    //                        getposition = (int) (Math.random() * listdata.size());
+                    //                    }
+                    //                    Log.i("TAG", "gamepuzzle 的 mBitmap = " + mBitmap);
                     position++;
-                    if(mBitmap==null){
-                        mycontext=getContext();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mycontext);
-                        builder.setTitle("拼图");
-                        builder.setCancelable(false);
-                        builder.setMessage("啊偶，家庭里还没有人传图片呢");
-                        builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                mycontext.startActivity(new Intent(mycontext, mycontext.getClass()));
-                            }
-                        });
-                        builder.show();
-                        Log.i("TAG","mBitmap==null " );
 
-                    }
-                }else {
-                    position=0;
+                } else {
+                    position = 0;
                 }
-            }else {
+            } else {
+                mycontext = getContext();
+                Log.i("TAG","" +mycontext.toString() );
+                AlertDialog.Builder builder = new AlertDialog.Builder(mycontext);
+                builder.setTitle("拼图");
+                builder.setCancelable(false);
+                builder.setMessage("啊偶，家庭里还没有人传图片呢");
+                builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mycontext.startActivity(new Intent(mycontext, gamestart.class));
+                    }
+                });
+                builder.show();
+                Log.i("TAG", "mBitmap==null ");
 
             }
         } catch (DataBaseError dataBaseError) {
@@ -654,6 +664,14 @@ public class GamePintuLayout extends RelativeLayout implements View.OnClickListe
 
 
         }
+//        Handler handler=new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        },1000);
+
         mItemBitmaps = ImageSplitterUtil.split(mBitmap, mColumn);
         Collections.sort(mItemBitmaps, new Comparator<image>() {
             @Override

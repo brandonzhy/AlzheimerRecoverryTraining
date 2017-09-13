@@ -45,12 +45,12 @@ dependencies {
     compile 'com.android.support:support-annotations:26.0.0-alpha1'
     compile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
     compile 'org.xclcharts:lib:2.4'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+//    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'junit:junit:4.12'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1' // or 1.4-beta1
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1' // or 1.4-beta1
+//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+//
+//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1' // or 1.4-beta1
+//    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1' // or 1.4-beta1
 }
 realm {
     syncEnabled = true;

@@ -105,7 +105,6 @@
     <orderEntry type="library" exported="" name="relinker-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="picture_library-v2.1.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="leakcanary-android-no-op-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="realm-android-library-object-server-3.1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="reactive-streams-1.0.0" level="project" />
@@ -115,15 +114,12 @@
     <orderEntry type="library" exported="" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" name="MobCommons-2016.0303.1229" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-26.0.0-alpha1" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-android-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="ucrop-v2.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="disklrucache-4.0.0" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-watcher-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="okio-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-26.0.0-alpha1" level="project" />
-    <orderEntry type="library" exported="" name="haha-2.0.3" level="project" />
     <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="androidsvg-1.2.1" level="project" />
@@ -133,7 +129,6 @@
     <orderEntry type="library" exported="" name="hamcrest-integration-1.3" level="project" />
     <orderEntry type="library" exported="" name="annotations-4.0.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.2.4" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-analyzer-1.5.1" level="project" />
     <orderEntry type="library" exported="" name="design-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="gifdecoder-4.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-2.0.5" level="project" />
