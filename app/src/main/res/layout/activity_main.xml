@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:arcmenu="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+<!--android:background="@drawable/raw_1505031116"-->
+
+    <ImageView
+        android:id="@+id/id_white"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:tag="Camera"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        android:src="@mipmap/composer_camera"/>
+
+
+
+    <!-- 主按钮-->
+    <com.stone.app.addRelation.view.ArcMenu
+        android:id="@+id/Arc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        arcmenu:position="center"
+        arcmenu:radius="120dp"
+        tools:layout_editor_absoluteY="-135dp"
+        tools:layout_editor_absoluteX="-37dp">
+
+
+    <ImageView
+            android:id="@+id/id_button"
+            android:layout_alignParentBottom="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/composer_button" />
+
+
+        <ImageView
+            android:id="@+id/id_Father"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/composer_camera"
+            android:tag="Camera" />
+
+
+        <ImageView
+            android:id="@+id/id_Mother"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/composer_camera"
+            android:tag="Place" />
+        <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/hello_world"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="24sp"-->
+        <!--android:layout_gravity="bottom|center_horizontal" />-->
+
+
+        <ImageView
+            android:id="@+id/id_Brother"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/composer_camera"
+            android:tag="Brother" />
+
+        <ImageView
+            android:id="@+id/id_Sister"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/composer_camera"
+            android:tag="Sister" />
+
+        <ImageView
+            android:id="@+id/id_SonOrDaughter"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/composer_camera"
+            android:tag="SonOrDaughter" />
+
+        <ImageView
+            android:id="@+id/id_Wife"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/composer_camera"
+            android:tag="Wife" />
+    </com.stone.app.addRelation.view.ArcMenu>
+
+    <Button
+        android:id="@+id/design"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:background="@android:drawable/ic_input_add"
+        tools:layout_conversion_absoluteX="263dp"
+        tools:layout_conversion_absoluteY="375dp"
+        tools:layout_conversion_absoluteWidth="100dp"
+        tools:layout_conversion_absoluteHeight="100dp"
+        android:layout_marginEnd="21dp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="36dp"
+        android:layout_marginRight="21dp" />
+
+    <Button
+        android:id="@+id/father"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="父"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/mother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="母"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/brother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="兄弟"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.112" />
+
+    <Button
+        android:id="@+id/sister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="姐妹"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.112" />
+
+    <Button
+        android:id="@+id/sonOrdaughter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="儿女"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.112" />
+
+    <Button
+        android:id="@+id/wife"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="妻子"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+</android.support.constraint.ConstraintLayout>

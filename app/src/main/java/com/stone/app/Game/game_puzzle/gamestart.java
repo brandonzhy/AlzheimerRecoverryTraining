@@ -127,7 +127,7 @@ public class gamestart extends Activity {
                     //
                     //                                //Toast.makeText( gamestart.this,"this is  "+gametiem,Toast.LENGTH_SHORT).show();
                     //
-                                                    mlevel.setText("关卡" + gamelevel);
+                    mlevel.setText("关卡" + gamelevel);
                     //
                     //                                //
                     //

@@ -288,6 +288,7 @@ public class familyphotoBrowserActivity extends FragmentActivity implements View
         }
 
         public void bindData(CardDataItem itemData) {
+
             Glide.with(familyphotoBrowserActivity.this).load(itemData.imagePath).into(imageView);
             //            userNameTv.setText("姓名：" + itemData.userName);
             userNameTv.setText(itemData.userName);

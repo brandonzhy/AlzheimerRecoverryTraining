@@ -46,7 +46,7 @@ public class GameRecordAdapter extends ArrayAdapter<GameItem> {
         }
         if(gameItem.getType()==GAME_JUDGAE){
 
-            viewHolder.gameResult.setText("准确率: "+String.valueOf(gameItem.getResult())+"%");
+            viewHolder.gameResult.setText("准确率: "+String.valueOf((int)gameItem.getResult())+"%");
 //            viewHolder.gamedate.setText("准确率: "+gameItem.getData());
         }else {
             viewHolder.gameResult.setText("关数: "+String.valueOf(gameItem.getResult()));

@@ -92,6 +92,24 @@
             android:name=".login.setInfomationActivity"
             android:theme="@style/picture.green.style">
         </activity>
+        <activity android:name=".addRelation.brother"></activity>
+        <activity android:name=".addRelation.father"></activity>
+        <activity android:name=".addRelation.MainActivity">
+
+        </activity>
+        <activity android:name=".addRelation.mother">
+
+        </activity>
+        <activity android:name=".addRelation.sister">
+
+        </activity>
+        <activity android:name=".addRelation.sonOrdaughter">
+
+        </activity>
+        <activity android:name=".addRelation.wife">
+
+        </activity>
+
         <activity android:name=".mainPage.ChangeMessage">
         </activity>
         <activity android:name=".mainPage.mainPage">
@@ -123,7 +141,11 @@
             android:label=" 忆难忘"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".addMember.familyInformation"
                   android:theme="@style/AppThemeNoTitle">
